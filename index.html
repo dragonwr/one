@@ -1,1 +1,373 @@
-<h1>hello!</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Animations Demo</title>
+<!-- 
+Author  : Jeremy England 
+Company : SimplyCoded
+Created : 04-20-2016
+Guide	: https://youtu.be/BwwqVFehlqQ 
+-->
+<style>
+body{
+	text-align:center;
+}
+body * {
+	margin: 20px auto;
+	font-size: 14pt;
+}
+
+h2 {
+	font-size: 20pt;
+}
+
+#images div {
+	background-color: cornflowerblue;
+	text-align: center;
+	width: 200px;
+	height: 200px;
+	font-size: 40pt;
+	line-height: 200px;
+}
+
+@keyframes rotateOut {
+	from {opacity:1; transform:rotate(0deg);}
+	to 	 {opacity:0; transform:rotate(180deg);}
+}
+
+@keyframes rotateIn {
+	from {opacity:0; transform:rotate(180deg);}
+	to	 {opacity:1; transform:rotate(360deg);}
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+</head>
+<body>
+
+<h2>Javascript Carousel Animations Demo</h2>
+
+<div id="images">
+	
+	<div class="carousel">1</div>
+	<div class="carousel">2</div>
+	<div class="carousel">3</div>
+	<div class="carousel">4</div>
+	
+</div>
+
+<br/><br/>
+
+<div id="buttons">
+	<div class="carousel">
+		<button onclick="carouselImgs.prev();">prev</button>
+		::
+		<button onclick="carouselImgs.next();">next</button>
+	</div>
+	
+	<div class="carousel">		
+		<button onclick="carouselImgs.prev('fade');">prev | fade</button>
+		::
+		<button onclick="carouselImgs.prev('rotate');">prev | rotate</button>
+		::
+		<button onclick="carouselImgs.next('slide');">next | slide</button>
+		::
+		<button onclick="carouselImgs.next('fall');">next | fall</button>
+	</div>
+	
+	<div class="carousel">
+		<button onclick="carouselImgs.prev(false, 500);">prev | none | play/0.5s</button>
+		<button onclick="carouselImgs.prev('fade',2000);">prev | fade | play/2.0s</button>
+		<button onclick="carouselImgs.prev('rotate',1700);">prev | rotate | play/1.7s</button>
+		::
+		<button onclick="carouselImgs.next('rotate',4000);">next | rotate | play/4.0s</button>
+		<button onclick="carouselImgs.next('slide',1500);">next | slide | play/1.5s</button>
+		<button onclick="carouselImgs.next('fall',3000);">next | fall | play/3.0s</button>
+		::
+		<button onclick="carouselImgs.stop();">stop</button>
+	</div>
+	
+	<div class="carousel">
+		<button onclick="carouselImgs.slide(0);">slide 1</button>
+		<button onclick="carouselImgs.slide(1);">slide 2</button>
+		<button onclick="carouselImgs.slide(4);">slide 5</button>
+	</div>
+
+</div>
+
+<button onclick="carouselBtns.next();">More Options</button>
+
+<script>
+/**
+@description
+	Creates a slide-show (i.e. carousel) out of anything with the class "carousel". 
+@guide 		 
+@author		Jeremy England
+@company	SimplyCoded
+@revised	04-20-2016
+*/
+// CAROUSEL OBJECT
+function Carousel(containerID) {
+	this.container = document.getElementById(containerID) || document.body;
+	this.slides = this.container.querySelectorAll('.carousel');
+	this.width = this.container.offsetWidth;
+	this.height = this.container.offsetHeight;
+	this.total = this.slides.length - 1;
+	this.current = 0;
+	
+	//CSS adjustments to make our animations work better. 
+	this.container.style.overflow = "hidden";
+	for (var s = 0; s <= this.total; s++) {
+		this.slides[s].style.position = "relative";
+		this.slides[s].style.margin = "0 auto";
+	}
+	
+	// start on slide 1
+	this.slide(this.current);
+
+	// ANIMATION EFFECTS
+	var busy = false;
+	this._animate = function (direction, effect, interval) {
+		//Default Rate. The time it takes for animations to completely finish. 
+		//Note: If an interval is set lower than this rate it will be automatically adjusted.
+		var dRate = 1.2; //1.2 second(s).
+		
+		//SELECT EFFECT
+		/**effect: fade*/
+		if (effect == "fade") {	
+			var rate;
+			
+			if (busy === false) {
+				eval(direction);
+				
+				if (interval === false || interval >= ((dRate*1000)+200) ) {
+					// Default animation speed. rate = 0.5; is for 1 second.
+					rate = dRate * 0.5;
+				} else if (interval < ((dRate*1000)+200) && interval > 400) {
+					// Adjusts the animation duration to complete within the interval time period. +200 millisecond pause.
+					rate = ( (interval-200) / 1000 ) / 2;
+				} else {
+					// Make faster than 400 millisecond animations continuous without any pause.
+					rate = (interval / 1000) / 2;
+				}
+				
+				TweenMax.to(elemOut, rate, {opacity:0, 
+					onStart:function(){
+						busy = true;
+					},
+					onComplete:function(){
+						busy = false;
+						elemOut.style.display = "none";
+						elemOut.style.opacity = "1";
+						elemIn.style.opacity = "0";
+						elemIn.style.display = "inline-block";
+						TweenMax.to(elemIn, rate, {opacity:1});
+					}
+				});
+			}
+		}
+		
+		/**effect: slide*/
+		else if (effect == "slide") {
+			var width = this.width;
+			var left = 0, opacity = 1;
+			var rate, playing;
+				
+			if (interval === false || interval >= ((dRate*1000)+200) ) {
+				// Default animation speed. rate = 10; is for 1 second.
+				rate = dRate * 10;
+			} else if (interval < ((dRate*1000)+200) && interval > 400) {
+				// Adjusts the animation duration to complete within the interval time period. +200 millisecond pause.
+				rate = ((interval-200) / 2) / 50;
+			} else {
+				// Make faster than 400 millisecond animations continuous without any pause.
+				rate = (interval / 2) / 50;
+			}
+
+			eval(direction);
+				
+			playing = setInterval(slideOut, rate);
+			
+			function slideOut() {
+				left -= width/100;
+				elemOut.style.left = left+"px";
+				if (opacity > 0) {
+					opacity -= 1 / (width/2) * (width/100);
+				}
+				elemOut.style.opacity = opacity;
+				
+				if (left <= -width/2) {
+					clearInterval(playing);
+					elemOut.style.display = "none";
+					elemOut.style.left = "0px";
+					elemOut.style.opacity = "1";
+					elemIn.style.left = width/2 +"px";
+					elemIn.style.opacity = "0";
+					elemIn.style.display = "inline-block";
+					left = width/2;
+					playing = setInterval(slideIn, rate);
+				}
+			} 
+			function slideIn() {
+				left -= width/100;
+				elemIn.style.left = left+"px";
+				if (opacity < 1) {
+					opacity += 1 / (width/2) * (width/100);
+				}
+				elemIn.style.opacity = opacity;
+				
+				if (left <= 0) {
+					clearInterval(playing);
+					elemIn.style.left = "0px";
+				}
+			}
+		}
+		
+		/**effect: fall*/
+		else if (effect == "fall") {
+			var height = this.height;
+			var rate;
+				
+			if (interval === false || interval >= ((dRate*1000)+200) ) {
+				// Default animation speed. rate = 500; is for one second.
+				rate = dRate * 500;
+			} else if (interval < ((dRate*1000)+200) && interval > 400) {
+				// Adjusts the animation duration to complete within the interval time period. +200 millisecond pause.
+				rate = (interval-200) / 2;
+			} else {
+				// Make faster than 400 millisecond animations continuous without any pause.
+				rate = (interval) / 2;
+			}
+			
+			eval(direction);
+			
+			$(elemOut).stop().animate({"top": height+"px","opacity":"0"},rate,
+				function(){
+					$(elemOut).css({"display":"none", "top":"0", "opacity":"1"});
+					$(elemIn).css({"display":"inline-block","top": -height+"px", "opacity":"0"});
+					$(elemIn).animate({"top": "0px", "opacity":"1"},rate);
+				}
+			);
+			
+		}
+		
+		/**effect: rotate*/
+		else if (effect == "rotate") {
+			var rate;
+			
+			if (interval === false || interval >= ((dRate*1000)+200)) {
+				// Default animation speed. rate = 0.5; is for 1 second.
+				rate = dRate * 0.5;
+			} else if (interval < ((dRate*1000)+200) && interval > 400) {
+				// Adjusts the animation duration to complete within the interval time period. +200 millisecond pause.
+				rate = ( (interval-200) / 1000 ) / 2;
+			} else {
+				// Make faster than 400 millisecond animations continuous without any pause.
+				rate = ( (interval) / 1000 ) / 2;
+			}
+			
+			eval(direction);
+			
+			if (direction.indexOf("+= 1;") > -1 ){
+				// next() function will rotate clockwise.
+				elemOut.style.animation = "rotateOut " + rate + "s linear";
+				setTimeout(function(){
+					elemOut.style.display = "none";
+					elemOut.style.removeProperty("animation");
+					elemIn.style.display = "inline-block";
+					elemIn.style.animation = "rotateIn " + rate + "s linear";
+				}, (rate * 1000));
+				setTimeout(function(){
+					elemIn.style.removeProperty("animation");
+				}, (rate * 2000));
+				
+			} else if (direction.indexOf("-= 1;") > -1) {
+				// prev() function will rotate counter-clockwise
+				elemOut.style.animation = "rotateIn " + rate + "s linear reverse";
+				setTimeout(function(){
+					elemOut.style.display = "none";
+					elemOut.style.removeProperty("animation");
+					elemIn.style.display = "inline-block";
+					elemIn.style.animation = "rotateOut " + rate + "s linear reverse";
+				}, (rate * 1000));
+				setTimeout(function(){
+					elemIn.style.removeProperty("animation");
+				}, (rate * 2000));
+				
+			}
+			
+		}
+		
+		/**effect: none*/
+		else {
+			eval(direction);
+			this.slide(this.current);
+		}
+	};
+}
+// NEXT
+Carousel.prototype.next = function (effect, interval) {
+	effect = effect 	|| false;
+	interval = interval || false;
+	
+	var next = "var elemOut = this.slides[this.current];" +
+	"(this.current === this.total) ? this.current = 0 : this.current += 1;" +
+	"var elemIn = this.slides[this.current];";
+	
+	this.stop();	
+	this._animate(next, effect, interval);
+	
+	if(typeof interval === 'number' && (interval % 1) === 0) {
+		var context = this;
+		this.run = setTimeout(function() {
+			context.next(effect, interval);
+		}, interval);
+	}
+};
+// PREVIOUS
+Carousel.prototype.prev = function (effect, interval) {	
+	effect = effect 	|| false;
+	interval = interval || false;
+	
+	var prev = "var elemOut = this.slides[this.current];" +
+	"(this.current === 0) ? this.current = this.total : this.current -= 1;" +
+	"var elemIn = this.slides[this.current];" ;
+	
+	this.stop();	
+	this._animate(prev, effect, interval);
+	
+	if(typeof interval === 'number' && (interval % 1) === 0) {
+		var context = this;
+		this.run = setTimeout(function() {
+			context.prev(effect, interval);
+		}, interval);
+	}
+};
+// STOP PLAYING
+Carousel.prototype.stop = function () {
+	clearTimeout(this.run);
+};
+// SELECT SLIDE
+Carousel.prototype.slide = function (index) {	
+	if (index >= 0 && index <= this.total) { 
+		this.stop();
+		for (var s = 0; s <= this.total; s++) {
+			if (s === index) {
+				this.slides[s].style.display = "inline-block"; 
+			} else {
+				this.slides[s].style.display = 'none';
+			}
+		}
+	} else {
+		alert("Index " + index + " doesn't exist. Available : 0 - " + this.total);
+	}
+};
+</script>
+<script>
+var carouselImgs = new Carousel("images");
+var carouselBtns = new Carousel("buttons");
+</script>
+</body>
+</html>
