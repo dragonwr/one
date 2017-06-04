@@ -1,1 +1,1 @@
-document.body.innerHTML='21'
+document.body.style.background='#321'
