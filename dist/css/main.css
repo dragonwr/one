@@ -1,0 +1,81 @@
+.logo { float: left; }
+
+.shop { position: relative; text-align: left; }
+
+.nav-menu { background: #50a6c1; width: 300px; height: 433px; position: absolute; display: none; z-index: 88; left: 0; top: 100%; }
+
+.nav-menu ul { margin: 0; padding: 0; list-style: none; }
+
+.cat { position: absolute; display: block; left: 300px; top: 0; width: 300px; height: 433px; background: #59afca; }
+
+.cat-hide { display: none; }
+
+.nav-menu a { text-decoration: none; display: block; padding: 0 0 0 1em; line-height: 4; color: #fff; }
+
+.cat .inner { padding: 1em; }
+
+.a-hover { background: #59afca; font-weight: 900; }
+
+.nav-open { display: block; }
+
+.i-menu { font: 22px serif; color: #ddd; cursor: pointer; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { font-size: 1em; line-height: 20px; background: url(../img/milk.jpg); background-size: cover; background-repeat: no-repeat; }
+
+.clearfix:after { content: '.'; visibility: hidden; clear: both; overflow: auto; display: table; }
+
+.mg { clear: both; }
+
+.w100 { width: 100%; }
+
+.br1 { border: 1px solid; }
+
+.p1e { padding: 1em; }
+
+.bg1 { background: #479db8; }
+
+.ct { text-align: center; }
+
+.bg-box { position: relative; padding: 17em 0; overflow: hidden; text-align: center; }
+
+.bg-box .bg { position: absolute; top: 0; z-index: 1; width: 100%; height: 100%; opacity: .97; background-image: url(../img/eye.JPG); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; }
+
+.bg-box .in-box { position: relative; top: 0; z-index: 2; font-size: 120%; font-weight: 900; color: #fff; }
+
+.hand { height: 50vh; background: url(../img/vs/handwriting.jpg) no-repeat 100%; background-attachment: fixed; }
+
+.push-down { padding-top: 200px; }
+
+.tab-top { margin: 0; position: relative; transition: .5s; text-align: center; }
+
+.tab-top .active { color: #e9bb71; }
+
+.tab-top i { transition: .4s; text-align: center; border-bottom: 0; font-size: 6em; color: rgba(255, 128, 0, 0.925); display: block; margin: auto; padding-top: .4em; }
+
+.tab-top i:hover { cursor: pointer; }
+
+.tab-top:hover i:not(.active) { padding-top: .36em; }
+
+.tab-top i:not(.active):hover { padding-top: .4em; color: #e9bb71; }
+
+.icon-menu .icon-div { padding: 1em; background: #e9bb71; height: 300px; }
+
+.icon-menu .icon-div img { max-height: 100%; }
+
+.toper { position: absolute; bottom: -34%; left: 38%; width: 0; height: 0; border-style: solid; border-width: 0 23px 23px 23px; border-color: transparent transparent #e9bb71 transparent; }
+
+.start-view { position: relative; top: -220px; font-size: 1em; }
+
+.di span, .di i { color: #e9bb71; }
+
+.articles hr { opacity: .2; }
+
+.articles img { width: 222px; }
+
+.like-this { color: #e9bb71; }
+
+.fx-left, .fxx { position: relative; }
+
+#top-nav { transition: .5s; padding: 1.2em; }
