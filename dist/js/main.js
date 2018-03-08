@@ -6,7 +6,7 @@ $(function () {
         var $images = $('img[name!="custom"]')
         $.each($images, function (i, data) {
             var ii = i % 7;
-            var imgSrc = './dist/img/dia' + ii + '.jpg'
+            var imgSrc = './dist/img/a' + ii + '.jpg'
             var count = Math.random() * 3
             count = Math.floor(count) + 1
             data.setAttribute('class', 'ui bordered')
@@ -14,11 +14,9 @@ $(function () {
                 height: 222
             })
         })
-        var tt = ['习近平总书记', '中华人民共和国政府', '区块链区块链区块链区块链', '实现民族和谐统一', '霍金时间简史', '特斯拉', '2faster'],
+        var tt = ['习近平总书记', '中华人民共和国政府','实现民族和谐统一', '霍金时间简史', '特斯拉', '2faster'],
             $p = $('p.c'),
-            blk = '\“██\“'
-
-        function addingChars(n) {
+            function addingChars(n) {
             $p.each(function () {
                 var m = []
                 for (var j = 0; j < n; j++) {
