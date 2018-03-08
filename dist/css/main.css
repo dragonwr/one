@@ -22,7 +22,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body { font-size: 1em; line-height: 20px; background: url(../img/milk.JPG); background-size: cover; background-repeat: no-repeat; }
+body { font-size: 1em; background-img: url(../img/milk.JPG); background-size: cover; background-repeat: no-repeat; }
 
 .clearfix:after { content: '.'; visibility: hidden; clear: both; overflow: auto; display: table; }
 
