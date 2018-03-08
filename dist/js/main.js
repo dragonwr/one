@@ -6,7 +6,7 @@ $(function () {
         var $images = $('img[name!="custom"]')
         $.each($images, function (i, data) {
             var ii = i % 7;
-            var imgSrc = './dist/img/a' + ii + '.jpg'
+            var imgSrc = './dist/img/a' + ii + '.JPG'
             var count = Math.random() * 3
             count = Math.floor(count) + 1
             data.setAttribute('class', 'ui bordered')
