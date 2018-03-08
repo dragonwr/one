@@ -1,4 +1,16 @@
 $(function () {
+    $('.item')
+        .tab();
+    $('.accordion')
+        .accordion()
+    $('.come-up')
+        .transition({
+            animation:'pulse'
+        })
+    $('.dropdown')
+        .dropdown()
+  })
+$(function () {
     $('a').click(function (arguments) {
         return false;
     })
