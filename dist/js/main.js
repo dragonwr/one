@@ -26,7 +26,7 @@ $(function () {
                 height: 222
             })
         })
-        var tt = ['习近平总书记', '中华人民共和国政府','实现民族和谐统一', '霍金时间简史', '特斯拉', '2faster'],
+        var tt = ['民族富强和谐统一友善支持', '12345678abcdefg'],
             $p = $('p.c')
             function addingChars(n) {
             $p.each(function () {
