@@ -40,7 +40,7 @@ body { font-size: 1em; background-img: url(../img/milk.JPG); background-size: co
 
 .bg-box { position: relative; padding: 17em 0; overflow: hidden; text-align: center; }
 
-.bg-box .bg { position: absolute; top: 0; z-index: 1; width: 100%; height: 100%; opacity: .97; background-image: url(../img/fros.JPG); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; }
+.bg-box .bg { position: absolute; top: 0; z-index: 1; width: 100%; height: 100%; opacity: .97; background-image: url(../img/contact.png); background-attachment: fixed; background-repeat: no-repeat; background-size: cover; }
 
 .bg-box .in-box { position: relative; top: 0; z-index: 2; font-size: 120%; font-weight: 900; color: #fff; }
 
