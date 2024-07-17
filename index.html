@@ -1,267 +1,228 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="./semantic/semantic.css">
-    <link rel="stylesheet" href="./dist/css/main.css">
-<script src='https://code.jquery.com/jquery-3.5.1.slim.min.js'>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Birthday Card</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .card-container {
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-front {
+            background-color: #ff69b4;
+            color: white;
+            font-size: 24px;
+        }
+        .card-back {
+            background-color: #4CAF50;
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 18px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        #animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 1000;
+        }
+        #close-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
-    <div class="ui grid" id='top-nav'>
-        <div class="row">
-            <div class="column">
-                <div class=" ui menu   di">
-                    <!-- <a class="item" href='http://semantic-ui.com' _target='blank'>sui官网</a> -->
-                    <!-- <a class="ui huge header" href='http://www.mozilla.com'>Welcome to my portfolio</a> -->
-                  <div class="left menu">
-                    <img src="./dist/img/u.png" class="ui circular image">
+    <div class="card-container" id="card-container">
+        <div class="card" id="card">
+            <div class="card-face card-front">
+                <p>Click to open your gift!</p>
+            </div>
+            <div class="card-face card-back">
+                <p>Happy Birthday! Click again to see your special animation!</p>
+            </div>
+        </div>
+    </div>
+    <div id="animation-container">
+        <canvas id="canvas"></canvas>
+    </div>
+    <button id="close-button">×</button>
 
-                    <h2 class="ui header">
-                        Welcome to my portfolio
-                      </h2>
-                  </div>
-                    <div class="right menu">
-                        <div class="item">
-                            <div class="ui large dropdown item" tabindex="0">
-                                案例
-                                <i class="dropdown icon"></i>
-                                <div class="menu transition hidden" tabindex="-1">
-                                    <!-- <div class="item">welcome</div>
-                                    <div class="divider"></div> -->
-                                    <div class="item">case1</div>
-                                    <div class="item">case2</div>
+    <script>
+        const card = document.getElementById('card');
+        const cardContainer = document.getElementById('card-container');
+        const animationContainer = document.getElementById('animation-container');
+        const closeButton = document.getElementById('close-button');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-box abc" data-abc='0'>
-        <div class="bg"></div>
-        <div class="in-box ui container">
-            
-            <div class="ui four column doubling stackable grid container">
-                <div class="column">
-                  <p></p>
-                  <p></p>
-                </div>
-                <div class="column">
-                  <p></p>
-                  <p></p>
-                </div>
-                <div class="column">
-                  <p></p>
-                  <p></p>
-                </div>
-                <div class="column">
-                  <p></p>
-                  <p></p>
-                </div>
-              </div>
-        </div>
-    </div>
-    <!-- under nav  -->
-    <div class="ui horizontal divider">
-        <h1 class="start-view">
-            开始浏览
-        </h1>
-    </div>
-    <div class="ui padded grid come-up">
-        <div class="row">
-            <div class="ui container">
-                <div class="ui segment center aligned">
-                    <table class="ui left aligned celled table">
-                        <thead>
-                            <tr>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                            </tr>
-                            <tr>
-                                <td>数据</td>
-                                <td>数据</td>
-                                <td>数据</td>
-                                <td>数据</td>
-                            </tr>
-                        </thead>
-                        <tbody id='douban'>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="ui container come-up articles fx-right fxx" id="note">
-        <div class="ui message column">
-            <div class="ui left floated image">
-                <img src="" alt="">
-            </div>
-            <h1>ssss</h1>
-            <p class="c"></p>
-            <hr>
-            <div class="p1e">
-                <button class="pink ui button like">赞</button>
-                <button class="teal ui button dislike">支持</button>
-            </div>
-            <div class="ui horizontal statistic be-like fx-left">
-                <div class="value like-this">
-                    0
-                </div>
-                <div class="label">
-                    likes
-                </div>
-            </div>
-            <div class="ui horizontal statistic tnk-devil">
-                <div class="label">
-                </div>
-                <div class="value ">
-                    thanks
-                </div>
-                <div class="label">
-                </div>
-            </div>
-        </div>
-        <div class="ui message column">
-            <div class="ui left floated image">
-                <img src="" alt="">
-            </div>
-            <h1>ssss</h1>
-            <p class="c"></p>
-            <hr>
-            <div class="p1e">
-                <button class="pink ui button like">赞</button>
-                <button class="teal ui button dislike">支持</button>
-            </div>
-            <div class="ui horizontal statistic be-like fx-left">
-                <div class="value like-this">
-                    0
-                </div>
-                <div class="label">
-                    likes
-                </div>
-            </div>
-            <div class="ui horizontal statistic tnk-devil">
-                <div class="label">
-                </div>
-                <div class="value ">
-                    thanks
-                </div>
-                <div class="label">
-                </div>
-            </div>
-        </div>
-        <div class="ui message column">
-            <div class="ui left floated image">
-                <img src="" alt="">
-            </div>
-            <h1>ssss</h1>
-            <p class="c"></p>
-            <hr>
-            <div class="p1e">
-                <button class="pink ui button like">赞</button>
-                <button class="teal ui button dislike">支持</button>
-            </div>
-            <div class="ui horizontal statistic be-like fx-left">
-                <div class="value like-this">
-                    0
-                </div>
-                <div class="label">
-                    likes
-                </div>
-            </div>
-            <div class="ui horizontal statistic tnk-devil">
-                <div class="label">
-                </div>
-                <div class="value ">
-                    thanks
-                </div>
-                <div class="label">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- =============
-        end of icon tab 
-        =================-->
-    <div class="ui divider"></div>
-    <div class="ui container elv-here">
-        <div class="ui grid">
-            <div class="row">
-                <div class="ten wide column">
-                    <div class="ui padded grid">
-                        <div class="blue four column row">
-                            <div class="left floated column">
-                                <h1>ss</h1>
-                            </div>
-                            <div class="right floated column">
-                                <button class="ui basic fluid inverted button">ss</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui divider"></div>
-                    <!-- content -->
-                    <div class="ui grid">
-                        <div class="column">
-                            <div class="ui message clearfix">
-                                <div class="ui left floated image">
-                                    <img src="" alt="">
-                                </div>
-                                <div class="ui padded grid fx-left">
-                                    <div class="column">
-                                        <div class="ui items">
-                                            <div class="item">
-                                                <div class="content">
-                                                    <a class="header">Header</a>
-                                                    <div class="meta">
-                                                        <span>
-                                                            <a class="ui label">
-                                                                <i class="heart icon"></i>
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                    <div class="description">
-                                                        <p class="c"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="six wide column">
-                    <div class="ui padded grid">
-                        <div class="red three column row">
-                            <div class="left floated column">
-                                <h1>ss</h1>
-                            </div>
-                            <div class="right floated column">
-                                <button class="ui basic fluid inverted button">ss</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="ui message">
-                            <p class="c"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="./semantic/semantic.js"></script>
-    <script src='./dist/js/main.js'></script>
+        let isAnimationActive = false;
+
+        cardContainer.addEventListener('click', function() {
+            card.classList.toggle('flipped');
+            if (card.classList.contains('flipped') && !isAnimationActive) {
+                setTimeout(() => {
+                    animationContainer.style.display = 'block';
+                    closeButton.style.display = 'block';
+                    isAnimationActive = true;
+                    initAnimation();
+                }, 600);
+            }
+        });
+
+        closeButton.addEventListener('click', function() {
+            animationContainer.style.display = 'none';
+            closeButton.style.display = 'none';
+            isAnimationActive = false;
+        });
+
+        // Animation code starts here
+        const word = "HAPPY BIRTHDAY!";
+        const letters = word.split('');
+        const letterObjects = [];
+        const particles = [];
+
+        class Letter {
+            constructor(char, x, y) {
+                this.char = char;
+                this.x = x;
+                this.y = y;
+                this.baseY = y;
+                this.speed = 2 + Math.random() * 2;
+                this.amplitude = 30 + Math.random() * 20;
+                this.phase = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.phase += 0.05;
+                this.y = this.baseY + Math.sin(this.phase) * this.amplitude;
+            }
+
+            draw() {
+                ctx.font = "bold 48px Arial";
+                ctx.fillStyle = `hsl(${this.phase * 30}, 100%, 50%)`;
+                ctx.fillText(this.char, this.x, this.y);
+            }
+        }
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.1) this.size -= 0.1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initAnimation() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const totalWidth = letters.length * 60;
+            const startX = (canvas.width - totalWidth) / 2;
+
+            letterObjects.length = 0;
+            particles.length = 0;
+
+            for (let i = 0; i < letters.length; i++) {
+                const x = startX + i * 60;
+                const y = canvas.height / 2;
+                letterObjects.push(new Letter(letters[i], x, y));
+            }
+
+            animate();
+        }
+
+        function animate() {
+            if (!isAnimationActive) return;
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (const letter of letterObjects) {
+                letter.update();
+                letter.draw();
+
+                if (Math.random() < 0.2) {
+                    for (let i = 0; i < 5; i++) {
+                        particles.push(new Particle(letter.x + 20, letter.y));
+                    }
+                }
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].size <= 0.1) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+    </script>
 </body>
-
 </html>
