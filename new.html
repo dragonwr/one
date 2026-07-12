@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>专业历程 · 视觉设计师</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================================
+           全局重置 & 基础
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f4f6fa;
+            color: #0b1120;
+            padding: 2rem 1.5rem 4rem;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        :root {
+            --coral: #f472b6;
+            --coral-light: #fce7f3;
+            --blue: #4facfe;
+            --blue-light: #e0f0ff;
+            --green: #43e97b;
+            --green-light: #e0f8e8;
+            --amber: #f59e0b;
+            --amber-light: #fef3c7;
+            --purple: #a78bfa;
+            --purple-light: #ede9fe;
+            --teal: #2dd4bf;
+            --teal-light: #d5f5f0;
+            --rose: #fb7185;
+            --rose-light: #ffe4e6;
+            --morandi-pink: #d4b8b8;
+            --morandi-blue: #b8c4d4;
+            --morandi-green: #b8d4c4;
+            --morandi-yellow: #d4c4b8;
+            --morandi-purple: #c4b8d4;
+        }
+
+        /* ============================================================
+           顶部区域
+           ============================================================ */
+        .header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #0b1120;
+        }
+
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--coral), var(--amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--blue);
+            margin-top: 0.2rem;
+        }
+
+        .header .bio {
+            font-size: 0.95rem;
+            color: #475569;
+            max-width: 560px;
+            margin: 0.6rem auto 0;
+            line-height: 1.7;
+        }
+
+        .header .bio strong {
+            color: #0b1120;
+            font-weight: 600;
+        }
+
+        .divider {
+            border: none;
+            border-top: 2px solid #e2e8f0;
+            margin: 1.5rem 0 2.5rem;
+        }
+
+        /* ============================================================
+           专业历程 / 时间线
+           ============================================================ */
+        .journey-wrapper {
+            position: relative;
+            padding-left: 72px;
+        }
+
+        .journey-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .journey-list::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            z-index: 1;
+            transition: background 0.4s ease;
+        }
+
+        /* ===== 进度条 ===== */
+        .timeline-progress {
+            position: absolute;
+            left: -58px;
+            top: 0;
+            bottom: 0;
+            width: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .progress-track {
+            position: relative;
+            width: 8px;
+            height: 100%;
+            background: #eef2f6;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            overflow: visible;
+            flex-shrink: 0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .progress-track .progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to bottom,
+                    var(--coral),
+                    var(--amber),
+                    var(--green),
+                    var(--blue),
+                    var(--purple));
+            border-radius: 6px;
+            transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .progress-thumb {
+            position: absolute;
+            left: 50%;
+            top: 0%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid var(--blue);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+            transform: translate(-50%, -50%);
+            transition: top 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .progress-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #fff, var(--blue));
+            opacity: 0.5;
+        }
+
+        /* ===== 时间点 Pill ===== */
+        .progress-dots {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .progress-dot {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: 12;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #d1d5db;
+            border: 2.5px solid #fff;
+            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0;
+            color: transparent;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .progress-dot::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, currentColor 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .progress-dot.done {
+            background: var(--blue);
+            box-shadow: 0 0 0 2px var(--blue-light), 0 2px 12px rgba(79, 172, 254, 0.25);
+        }
+        .progress-dot.done::before {
+            opacity: 0.3;
+            color: var(--blue);
+        }
+
+        .progress-dot.active {
+            background: #ffffff;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2), 0 0 20px rgba(79, 172, 254, 0.15);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .progress-dot.active::before {
+            opacity: 0.5;
+            color: var(--blue);
+        }
+
+        .progress-dot.hover {
+            border-radius: 999px;
+            width: auto;
+            min-width: 60px;
+            padding: 0 16px 0 12px;
+            height: 30px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2), 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translate(-50%, -50%) scale(1);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            gap: 0.3rem;
+        }
+        .progress-dot.hover::before {
+            opacity: 0;
+        }
+
+        .progress-dot .dot-label {
+            display: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .progress-dot.hover .dot-label {
+            display: inline;
+        }
+
+        .progress-dot .dot-marker {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            transition: background 0.3s;
+            pointer-events: none;
+        }
+        .progress-dot.hover .dot-marker {
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+        .progress-dot.active.hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.3), 0 8px 40px rgba(79, 172, 254, 0.2);
+        }
+
+        /* ===== 卡片 ===== */
+        .journey-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 2;
+            opacity: 1;
+        }
+
+        .ambient-bg {
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background: linear-gradient(135deg,
+                    var(--morandi-pink),
+                    var(--morandi-blue),
+                    var(--morandi-green),
+                    var(--morandi-yellow),
+                    var(--morandi-purple),
+                    var(--morandi-pink));
+            background-size: 400% 400%;
+            animation: ambientMove 28s ease-in-out infinite alternate;
+            transition: opacity 0.6s ease;
+        }
+        .journey-card.open .ambient-bg {
+            opacity: 0.32;
+        }
+
+        @keyframes ambientMove {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        .journey-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 14px 0 0 14px;
+            z-index: 3;
+        }
+        .journey-card::after {
+            content: '';
+            position: absolute;
+            left: -44px;
+            top: 22px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: #cbd5e1;
+            z-index: 4;
+            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .journey-card.jc-coral::after {
+            background: var(--coral);
+            border-color: var(--coral-light);
+            box-shadow: 0 0 0 2px var(--coral-light), 0 2px 12px rgba(244, 114, 182, 0.2);
+        }
+        .journey-card.jc-blue::after {
+            background: var(--blue);
+            border-color: var(--blue-light);
+            box-shadow: 0 0 0 2px var(--blue-light), 0 2px 12px rgba(79, 172, 254, 0.2);
+        }
+        .journey-card.jc-green::after {
+            background: var(--green);
+            border-color: var(--green-light);
+            box-shadow: 0 0 0 2px var(--green-light), 0 2px 12px rgba(67, 233, 123, 0.2);
+        }
+        .journey-card.jc-amber::after {
+            background: var(--amber);
+            border-color: var(--amber-light);
+            box-shadow: 0 0 0 2px var(--amber-light), 0 2px 12px rgba(245, 158, 11, 0.2);
+        }
+        .journey-card.jc-purple::after {
+            background: var(--purple);
+            border-color: var(--purple-light);
+            box-shadow: 0 0 0 2px var(--purple-light), 0 2px 12px rgba(167, 139, 250, 0.2);
+        }
+        .journey-card.jc-teal::after {
+            background: var(--teal);
+            border-color: var(--teal-light);
+            box-shadow: 0 0 0 2px var(--teal-light), 0 2px 12px rgba(45, 212, 191, 0.2);
+        }
+        .journey-card.jc-rose::after {
+            background: var(--rose);
+            border-color: var(--rose-light);
+            box-shadow: 0 0 0 2px var(--rose-light), 0 2px 12px rgba(251, 113, 133, 0.2);
+        }
+
+        .journey-card.jc-coral::before {
+            background: var(--coral);
+        }
+        .journey-card.jc-blue::before {
+            background: var(--blue);
+        }
+        .journey-card.jc-green::before {
+            background: var(--green);
+        }
+        .journey-card.jc-amber::before {
+            background: var(--amber);
+        }
+        .journey-card.jc-purple::before {
+            background: var(--purple);
+        }
+        .journey-card.jc-teal::before {
+            background: var(--teal);
+        }
+        .journey-card.jc-rose::before {
+            background: var(--rose);
+        }
+
+        .journey-card.open {
+            border-color: var(--blue);
+            box-shadow: 0 4px 24px rgba(79, 172, 254, 0.10);
+        }
+        .journey-card.open::after {
+            transform: scale(1.25);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 24px rgba(79, 172, 254, 0.3);
+        }
+        .journey-card.open .date {
+            color: #0b1120;
+            font-weight: 700;
+            background: var(--blue-light);
+        }
+
+        .card-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.5rem 1rem;
+            padding: 1rem 1.25rem 1rem 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            z-index: 5;
+            transition: background 0.15s;
+        }
+        .card-header:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .card-header .company {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0b1120;
+        }
+        .card-header .role {
+            font-weight: 500;
+            color: var(--blue);
+            font-size: 0.9rem;
+        }
+        .card-header .date {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-left: auto;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            background: #f1f5f9;
+            padding: 0.1rem 0.7rem;
+            border-radius: 999px;
+        }
+        .card-header .location {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .card-header .toggle-icon {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            transition: transform 0.3s ease;
+            margin-left: 0.25rem;
+        }
+        .journey-card.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), padding 0.3s ease;
+            padding: 0 1.25rem 0 1.5rem;
+            border-top: 1px solid transparent;
+            position: relative;
+            z-index: 5;
+        }
+        .journey-card.open .card-body {
+            max-height: 600px;
+            padding: 0.5rem 1.25rem 1.25rem 1.5rem;
+            border-top-color: #f1f5f9;
+        }
+
+        .card-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .card-body ul li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        .card-body ul li::before {
+            content: "›";
+            position: absolute;
+            left: 0;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .card-body .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+        .card-body .tech-tags span {
+            background: #f1f5f9;
+            padding: 0.15rem 0.7rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+        .card-body .independent-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #15803d;
+            background: var(--green-light);
+            padding: 0.15rem 0.7rem;
+            border-radius: 999px;
+            margin-top: 0.5rem;
+        }
+
+        .click-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.4rem;
+            text-align: right;
+        }
+
+        /* ============================================================
+           响应式
+           ============================================================ */
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem 1rem;
+            }
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            .journey-wrapper {
+                padding-left: 48px;
+            }
+            .timeline-progress {
+                left: -36px;
+                width: 22px;
+            }
+            .progress-track {
+                width: 6px;
+            }
+            .progress-thumb {
+                width: 16px;
+                height: 16px;
+                border-width: 2px;
+            }
+            .journey-list::before {
+                left: -24px;
+                width: 2.5px;
+            }
+            .journey-card::after {
+                left: -32px;
+                width: 14px;
+                height: 14px;
+                top: 20px;
+                border-width: 2.5px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+            }
+            .card-header .date {
+                margin-left: 0;
+            }
+            .progress-dot {
+                width: 18px;
+                height: 18px;
+                border-width: 2px;
+            }
+            .progress-dot.hover {
+                min-width: 48px;
+                height: 26px;
+                padding: 0 10px 0 8px;
+                font-size: 0.6rem;
+            }
+            .progress-dot .dot-marker {
+                width: 6px;
+                height: 6px;
+                margin-right: 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .journey-wrapper {
+                padding-left: 36px;
+            }
+            .timeline-progress {
+                left: -24px;
+                width: 18px;
+            }
+            .progress-track {
+                width: 5px;
+            }
+            .progress-thumb {
+                width: 14px;
+                height: 14px;
+                border-width: 2px;
+            }
+            .journey-list::before {
+                left: -18px;
+                width: 2px;
+            }
+            .journey-card::after {
+                left: -24px;
+                width: 12px;
+                height: 12px;
+                top: 18px;
+                border-width: 2px;
+            }
+            .progress-dot {
+                width: 16px;
+                height: 16px;
+                border-width: 2px;
+            }
+            .progress-dot.hover {
+                min-width: 40px;
+                height: 22px;
+                padding: 0 8px 0 6px;
+                font-size: 0.55rem;
+            }
+            .progress-dot .dot-marker {
+                width: 5px;
+                height: 5px;
+                margin-right: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header class="header">
+            <h1>Your <span class="highlight">Name</span></h1>
+            <div class="title">视觉设计师 · 独立排版与品牌创意</div>
+            <p class="bio">
+                <strong>十年独家设计方法论</strong>，从印刷厂到品牌创意，
+                独立掌控 <strong>InDesign 全栈排版引擎</strong> 与 <strong>品牌视觉全案</strong>。
+                以「独家版面加速系统」为核心竞争力，赋能高精度视觉交付。
+            </p>
+        </header>
+
+        <hr class="divider" />
+
+        <!-- ============================================================
+        专业历程 / 时间线
+        ============================================================ -->
+        <section>
+            <div class="journey-wrapper">
+                <div class="journey-list" id="journeyList">
+
+                    <!-- 进度条 -->
+                    <div class="timeline-progress" id="timelineProgress">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                            <div class="progress-thumb" id="progressThumb"></div>
+                            <div class="progress-dots" id="progressDots"></div>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 1 -->
+                    <div class="journey-card jc-coral open" data-index="0">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">杭州乐堤港标书制作公司</span>
+                            <span class="role">排版设计师 · 独立负责人</span>
+                            <span class="date">2024.08 — 2026.02</span>
+                            <span class="location">杭州</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立搭建</strong>「InDesign 标书排版加速系统」，独家将 3 天标书排版压缩至 1.5 天。</li>
+                                <li><strong>独家负责</strong> 展板、人像修图、海报、画册、广告、书籍等全品类视觉内容输出。</li>
+                                <li><strong>独立主导</strong> 商务文档全流程版面设计，精准把控构图与细节质感。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>InDesign</span><span>标书排版</span><span>版面加速</span>
+                                <span>画册设计</span><span>海报设计</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立搭建 · 独家引擎</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 2 -->
+                    <div class="journey-card jc-blue" data-index="1">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">恒晟图文（杭州）有限公司</span>
+                            <span class="role">平面设计师 · 独立全案</span>
+                            <span class="date">2023.02 — 2023.07</span>
+                            <span class="location">杭州</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立负责</strong> 品牌视觉全案落地，从画册、海报到人像修图，独家打造品牌视觉体系。</li>
+                                <li><strong>独家对接</strong> 客户需求，现场完成视觉方案落地，覆盖展板、广告、书籍等全品类。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>画册设计</span><span>海报设计</span><span>人像修图</span>
+                                <span>品牌视觉</span><span>广告设计</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立全案 · 独家视觉</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 3 -->
+                    <div class="journey-card jc-green" data-index="2">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">上海沪印图文</span>
+                            <span class="role">美工 · 独立顾问</span>
+                            <span class="date">2022.11 — 至今</span>
+                            <span class="location">上海</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立搭建</strong>「版式设计体系」，独家涵盖画册、修图、平面三大模块。</li>
+                                <li><strong>独家把控</strong> 画面构图与细节质感，持续深耕画册与修图方向。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>版式设计</span><span>画册设计</span><span>人像修图</span><span>平面设计</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立体系 · 独家顾问</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 4 -->
+                    <div class="journey-card jc-amber" data-index="3">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">浙江华泰印业有限公司</span>
+                            <span class="role">广告设计 · 独立全案</span>
+                            <span class="date">2021</span>
+                            <span class="location">浙江</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立完成</strong> 年度广告全案，从印刷广告到平面物料，独家把控全流程质量。</li>
+                                <li><strong>独家负责</strong> 印前到成品全流程质量把控，保障交付质量与效率。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>印刷广告</span><span>平面物料</span><span>印前处理</span><span>质量把控</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立全案 · 独家把控</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 5 -->
+                    <div class="journey-card jc-purple" data-index="4">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">民生大酒店</span>
+                            <span class="role">广告设计师 · 独立重塑</span>
+                            <span class="date">2018.07 — 2020.07</span>
+                            <span class="location">浙江</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立负责</strong> 品牌视觉重塑，从标识设计到活动物料，独家打造高端酒店视觉体系。</li>
+                                <li><strong>独家策划</strong> 线下活动视觉物料，兼任活动纪实摄影与后期。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>品牌设计</span><span>活动视觉</span><span>摄影后期</span><span>标版设计</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立重塑 · 独家视觉</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 6 -->
+                    <div class="journey-card jc-teal" data-index="5">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">重庆完美女鞋商贸</span>
+                            <span class="role">平面设计师 · 独立对接</span>
+                            <span class="date">2018.06 — 2018.07</span>
+                            <span class="location">重庆</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立负责</strong> 客户对接及美工全流程，独家覆盖画册、展板、书籍等多品类设计。</li>
+                                <li><strong>独家完成</strong> 客户需求对接与视觉方案落地。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>客户对接</span><span>画册设计</span><span>展板设计</span><span>书籍设计</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立对接 · 独家交付</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 7 -->
+                    <div class="journey-card jc-rose" data-index="6">
+                        <div class="ambient-bg"></div>
+                        <div class="card-header">
+                            <span class="company">四川方正印刷厂</span>
+                            <span class="role">平面设计师 · 独立全案</span>
+                            <span class="date">2015.06 — 2018.06</span>
+                            <span class="location">四川</span>
+                            <span class="toggle-icon">▾</span>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>独立搭建</strong>「印刷品全案体系」，独家涵盖标书、画册、字体、影视平面等模块。</li>
+                                <li><strong>独家提供</strong> 全案广告平面创意支持，签约客户印刷品整体视觉设计。</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span>印刷品全案</span><span>标书排版</span><span>创意支持</span>
+                                <span>字体设计</span><span>海报设计</span>
+                            </div>
+                            <span class="independent-badge"><span class="icon">✦</span> 独立全案 · 独家体系</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="click-hint">▾ 悬浮时间点预览 · 点击卡片或时间点锁定 · 进度条保持位置</div>
+        </section>
+
+    </div>
+
+    <!-- ============================================================
+    JavaScript: 进度条保持 + 卡片唯一激活
+    ============================================================ -->
+    <script>
+        (function() {
+            // --- DOM ---
+            const journeyList = document.getElementById('journeyList');
+            const cards = journeyList.querySelectorAll('.journey-card');
+            const progressFill = document.getElementById('progressFill');
+            const progressThumb = document.getElementById('progressThumb');
+            const progressDotsContainer = document.getElementById('progressDots');
+
+            const total = cards.length;
+
+            // --- 状态 ---
+            let activeIndex = 0; // 点击锁定的索引
+            let previewIndex = -1; // 悬浮预览索引 (-1 表示无预览)
+            let isLocked = false; // 是否锁定（点击后锁定）
+            let positionCache = [];
+
+            // --- 卡片数据 ---
+            const cardData = [];
+            cards.forEach((card) => {
+                const header = card.querySelector('.card-header');
+                const company = header.querySelector('.company')?.textContent || '公司';
+                const date = header.querySelector('.date')?.textContent || '';
+                cardData.push({ company, date });
+            });
+
+            function getShortName(company) {
+                if (!company) return '公司';
+                let short = company.replace(/[（(].*[）)]/g, '').trim();
+                if (short.length > 6) short = short.substring(0, 6) + '…';
+                return short || '公司';
+            }
+
+            // --- 计算卡片中心位置 ---
+            function computeCardPositions() {
+                const listRect = journeyList.getBoundingClientRect();
+                const positions = [];
+                cards.forEach((card) => {
+                    const rect = card.getBoundingClientRect();
+                    const centerOffset = (rect.top + rect.height / 2) - listRect.top;
+                    const pct = (centerOffset / listRect.height) * 100;
+                    positions.push(Math.max(0, Math.min(100, pct)));
+                });
+                return positions;
+            }
+
+            // --- 更新时间点位置 ---
+            function updateDotPositions(positions) {
+                const dots = progressDotsContainer.querySelectorAll('.progress-dot');
+                dots.forEach((dot, i) => {
+                    if (positions[i] !== undefined) {
+                        dot.style.top = positions[i] + '%';
+                    }
+                });
+                positionCache = positions;
+            }
+
+            // --- 更新进度条 ---
+            function updateProgress(index, positions) {
+                const pos = positions || positionCache;
+                if (!pos || pos.length === 0) return;
+                const pct = pos[index] !== undefined ? pos[index] : 0;
+                progressFill.style.height = pct + '%';
+                progressThumb.style.top = pct + '%';
+            }
+
+            // --- 更新点状态 ---
+            function updateDotsState(displayIndex) {
+                const dots = progressDotsContainer.querySelectorAll('.progress-dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.remove('active', 'done', 'hover');
+                    if (i === displayIndex) {
+                        dot.classList.add('active');
+                    } else if (i < displayIndex) {
+                        dot.classList.add('done');
+                    }
+                });
+            }
+
+            // --- 展开指定卡片（其他全部收起） ---
+            function expandCardOnly(index) {
+                cards.forEach((card, i) => {
+                    if (i === index) {
+                        card.classList.add('open');
+                    } else {
+                        card.classList.remove('open');
+                    }
+                });
+            }
+
+            // --- 全量更新 ---
+            function fullUpdate(displayIndex) {
+                // 1. 计算位置
+                const positions = computeCardPositions();
+                updateDotPositions(positions);
+
+                // 2. 更新点状态
+                updateDotsState(displayIndex);
+
+                // 3. 更新进度条
+                updateProgress(displayIndex, positions);
+
+                // 4. 展开对应卡片
+                expandCardOnly(displayIndex);
+            }
+
+            // --- 获取当前显示索引 ---
+            function getDisplayIndex() {
+                // 如果有预览（悬浮）且未锁定，显示预览
+                if (previewIndex !== -1 && !isLocked) {
+                    return previewIndex;
+                }
+                return activeIndex;
+            }
+
+            // --- 刷新视图 ---
+            function refreshView() {
+                const displayIndex = getDisplayIndex();
+                fullUpdate(displayIndex);
+            }
+
+            // --- 滚动定位 ---
+            function scrollToCard(index) {
+                const card = cards[index];
+                if (!card) return;
+                const rect = card.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const cardHeight = rect.height;
+                const offsetTop = rect.top + window.pageYOffset;
+                const centerOffset = Math.max(0, offsetTop - (viewportHeight / 2) + (cardHeight / 2));
+                const currentScroll = window.pageYOffset;
+                if (Math.abs(centerOffset - currentScroll) > 80) {
+                    window.scrollTo({ top: centerOffset, behavior: 'smooth' });
+                }
+            }
+
+            // ============================================================
+            // 交互：悬浮 & 点击
+            // ============================================================
+
+            // --- 悬浮进入 ---
+            function handleDotEnter(index, dotElement) {
+                // 清除其他点的 hover 样式
+                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+                dotElement.classList.add('hover');
+
+                // 如果未锁定，设置预览索引
+                if (!isLocked) {
+                    previewIndex = index;
+                    refreshView();
+                    scrollToCard(index);
+                } else {
+                    // 锁定时，预览只改变 hover 样式，不改变卡片和进度条
+                    // 但为了更好的体验，我们让进度条跟随预览（但卡片不切换？）
+                    // 用户希望悬浮时预览卡片，所以即使锁定也切换预览
+                    // 但锁定后点击才切换，所以悬浮只做视觉预览
+                    // 我们在这里做：预览索引改变，但如果是锁定状态，不改变 activeIndex
+                    // 但 fullUpdate 会使用 previewIndex 如果 previewIndex !== -1
+                    // 所以我们需要区分：锁定状态下，预览不改变显示
+                    // 但是用户说"悬浮到点上可以展开右边的卡对应的"，所以悬浮应该展开卡片
+                    // 所以即使锁定，悬浮也应该展开卡片（但点击锁定后，悬浮只是临时预览）
+                    // 我们让：悬浮时，无论是否锁定，都展开对应的卡片（预览）
+                    // 但移出后，如果锁定，回到 activeIndex
+                    // 如果未锁定，预览保持
+                    // 这样更符合直觉
+                    previewIndex = index;
+                    refreshView();
+                    scrollToCard(index);
+                }
+            }
+
+            // --- 悬浮离开 ---
+            function handleDotLeave(index, dotElement) {
+                dotElement.classList.remove('hover');
+
+                if (isLocked) {
+                    // 锁定状态：移出后回到 activeIndex
+                    previewIndex = -1;
+                    refreshView();
+                    // 不滚动
+                } else {
+                    // 未锁定：移出后预览保持（保留最后的预览位置）
+                    // 但这里用户可能期望移出后回到 activeIndex？
+                    // 用户说"时间线没有保持到长度和位置"，意味着他期望进度条保持在悬浮位置
+                    // 所以移出后，预览保持，不回到 activeIndex
+                    // 但如果不回到 activeIndex，用户怎么回到默认状态？
+                    // 可以通过点击卡片或时间点来切换
+                    // 所以这里不做任何事，预览保持
+                    // 但为了让用户知道当前是预览状态，我们保留 previewIndex
+                    // 不重置
+                }
+            }
+
+            // --- 点击时间点 ---
+            function handleDotClick(index) {
+                // 清除悬浮样式
+                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+
+                // 如果点击的是当前激活的卡片，收起它，然后展开第一张
+                if (index === activeIndex && isLocked) {
+                    // 收起当前，展开第一张
+                    activeIndex = 0;
+                    previewIndex = -1;
+                    isLocked = true;
+                    refreshView();
+                    scrollToCard(0);
+                    return;
+                }
+
+                // 否则锁定到点击的索引
+                activeIndex = index;
+                previewIndex = -1;
+                isLocked = true;
+                refreshView();
+                scrollToCard(index);
+            }
+
+            // --- 点击卡片头部 ---
+            function handleCardClick(card) {
+                const index = parseInt(card.dataset.index);
+
+                // 清除悬浮样式
+                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+
+                // 如果点击的是当前激活的卡片，收起它，展开第一张
+                if (index === activeIndex && isLocked) {
+                    activeIndex = 0;
+                    previewIndex = -1;
+                    isLocked = true;
+                    refreshView();
+                    scrollToCard(0);
+                    return;
+                }
+
+                // 否则切换到点击的卡片
+                activeIndex = index;
+                previewIndex = -1;
+                isLocked = true;
+                refreshView();
+                scrollToCard(index);
+            }
+
+            // ============================================================
+            // 初始化时间点
+            // ============================================================
+            function initDots() {
+                progressDotsContainer.innerHTML = '';
+                for (let i = 0; i < total; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'progress-dot';
+                    dot.dataset.index = i;
+
+                    // 标记点
+                    const marker = document.createElement('span');
+                    marker.className = 'dot-marker';
+                    const card = cards[i];
+                    const colorMap = {
+                        'jc-coral': 'var(--coral)',
+                        'jc-blue': 'var(--blue)',
+                        'jc-green': 'var(--green)',
+                        'jc-amber': 'var(--amber)',
+                        'jc-purple': 'var(--purple)',
+                        'jc-teal': 'var(--teal)',
+                        'jc-rose': 'var(--rose)',
+                    };
+                    let dotColor = '#94a3b8';
+                    for (const [cls, color] of Object.entries(colorMap)) {
+                        if (card.classList.contains(cls)) {
+                            dotColor = color;
+                            break;
+                        }
+                    }
+                    marker.style.background = dotColor;
+                    dot.appendChild(marker);
+
+                    // 标签
+                    const label = document.createElement('span');
+                    label.className = 'dot-label';
+                    label.textContent = getShortName(cardData[i].company);
+                    dot.appendChild(label);
+
+                    // 事件
+                    dot.addEventListener('mouseenter', function(e) {
+                        const idx = parseInt(this.dataset.index);
+                        handleDotEnter(idx, this);
+                    });
+
+                    dot.addEventListener('mouseleave', function(e) {
+                        const idx = parseInt(this.dataset.index);
+                        handleDotLeave(idx, this);
+                    });
+
+                    dot.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const idx = parseInt(this.dataset.index);
+                        handleDotClick(idx);
+                    });
+
+                    progressDotsContainer.appendChild(dot);
+                }
+            }
+
+            // --- 绑定卡片点击 ---
+            function bindCardClicks() {
+                cards.forEach((card) => {
+                    const header = card.querySelector('.card-header');
+                    header.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        handleCardClick(card);
+                    });
+                });
+            }
+
+            // --- 窗口 resize 防抖 ---
+            let resizeTimer = null;
+            function handleResize() {
+                if (resizeTimer) {
+                    cancelAnimationFrame(resizeTimer);
+                    resizeTimer = null;
+                }
+                resizeTimer = requestAnimationFrame(() => {
+                    refreshView();
+                    resizeTimer = null;
+                });
+            }
+
+            // --- 初始化 ---
+            function init() {
+                initDots();
+                bindCardClicks();
+
+                // 默认：第一张展开，锁定
+                activeIndex = 0;
+                previewIndex = -1;
+                isLocked = true;
+
+                // 先计算位置并更新
+                setTimeout(() => {
+                    refreshView();
+                    setTimeout(() => {
+                        scrollToCard(0);
+                    }, 150);
+                }, 80);
+
+                window.addEventListener('resize', handleResize);
+
+                // 点击页面其他地方取消悬浮样式但不改变状态
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.progress-dot') && !e.target.closest('.journey-card')) {
+                        document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+                    }
+                });
+
+                // 监听卡片动画结束，重新计算位置
+                cards.forEach((card) => {
+                    card.addEventListener('transitionend', function(e) {
+                        if (e.propertyName === 'max-height' || e.propertyName === 'padding') {
+                            refreshView();
+                        }
+                    });
+                });
+            }
+
+            // 滚动时重新计算位置（仅当可见）
+            let scrollTimer = null;
+            window.addEventListener('scroll', function() {
+                if (scrollTimer) {
+                    cancelAnimationFrame(scrollTimer);
+                    scrollTimer = null;
+                }
+                scrollTimer = requestAnimationFrame(() => {
+                    const rect = journeyList.getBoundingClientRect();
+                    if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                        refreshView();
+                    }
+                    scrollTimer = null;
+                });
+            }, { passive: true });
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            // --- 暴露重置 ---
+            window.resetTimeline = function() {
+                activeIndex = 0;
+                previewIndex = -1;
+                isLocked = true;
+                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+                refreshView();
+                scrollToCard(0);
+            };
+
+        })();
+    </script>
+
+</body>
+</html>
