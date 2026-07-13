@@ -171,7 +171,7 @@
                     var(--blue),
                     var(--purple));
             border-radius: 6px;
-            transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .progress-thumb {
@@ -185,7 +185,7 @@
             border: 3px solid var(--blue);
             box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
             transform: translate(-50%, -50%);
-            transition: top 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+            transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
             z-index: 2;
             pointer-events: none;
         }
@@ -208,6 +208,7 @@
             width: 0;
             transform: translateX(-50%);
             pointer-events: none;
+            z-index: 9;
         }
 
         .progress-dot {
@@ -229,8 +230,9 @@
             justify-content: center;
             font-size: 0;
             color: transparent;
-            overflow: hidden;
+            overflow: visible;
             white-space: nowrap;
+            will-change: transform, width, border-radius;
         }
 
         .progress-dot::before {
@@ -253,7 +255,6 @@
             color: var(--blue);
         }
 
-        /* —— 激活状态：呼吸动画 + 光晕 —— */
         .progress-dot.active {
             background: #ffffff;
             border-color: var(--blue);
@@ -278,30 +279,50 @@
             }
         }
 
-        /* —— 悬浮状态 —— */
+        /* —— 悬浮指示器 —— */
         .progress-dot.hover {
-            border-radius: 999px;
+            border-radius: 8px 0 0 8px;
             width: auto;
-            min-width: 60px;
-            padding: 0 16px 0 12px;
-            height: 30px;
-            background: rgba(15, 23, 42, 0.85);
+            min-width: 70px;
+            height: 32px;
+            padding: 0 0 0 14px;
+            background: rgba(15, 23, 42, 0.92);
             backdrop-filter: blur(8px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2), 0 8px 30px rgba(0, 0, 0, 0.12);
-            transform: translate(-50%, -50%) scale(1);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15), 0 8px 30px rgba(0, 0, 0, 0.15);
+            transform: translate(0, -50%);
+            left: 50%;
             color: #fff;
             font-size: 0.7rem;
             font-weight: 500;
             letter-spacing: 0.02em;
-            gap: 0.3rem;
             animation: none;
+            gap: 0;
+            overflow: visible;
+            justify-content: flex-start;
+            z-index: 13;
         }
+
         .progress-dot.hover::before {
             opacity: 0;
         }
 
-        .progress-dot .dot-label {
+        .progress-dot.hover::after {
+            content: '';
+            position: absolute;
+            right: -14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+            border-left: 14px solid rgba(15, 23, 42, 0.92);
+            pointer-events: none;
+            transition: border-color 0.3s;
+        }
+
+        .progress-dot .dot-time {
             display: none;
             font-size: 0.7rem;
             font-weight: 500;
@@ -309,8 +330,10 @@
             letter-spacing: 0.02em;
             white-space: nowrap;
             pointer-events: none;
+            line-height: 1;
         }
-        .progress-dot.hover .dot-label {
+
+        .progress-dot.hover .dot-time {
             display: inline;
         }
 
@@ -321,17 +344,27 @@
             border-radius: 50%;
             margin-right: 6px;
             flex-shrink: 0;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            transition: background 0.3s;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
             pointer-events: none;
         }
+
         .progress-dot.hover .dot-marker {
-            border-color: rgba(255, 255, 255, 0.7);
+            width: 6px;
+            height: 6px;
+            margin-right: 8px;
+            border-color: rgba(255, 255, 255, 0.6);
         }
+
         .progress-dot.active.hover {
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.3), 0 8px 40px rgba(79, 172, 254, 0.2);
+            transform: translate(0, -50%) scale(1);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.25), 0 8px 40px rgba(0, 0, 0, 0.18);
             animation: none;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-dot.active.hover::after {
+            border-left-color: rgba(15, 23, 42, 0.92);
         }
 
         /* ===== 卡片 ===== */
@@ -342,21 +375,22 @@
             overflow: hidden;
             transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                background 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             position: relative;
             z-index: 2;
-            transform: perspective(800px) rotateY(0deg) translateZ(0);
+            transform: perspective(800px) rotateY(0deg) translateZ(0) translateY(0);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            will-change: transform;
         }
 
-        /* 莫兰迪背景 */
         .ambient-bg {
             position: absolute;
             inset: 0;
             border-radius: 16px;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.10;
+            opacity: 0.08;
             background: linear-gradient(135deg,
                     var(--morandi-pink),
                     var(--morandi-blue),
@@ -368,8 +402,13 @@
             animation: ambientMove 28s ease-in-out infinite alternate;
             transition: opacity 0.6s ease;
         }
+
+        .journey-card:hover .ambient-bg {
+            opacity: 0.18;
+        }
+
         .journey-card.open .ambient-bg {
-            opacity: 0.28;
+            opacity: 0.30;
         }
 
         @keyframes ambientMove {
@@ -390,7 +429,6 @@
             }
         }
 
-        /* 左侧彩色条 */
         .journey-card::before {
             content: '';
             position: absolute;
@@ -403,7 +441,6 @@
             transition: width 0.3s ease;
         }
 
-        /* 时间线节点装饰 */
         .journey-card::after {
             content: '';
             position: absolute;
@@ -421,7 +458,6 @@
             pointer-events: none;
         }
 
-        /* 卡片颜色主题 */
         .journey-card.jc-coral {
             --card-color: var(--coral);
             --card-color-light: var(--coral-light);
@@ -509,13 +545,12 @@
             background: var(--rose);
         }
 
-        /* —— 激活卡片：立体效果 —— */
         .journey-card.open {
             border-color: var(--card-color);
-            transform: perspective(800px) rotateY(-2.5deg) translateZ(6px);
+            transform: perspective(800px) rotateY(-2.5deg) translateZ(8px) translateY(-3px);
             box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.06),
-                0 4px 16px rgba(0, 0, 0, 0.04),
+                0 16px 48px rgba(0, 0, 0, 0.07),
+                0 6px 20px rgba(0, 0, 0, 0.04),
                 0 0 0 1px rgba(255, 255, 255, 0.8) inset,
                 0 0 0 2px var(--card-color-light) inset;
             background: linear-gradient(145deg, #ffffff, #fafcff);
@@ -530,17 +565,27 @@
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 24px rgba(79, 172, 254, 0.25);
         }
 
+        .journey-card.open .card-header .company {
+            color: var(--card-color);
+        }
+
         .journey-card.open .date {
             color: #0b1120;
             font-weight: 700;
             background: var(--card-color-light);
         }
 
-        .journey-card.open .card-header .company {
-            color: var(--card-color);
+        .journey-card:not(.open):hover {
+            transform: perspective(800px) rotateY(-1deg) translateZ(4px) translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.03);
+            border-color: #cbd5e1;
         }
 
-        /* —— 三角指示器（卡片左侧） —— */
+        .journey-card:not(.open):hover .card-header .company {
+            color: var(--card-color);
+            transition: color 0.3s ease;
+        }
+
         .card-arrow {
             position: absolute;
             left: -14px;
@@ -564,7 +609,6 @@
             transform: translateY(-50%) scale(1);
         }
 
-        /* 卡片头部 */
         .card-header {
             display: flex;
             flex-wrap: wrap;
@@ -575,17 +619,17 @@
             user-select: none;
             position: relative;
             z-index: 5;
-            transition: background 0.15s;
+            transition: background 0.2s;
         }
         .card-header:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .card-header .company {
             font-weight: 700;
             font-size: 1.05rem;
             color: #0b1120;
-            transition: color 0.3s ease;
+            transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .card-header .role {
@@ -618,7 +662,6 @@
             transform: rotate(180deg);
         }
 
-        /* 卡片主体 */
         .card-body {
             max-height: 0;
             overflow: hidden;
@@ -738,15 +781,30 @@
                 border-width: 2px;
             }
             .progress-dot.hover {
-                min-width: 48px;
-                height: 26px;
-                padding: 0 10px 0 8px;
+                height: 28px;
+                min-width: 60px;
+                padding: 0 0 0 12px;
                 font-size: 0.6rem;
+                border-radius: 6px 0 0 6px;
+            }
+            .progress-dot.hover::after {
+                right: -12px;
+                border-top-width: 14px;
+                border-bottom-width: 14px;
+                border-left-width: 12px;
             }
             .progress-dot .dot-marker {
                 width: 6px;
                 height: 6px;
                 margin-right: 4px;
+            }
+            .progress-dot.hover .dot-marker {
+                width: 5px;
+                height: 5px;
+                margin-right: 6px;
+            }
+            .progress-dot .dot-time {
+                font-size: 0.6rem;
             }
             .card-arrow {
                 left: -10px;
@@ -755,7 +813,7 @@
                 border-right-width: 12px;
             }
             .journey-card.open {
-                transform: perspective(600px) rotateY(-1.5deg) translateZ(4px);
+                transform: perspective(600px) rotateY(-1.5deg) translateZ(4px) translateY(-2px);
             }
         }
 
@@ -791,15 +849,30 @@
                 border-width: 2px;
             }
             .progress-dot.hover {
-                min-width: 40px;
-                height: 22px;
-                padding: 0 8px 0 6px;
+                height: 24px;
+                min-width: 48px;
+                padding: 0 0 0 10px;
                 font-size: 0.55rem;
+                border-radius: 5px 0 0 5px;
+            }
+            .progress-dot.hover::after {
+                right: -10px;
+                border-top-width: 12px;
+                border-bottom-width: 12px;
+                border-left-width: 10px;
             }
             .progress-dot .dot-marker {
                 width: 5px;
                 height: 5px;
                 margin-right: 3px;
+            }
+            .progress-dot.hover .dot-marker {
+                width: 4px;
+                height: 4px;
+                margin-right: 5px;
+            }
+            .progress-dot .dot-time {
+                font-size: 0.55rem;
             }
             .card-arrow {
                 left: -8px;
@@ -808,7 +881,7 @@
                 border-right-width: 10px;
             }
             .journey-card.open {
-                transform: perspective(400px) rotateY(-1deg) translateZ(2px);
+                transform: perspective(400px) rotateY(-1deg) translateZ(2px) translateY(-1px);
             }
         }
     </style>
@@ -1012,13 +1085,13 @@
                 </div>
             </div>
 
-            <div class="click-hint">▾ 悬浮时间点预览 · 点击卡片或时间点锁定 · 呼吸圆点 + 三角指示器</div>
+            <div class="click-hint">▾ 悬浮时间点或卡片显示指示器 · 点击切换激活</div>
         </section>
 
     </div>
 
     <!-- ============================================================
-    JavaScript: 进度保持 + 卡片唯一激活 + 呼吸/三角联动
+    JavaScript: 悬浮只显示指示器 · 点击切换卡片
     ============================================================ -->
     <script>
         (function() {
@@ -1032,25 +1105,22 @@
             const total = cards.length;
 
             // --- 状态 ---
-            let activeIndex = 0;
-            let previewIndex = -1;
-            let isLocked = false;
-            let positionCache = [];
+            let activeIndex = 0; // 当前激活的卡片（点击切换）
+            let hoverDotIndex = -1; // 当前悬浮的时间点（仅指示器）
+            let hoverCardIndex = -1; // 当前悬浮的卡片（同步指示器）
+            let leaveTimer = null;
 
             // --- 卡片数据 ---
             const cardData = [];
             cards.forEach((card) => {
                 const header = card.querySelector('.card-header');
-                const company = header.querySelector('.company')?.textContent || '公司';
-                const date = header.querySelector('.date')?.textContent || '';
-                cardData.push({ company, date });
+                const dateEl = header.querySelector('.date');
+                const date = dateEl ? dateEl.textContent.trim() : '';
+                cardData.push({ date });
             });
 
-            function getShortName(company) {
-                if (!company) return '公司';
-                let short = company.replace(/[（(].*[）)]/g, '').trim();
-                if (short.length > 6) short = short.substring(0, 6) + '…';
-                return short || '公司';
+            function getTimeText(index) {
+                return cardData[index]?.date || '';
             }
 
             // --- 计算卡片中心位置 ---
@@ -1074,32 +1144,46 @@
                         dot.style.top = positions[i] + '%';
                     }
                 });
-                positionCache = positions;
             }
 
             // --- 更新进度条 ---
             function updateProgress(index, positions) {
-                const pos = positions || positionCache;
+                const pos = positions || computeCardPositions();
                 if (!pos || pos.length === 0) return;
                 const pct = pos[index] !== undefined ? pos[index] : 0;
                 progressFill.style.height = pct + '%';
                 progressThumb.style.top = pct + '%';
             }
 
-            // --- 更新点状态（包含呼吸动画类） ---
-            function updateDotsState(displayIndex) {
+            // --- 更新点状态 ---
+            function updateDotsState() {
                 const dots = progressDotsContainer.querySelectorAll('.progress-dot');
+                // 确定显示哪个索引作为激活：点击激活的始终显示 active
+                // 悬浮指示器独立于 active
                 dots.forEach((dot, i) => {
+                    // 清除所有状态
                     dot.classList.remove('active', 'done', 'hover');
-                    if (i === displayIndex) {
+
+                    // active: 点击激活的索引
+                    if (i === activeIndex) {
                         dot.classList.add('active');
-                    } else if (i < displayIndex) {
+                    } else if (i < activeIndex) {
                         dot.classList.add('done');
+                    }
+
+                    // hover: 悬浮指示器 (优先于 active 显示，但 active 样式保留)
+                    // 如果当前索引是 hoverDotIndex 或 hoverCardIndex，添加 hover 样式
+                    if (i === hoverDotIndex || i === hoverCardIndex) {
+                        dot.classList.add('hover');
+                        const timeSpan = dot.querySelector('.dot-time');
+                        if (timeSpan) {
+                            timeSpan.textContent = getTimeText(i);
+                        }
                     }
                 });
             }
 
-            // --- 展开指定卡片（其他全部收起） ---
+            // --- 展开指定卡片 ---
             function expandCardOnly(index) {
                 cards.forEach((card, i) => {
                     if (i === index) {
@@ -1111,26 +1195,12 @@
             }
 
             // --- 全量更新 ---
-            function fullUpdate(displayIndex) {
+            function fullUpdate() {
                 const positions = computeCardPositions();
                 updateDotPositions(positions);
-                updateDotsState(displayIndex);
-                updateProgress(displayIndex, positions);
-                expandCardOnly(displayIndex);
-            }
-
-            // --- 获取当前显示索引 ---
-            function getDisplayIndex() {
-                if (previewIndex !== -1 && !isLocked) {
-                    return previewIndex;
-                }
-                return activeIndex;
-            }
-
-            // --- 刷新视图 ---
-            function refreshView() {
-                const displayIndex = getDisplayIndex();
-                fullUpdate(displayIndex);
+                updateDotsState();
+                updateProgress(activeIndex, positions);
+                expandCardOnly(activeIndex);
             }
 
             // --- 滚动定位 ---
@@ -1149,78 +1219,174 @@
             }
 
             // ============================================================
-            // 交互
+            // 时间点交互 (悬浮只显示指示器，点击切换)
             // ============================================================
 
             function handleDotEnter(index, dotElement) {
-                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+                // 清除离开定时器
+                if (leaveTimer) {
+                    clearTimeout(leaveTimer);
+                    leaveTimer = null;
+                }
+
+                // 更新悬浮索引
+                hoverDotIndex = index;
+
+                // 更新时间文本
+                const timeSpan = dotElement.querySelector('.dot-time');
+                if (timeSpan) {
+                    timeSpan.textContent = getTimeText(index);
+                }
+
+                // 添加 hover 样式
                 dotElement.classList.add('hover');
 
-                if (!isLocked) {
-                    previewIndex = index;
-                    refreshView();
-                    scrollToCard(index);
-                } else {
-                    previewIndex = index;
-                    refreshView();
-                    scrollToCard(index);
-                }
+                // 更新视图（只更新指示器，不切换卡片）
+                updateDotsState();
             }
 
             function handleDotLeave(index, dotElement) {
-                dotElement.classList.remove('hover');
-
-                if (isLocked) {
-                    previewIndex = -1;
-                    refreshView();
-                } else {
-                    // 预览保持
+                if (leaveTimer) {
+                    clearTimeout(leaveTimer);
+                    leaveTimer = null;
                 }
+
+                leaveTimer = setTimeout(() => {
+                    leaveTimer = null;
+
+                    // 检查鼠标是否还在这个元素上
+                    if (dotElement.matches(':hover')) {
+                        return;
+                    }
+
+                    // 检查鼠标是否在对应的卡片上（卡片悬浮同步）
+                    const card = cards[index];
+                    if (card && card.matches(':hover')) {
+                        return;
+                    }
+
+                    // 如果 hoverDotIndex 还是这个索引，清除
+                    if (hoverDotIndex === index) {
+                        hoverDotIndex = -1;
+                        dotElement.classList.remove('hover');
+                        updateDotsState();
+                    }
+                }, 100);
             }
 
             function handleDotClick(index) {
+                // 清除悬浮状态
+                hoverDotIndex = -1;
+                hoverCardIndex = -1;
                 document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
 
-                if (index === activeIndex && isLocked) {
+                if (leaveTimer) {
+                    clearTimeout(leaveTimer);
+                    leaveTimer = null;
+                }
+
+                // 如果点击的是当前激活的卡片，切换到第一张
+                if (index === activeIndex) {
                     activeIndex = 0;
-                    previewIndex = -1;
-                    isLocked = true;
-                    refreshView();
+                    fullUpdate();
                     scrollToCard(0);
                     return;
                 }
 
+                // 切换到点击的卡片
                 activeIndex = index;
-                previewIndex = -1;
-                isLocked = true;
-                refreshView();
+                fullUpdate();
                 scrollToCard(index);
             }
 
-            function handleCardClick(card) {
-                const index = parseInt(card.dataset.index);
+            // ============================================================
+            // 卡片交互 (悬浮同步指示器，点击切换)
+            // ============================================================
 
+            function handleCardEnter(index, cardElement) {
+                // 清除离开定时器
+                if (leaveTimer) {
+                    clearTimeout(leaveTimer);
+                    leaveTimer = null;
+                }
+
+                // 更新卡片悬浮索引
+                hoverCardIndex = index;
+
+                // 更新对应时间点的指示器
+                const dot = progressDotsContainer.querySelector(`.progress-dot[data-index="${index}"]`);
+                if (dot) {
+                    const timeSpan = dot.querySelector('.dot-time');
+                    if (timeSpan) {
+                        timeSpan.textContent = getTimeText(index);
+                    }
+                    dot.classList.add('hover');
+                }
+
+                // 更新视图
+                updateDotsState();
+            }
+
+            function handleCardLeave(index, cardElement) {
+                if (leaveTimer) {
+                    clearTimeout(leaveTimer);
+                    leaveTimer = null;
+                }
+
+                leaveTimer = setTimeout(() => {
+                    leaveTimer = null;
+
+                    // 检查鼠标是否还在这个卡片上
+                    if (cardElement.matches(':hover')) {
+                        return;
+                    }
+
+                    // 检查鼠标是否在对应的时间点上
+                    const dot = progressDotsContainer.querySelector(`.progress-dot[data-index="${index}"]`);
+                    if (dot && dot.matches(':hover')) {
+                        return;
+                    }
+
+                    // 如果 hoverCardIndex 还是这个索引，清除
+                    if (hoverCardIndex === index) {
+                        hoverCardIndex = -1;
+                        if (dot) {
+                            dot.classList.remove('hover');
+                        }
+                        updateDotsState();
+                    }
+                }, 100);
+            }
+
+            function handleCardClick(cardElement) {
+                const index = parseInt(cardElement.dataset.index);
+
+                // 清除悬浮状态
+                hoverDotIndex = -1;
+                hoverCardIndex = -1;
                 document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
 
-                if (index === activeIndex && isLocked) {
+                if (leaveTimer) {
+                    clearTimeout(leaveTimer);
+                    leaveTimer = null;
+                }
+
+                if (index === activeIndex) {
                     activeIndex = 0;
-                    previewIndex = -1;
-                    isLocked = true;
-                    refreshView();
+                    fullUpdate();
                     scrollToCard(0);
                     return;
                 }
 
                 activeIndex = index;
-                previewIndex = -1;
-                isLocked = true;
-                refreshView();
+                fullUpdate();
                 scrollToCard(index);
             }
 
             // ============================================================
             // 初始化时间点
             // ============================================================
+
             function initDots() {
                 progressDotsContainer.innerHTML = '';
                 for (let i = 0; i < total; i++) {
@@ -1228,6 +1394,7 @@
                     dot.className = 'progress-dot';
                     dot.dataset.index = i;
 
+                    // 标记点
                     const marker = document.createElement('span');
                     marker.className = 'dot-marker';
                     const card = cards[i];
@@ -1250,14 +1417,18 @@
                     marker.style.background = dotColor;
                     dot.appendChild(marker);
 
-                    const label = document.createElement('span');
-                    label.className = 'dot-label';
-                    label.textContent = getShortName(cardData[i].company);
-                    dot.appendChild(label);
+                    // 时间标签
+                    const timeSpan = document.createElement('span');
+                    timeSpan.className = 'dot-time';
+                    timeSpan.textContent = getTimeText(i);
+                    dot.appendChild(timeSpan);
 
+                    // 事件绑定
                     dot.addEventListener('mouseenter', function(e) {
                         const idx = parseInt(this.dataset.index);
-                        handleDotEnter(idx, this);
+                        if (idx !== hoverDotIndex) {
+                            handleDotEnter(idx, this);
+                        }
                     });
 
                     dot.addEventListener('mouseleave', function(e) {
@@ -1275,10 +1446,24 @@
                 }
             }
 
-            // --- 绑定卡片点击 ---
-            function bindCardClicks() {
+            // --- 绑定卡片事件 ---
+            function bindCardEvents() {
                 cards.forEach((card) => {
                     const header = card.querySelector('.card-header');
+                    const index = parseInt(card.dataset.index);
+
+                    // 卡片悬浮
+                    card.addEventListener('mouseenter', function(e) {
+                        if (index !== hoverCardIndex) {
+                            handleCardEnter(index, this);
+                        }
+                    });
+
+                    card.addEventListener('mouseleave', function(e) {
+                        handleCardLeave(index, this);
+                    });
+
+                    // 卡片点击 (头部)
                     header.addEventListener('click', function(e) {
                         e.stopPropagation();
                         handleCardClick(card);
@@ -1295,7 +1480,7 @@
                     resizeTimer = null;
                 }
                 resizeTimer = requestAnimationFrame(() => {
-                    refreshView();
+                    fullUpdate();
                     resizeTimer = null;
                 });
             }
@@ -1303,14 +1488,15 @@
             // --- 初始化 ---
             function init() {
                 initDots();
-                bindCardClicks();
+                bindCardEvents();
 
+                // 默认状态：第一张激活
                 activeIndex = 0;
-                previewIndex = -1;
-                isLocked = true;
+                hoverDotIndex = -1;
+                hoverCardIndex = -1;
 
                 setTimeout(() => {
-                    refreshView();
+                    fullUpdate();
                     setTimeout(() => {
                         scrollToCard(0);
                     }, 150);
@@ -1318,21 +1504,33 @@
 
                 window.addEventListener('resize', handleResize);
 
+                // 点击外部清除悬浮
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.progress-dot') && !e.target.closest('.journey-card')) {
-                        document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+                        if (leaveTimer) {
+                            clearTimeout(leaveTimer);
+                            leaveTimer = null;
+                        }
+                        if (hoverDotIndex !== -1 || hoverCardIndex !== -1) {
+                            hoverDotIndex = -1;
+                            hoverCardIndex = -1;
+                            document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
+                            updateDotsState();
+                        }
                     }
                 });
 
+                // 监听卡片动画结束
                 cards.forEach((card) => {
                     card.addEventListener('transitionend', function(e) {
                         if (e.propertyName === 'max-height' || e.propertyName === 'padding') {
-                            refreshView();
+                            fullUpdate();
                         }
                     });
                 });
             }
 
+            // 滚动时重新计算
             let scrollTimer = null;
             window.addEventListener('scroll', function() {
                 if (scrollTimer) {
@@ -1342,7 +1540,7 @@
                 scrollTimer = requestAnimationFrame(() => {
                     const rect = journeyList.getBoundingClientRect();
                     if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                        refreshView();
+                        fullUpdate();
                     }
                     scrollTimer = null;
                 });
@@ -1354,12 +1552,13 @@
                 init();
             }
 
+            // 暴露重置
             window.resetTimeline = function() {
                 activeIndex = 0;
-                previewIndex = -1;
-                isLocked = true;
+                hoverDotIndex = -1;
+                hoverCardIndex = -1;
                 document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
-                refreshView();
+                fullUpdate();
                 scrollToCard(0);
             };
 
