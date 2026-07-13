@@ -2,29 +2,39 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0b1120" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>专业历程 · 视觉设计师</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
-        /* ============================================================
-           全局重置 & 基础
-           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             background: #f0f2f6;
             color: #0b1120;
-            padding: 2rem 1.5rem 4rem;
+            padding: 1.5rem 1rem 3rem;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         .container {
@@ -55,19 +65,18 @@
             --morandi-purple: #c4b8d4;
         }
 
-        /* ============================================================
-           顶部区域
-           ============================================================ */
         .header {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             text-align: center;
+            padding: 0 0.5rem;
         }
 
         .header h1 {
-            font-size: 2.6rem;
+            font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.03em;
             color: #0b1120;
+            line-height: 1.2;
         }
 
         .header h1 .highlight {
@@ -78,17 +87,17 @@
         }
 
         .header .title {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--blue);
-            margin-top: 0.2rem;
+            margin-top: 0.4rem;
         }
 
         .header .bio {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #475569;
             max-width: 560px;
-            margin: 0.6rem auto 0;
+            margin: 0.5rem auto 0;
             line-height: 1.7;
         }
 
@@ -99,45 +108,46 @@
 
         .divider {
             border: none;
-            border-top: 2px solid #e2e8f0;
-            margin: 1.5rem 0 2.5rem;
+            border-top: 1.5px solid #e2e8f0;
+            margin: 1.2rem 0 1.8rem;
         }
 
         /* ============================================================
-           专业历程 / 时间线
+           时间线布局 — 黄金比例分割
            ============================================================ */
         .journey-wrapper {
             position: relative;
-            padding-left: 72px;
+            /* 时间轴在左侧，卡片在右侧，间距按黄金比例 */
+            padding-left: 52px;
         }
 
         .journey-list {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.6rem;
             position: relative;
         }
 
+        /* 时间轴线 */
         .journey-list::before {
             content: '';
             position: absolute;
-            left: -28px;
-            top: 8px;
-            bottom: 8px;
-            width: 3px;
+            left: -20px;
+            top: 6px;
+            bottom: 6px;
+            width: 2.5px;
             background: #e2e8f0;
             border-radius: 999px;
             z-index: 1;
-            transition: background 0.4s ease;
         }
 
-        /* ===== 进度条 ===== */
+        /* ===== 进度条轨道 ===== */
         .timeline-progress {
             position: absolute;
-            left: -58px;
+            left: -42px;
             top: 0;
             bottom: 0;
-            width: 28px;
+            width: 22px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -148,7 +158,7 @@
 
         .progress-track {
             position: relative;
-            width: 8px;
+            width: 5px;
             height: 100%;
             background: #eef2f6;
             border-radius: 6px;
@@ -178,12 +188,12 @@
             position: absolute;
             left: 50%;
             top: 0%;
-            width: 20px;
-            height: 20px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: #ffffff;
-            border: 3px solid var(--blue);
-            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+            border: 2.5px solid var(--blue);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
             transform: translate(-50%, -50%);
             transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
             z-index: 2;
@@ -193,7 +203,7 @@
         .progress-thumb::after {
             content: '';
             position: absolute;
-            inset: 3px;
+            inset: 2px;
             border-radius: 50%;
             background: radial-gradient(circle at 35% 35%, #fff, var(--blue));
             opacity: 0.5;
@@ -218,12 +228,12 @@
             cursor: pointer;
             pointer-events: auto;
             z-index: 12;
-            width: 22px;
-            height: 22px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: #d1d5db;
-            border: 2.5px solid #fff;
-            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 6px rgba(0, 0, 0, 0.06);
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex;
             align-items: center;
@@ -238,7 +248,7 @@
         .progress-dot::before {
             content: '';
             position: absolute;
-            inset: -6px;
+            inset: -5px;
             border-radius: 50%;
             background: radial-gradient(circle, currentColor 0%, transparent 70%);
             opacity: 0;
@@ -248,7 +258,7 @@
 
         .progress-dot.done {
             background: var(--blue);
-            box-shadow: 0 0 0 2px var(--blue-light), 0 2px 12px rgba(79, 172, 254, 0.25);
+            box-shadow: 0 0 0 2px var(--blue-light), 0 2px 10px rgba(79, 172, 254, 0.25);
         }
         .progress-dot.done::before {
             opacity: 0.3;
@@ -258,8 +268,8 @@
         .progress-dot.active {
             background: #ffffff;
             border-color: var(--blue);
-            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2), 0 0 20px rgba(79, 172, 254, 0.15);
-            transform: translate(-50%, -50%) scale(1.2);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2), 0 0 16px rgba(79, 172, 254, 0.15);
+            transform: translate(-50%, -50%) scale(1.15);
             animation: breathe 2.2s ease-in-out infinite;
         }
         .progress-dot.active::before {
@@ -268,129 +278,142 @@
         }
 
         @keyframes breathe {
-            0%,
-            100% {
-                transform: translate(-50%, -50%) scale(1.15);
-                box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), 0 0 20px rgba(79, 172, 254, 0.08);
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15), 0 0 16px rgba(79, 172, 254, 0.08);
             }
             50% {
-                transform: translate(-50%, -50%) scale(1.45);
-                box-shadow: 0 0 0 10px rgba(79, 172, 254, 0.08), 0 0 40px rgba(79, 172, 254, 0.18);
+                transform: translate(-50%, -50%) scale(1.35);
+                box-shadow: 0 0 0 8px rgba(79, 172, 254, 0.08), 0 0 32px rgba(79, 172, 254, 0.18);
             }
         }
 
-        /* —— 悬浮指示器 —— */
+        /* ============================================================
+           🎯 悬浮指示器 — 黄金位置，右侧展开，透明毛玻璃
+           ============================================================ */
         .progress-dot.hover {
-            border-radius: 8px 0 0 8px;
-            width: auto;
-            min-width: 70px;
-            height: 32px;
-            padding: 0 0 0 14px;
-            background: rgba(15, 23, 42, 0.92);
-            backdrop-filter: blur(8px);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15), 0 8px 30px rgba(0, 0, 0, 0.15);
-            transform: translate(0, -50%);
-            left: 50%;
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
+            /* 保持圆点形状，在旁边显示标签 */
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2), 0 0 20px rgba(79, 172, 254, 0.15);
+            transform: translate(-50%, -50%) scale(1.2);
             animation: none;
-            gap: 0;
-            overflow: visible;
-            justify-content: flex-start;
             z-index: 13;
         }
 
         .progress-dot.hover::before {
-            opacity: 0;
+            opacity: 0.5;
+            color: var(--blue);
         }
 
-        .progress-dot.hover::after {
+        /* 标签 — 位于圆点右侧，时间轴与卡片之间的黄金位置 */
+        .progress-dot .tooltip-label {
+            position: absolute;
+            left: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%) scale(0.85);
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 14;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .progress-dot.hover .tooltip-label {
+            transform: translateY(-50%) scale(1);
+            opacity: 1;
+            animation: labelPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes labelPop {
+            0% { transform: translateY(-50%) scale(0.7) translateX(-8px); opacity: 0; filter: blur(4px); }
+            100% { transform: translateY(-50%) scale(1) translateX(0); opacity: 1; filter: blur(0); }
+        }
+
+        /* 标签内容容器 */
+        .tooltip-label-inner {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px) saturate(1.4);
+            -webkit-backdrop-filter: blur(4px) saturate(1.4);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: 0.01em;
+            line-height: 1;
+        }
+
+        /* 标签小三角 — 指向圆点 */
+        .tooltip-label-inner::before {
             content: '';
             position: absolute;
-            right: -14px;
+            left: -5px;
             top: 50%;
             transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-top: 16px solid transparent;
-            border-bottom: 16px solid transparent;
-            border-left: 14px solid rgba(15, 23, 42, 0.92);
-            pointer-events: none;
-            transition: border-color 0.3s;
+            width: 5px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px) saturate(1.4);
+            -webkit-backdrop-filter: blur(4px) saturate(1.4);
+            clip-path: polygon(100% 0, 100% 100%, 0 50%);
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* 标记点 */
+        .tooltip-dot-marker {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(15, 23, 42, 0.2);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .progress-dot .dot-time {
             display: none;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #fff;
-            letter-spacing: 0.02em;
-            white-space: nowrap;
-            pointer-events: none;
-            line-height: 1;
         }
 
         .progress-dot.hover .dot-time {
             display: inline;
         }
 
-        .progress-dot .dot-marker {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 6px;
-            flex-shrink: 0;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s;
-            pointer-events: none;
-        }
-
-        .progress-dot.hover .dot-marker {
-            width: 6px;
-            height: 6px;
-            margin-right: 8px;
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .progress-dot.active.hover {
-            transform: translate(0, -50%) scale(1);
-            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.25), 0 8px 40px rgba(0, 0, 0, 0.18);
-            animation: none;
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .progress-dot.active.hover::after {
-            border-left-color: rgba(15, 23, 42, 0.92);
-        }
-
         /* ===== 卡片 ===== */
         .journey-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
-            transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                background 0.35s cubic-bezier(0.22, 1, 0.36, 1);
             position: relative;
             z-index: 2;
-            transform: perspective(800px) rotateY(0deg) translateZ(0) translateY(0);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            transform: perspective(600px) rotateY(0deg) translateZ(0) translateY(0);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02);
             will-change: transform;
         }
 
         .ambient-bg {
             position: absolute;
             inset: 0;
-            border-radius: 16px;
+            border-radius: 14px;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.08;
+            opacity: 0.06;
             background: linear-gradient(135deg,
                     var(--morandi-pink),
                     var(--morandi-blue),
@@ -403,30 +426,15 @@
             transition: opacity 0.6s ease;
         }
 
-        .journey-card:hover .ambient-bg {
-            opacity: 0.18;
-        }
-
-        .journey-card.open .ambient-bg {
-            opacity: 0.30;
-        }
+        .journey-card:hover .ambient-bg { opacity: 0.14; }
+        .journey-card.open .ambient-bg { opacity: 0.25; }
 
         @keyframes ambientMove {
-            0% {
-                background-position: 0% 0%;
-            }
-            25% {
-                background-position: 100% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            75% {
-                background-position: 0% 100%;
-            }
-            100% {
-                background-position: 0% 0%;
-            }
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 0%; }
         }
 
         .journey-card::before {
@@ -435,8 +443,8 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 5px;
-            border-radius: 16px 0 0 16px;
+            width: 4px;
+            border-radius: 14px 0 0 14px;
             z-index: 3;
             transition: width 0.3s ease;
         }
@@ -444,163 +452,87 @@
         .journey-card::after {
             content: '';
             position: absolute;
-            left: -44px;
+            left: -30px;
             top: 50%;
             transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            border: 3px solid #fff;
+            border: 2.5px solid #fff;
             background: #cbd5e1;
             z-index: 4;
-            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 6px rgba(0, 0, 0, 0.06);
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
         }
 
-        .journey-card.jc-coral {
-            --card-color: var(--coral);
-            --card-color-light: var(--coral-light);
-        }
-        .journey-card.jc-blue {
-            --card-color: var(--blue);
-            --card-color-light: var(--blue-light);
-        }
-        .journey-card.jc-green {
-            --card-color: var(--green);
-            --card-color-light: var(--green-light);
-        }
-        .journey-card.jc-amber {
-            --card-color: var(--amber);
-            --card-color-light: var(--amber-light);
-        }
-        .journey-card.jc-purple {
-            --card-color: var(--purple);
-            --card-color-light: var(--purple-light);
-        }
-        .journey-card.jc-teal {
-            --card-color: var(--teal);
-            --card-color-light: var(--teal-light);
-        }
-        .journey-card.jc-rose {
-            --card-color: var(--rose);
-            --card-color-light: var(--rose-light);
-        }
+        .journey-card.jc-coral { --card-color: var(--coral); --card-color-light: var(--coral-light); }
+        .journey-card.jc-blue { --card-color: var(--blue); --card-color-light: var(--blue-light); }
+        .journey-card.jc-green { --card-color: var(--green); --card-color-light: var(--green-light); }
+        .journey-card.jc-amber { --card-color: var(--amber); --card-color-light: var(--amber-light); }
+        .journey-card.jc-purple { --card-color: var(--purple); --card-color-light: var(--purple-light); }
+        .journey-card.jc-teal { --card-color: var(--teal); --card-color-light: var(--teal-light); }
+        .journey-card.jc-rose { --card-color: var(--rose); --card-color-light: var(--rose-light); }
 
-        .journey-card.jc-coral::after {
-            background: var(--coral);
-            border-color: var(--coral-light);
-            box-shadow: 0 0 0 2px var(--coral-light), 0 2px 12px rgba(244, 114, 182, 0.2);
-        }
-        .journey-card.jc-blue::after {
-            background: var(--blue);
-            border-color: var(--blue-light);
-            box-shadow: 0 0 0 2px var(--blue-light), 0 2px 12px rgba(79, 172, 254, 0.2);
-        }
-        .journey-card.jc-green::after {
-            background: var(--green);
-            border-color: var(--green-light);
-            box-shadow: 0 0 0 2px var(--green-light), 0 2px 12px rgba(67, 233, 123, 0.2);
-        }
-        .journey-card.jc-amber::after {
-            background: var(--amber);
-            border-color: var(--amber-light);
-            box-shadow: 0 0 0 2px var(--amber-light), 0 2px 12px rgba(245, 158, 11, 0.2);
-        }
-        .journey-card.jc-purple::after {
-            background: var(--purple);
-            border-color: var(--purple-light);
-            box-shadow: 0 0 0 2px var(--purple-light), 0 2px 12px rgba(167, 139, 250, 0.2);
-        }
-        .journey-card.jc-teal::after {
-            background: var(--teal);
-            border-color: var(--teal-light);
-            box-shadow: 0 0 0 2px var(--teal-light), 0 2px 12px rgba(45, 212, 191, 0.2);
-        }
-        .journey-card.jc-rose::after {
-            background: var(--rose);
-            border-color: var(--rose-light);
-            box-shadow: 0 0 0 2px var(--rose-light), 0 2px 12px rgba(251, 113, 133, 0.2);
-        }
+        .journey-card.jc-coral::after { background: var(--coral); border-color: var(--coral-light); box-shadow: 0 0 0 2px var(--coral-light), 0 2px 10px rgba(244, 114, 182, 0.2); }
+        .journey-card.jc-blue::after { background: var(--blue); border-color: var(--blue-light); box-shadow: 0 0 0 2px var(--blue-light), 0 2px 10px rgba(79, 172, 254, 0.2); }
+        .journey-card.jc-green::after { background: var(--green); border-color: var(--green-light); box-shadow: 0 0 0 2px var(--green-light), 0 2px 10px rgba(67, 233, 123, 0.2); }
+        .journey-card.jc-amber::after { background: var(--amber); border-color: var(--amber-light); box-shadow: 0 0 0 2px var(--amber-light), 0 2px 10px rgba(245, 158, 11, 0.2); }
+        .journey-card.jc-purple::after { background: var(--purple); border-color: var(--purple-light); box-shadow: 0 0 0 2px var(--purple-light), 0 2px 10px rgba(167, 139, 250, 0.2); }
+        .journey-card.jc-teal::after { background: var(--teal); border-color: var(--teal-light); box-shadow: 0 0 0 2px var(--teal-light), 0 2px 10px rgba(45, 212, 191, 0.2); }
+        .journey-card.jc-rose::after { background: var(--rose); border-color: var(--rose-light); box-shadow: 0 0 0 2px var(--rose-light), 0 2px 10px rgba(251, 113, 133, 0.2); }
 
-        .journey-card.jc-coral::before {
-            background: var(--coral);
-        }
-        .journey-card.jc-blue::before {
-            background: var(--blue);
-        }
-        .journey-card.jc-green::before {
-            background: var(--green);
-        }
-        .journey-card.jc-amber::before {
-            background: var(--amber);
-        }
-        .journey-card.jc-purple::before {
-            background: var(--purple);
-        }
-        .journey-card.jc-teal::before {
-            background: var(--teal);
-        }
-        .journey-card.jc-rose::before {
-            background: var(--rose);
-        }
+        .journey-card.jc-coral::before { background: var(--coral); }
+        .journey-card.jc-blue::before { background: var(--blue); }
+        .journey-card.jc-green::before { background: var(--green); }
+        .journey-card.jc-amber::before { background: var(--amber); }
+        .journey-card.jc-purple::before { background: var(--purple); }
+        .journey-card.jc-teal::before { background: var(--teal); }
+        .journey-card.jc-rose::before { background: var(--rose); }
 
         .journey-card.open {
             border-color: var(--card-color);
-            transform: perspective(800px) rotateY(-2.5deg) translateZ(8px) translateY(-3px);
+            transform: perspective(600px) rotateY(-1.5deg) translateZ(6px) translateY(-2px);
             box-shadow:
-                0 16px 48px rgba(0, 0, 0, 0.07),
-                0 6px 20px rgba(0, 0, 0, 0.04),
+                0 12px 36px rgba(0, 0, 0, 0.06),
+                0 4px 16px rgba(0, 0, 0, 0.03),
                 0 0 0 1px rgba(255, 255, 255, 0.8) inset,
                 0 0 0 2px var(--card-color-light) inset;
             background: linear-gradient(145deg, #ffffff, #fafcff);
         }
 
-        .journey-card.open::before {
-            width: 6px;
-        }
+        .journey-card.open::before { width: 5px; }
 
         .journey-card.open::after {
-            transform: translateY(-50%) scale(1.3);
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 24px rgba(79, 172, 254, 0.25);
+            transform: translateY(-50%) scale(1.25);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 0 20px rgba(79, 172, 254, 0.25);
         }
 
-        .journey-card.open .card-header .company {
-            color: var(--card-color);
-        }
-
-        .journey-card.open .date {
-            color: #0b1120;
-            font-weight: 700;
-            background: var(--card-color-light);
-        }
+        .journey-card.open .card-header .company { color: var(--card-color); }
+        .journey-card.open .date { color: #0b1120; font-weight: 700; background: var(--card-color-light); }
 
         .journey-card:not(.open):hover {
-            transform: perspective(800px) rotateY(-1deg) translateZ(4px) translateY(-2px);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.03);
+            transform: perspective(600px) rotateY(-0.8deg) translateZ(3px) translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
             border-color: #cbd5e1;
         }
 
-        .journey-card:not(.open):hover .card-header .company {
-            color: var(--card-color);
-            transition: color 0.3s ease;
-        }
+        .journey-card:not(.open):hover .card-header .company { color: var(--card-color); transition: color 0.3s ease; }
 
         .card-arrow {
             position: absolute;
-            left: -14px;
+            left: -10px;
             top: 50%;
             transform: translateY(-50%) scale(0.8);
             width: 0;
             height: 0;
-            border-top: 12px solid transparent;
-            border-bottom: 12px solid transparent;
-            border-right: 16px solid var(--card-color, var(--blue));
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 12px solid var(--card-color, var(--blue));
             opacity: 0;
             z-index: 6;
-            filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.06));
-            transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.05));
+            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
             pointer-events: none;
         }
 
@@ -613,82 +545,75 @@
             display: flex;
             flex-wrap: wrap;
             align-items: baseline;
-            gap: 0.5rem 1rem;
-            padding: 1rem 1.25rem 1rem 1.5rem;
+            gap: 0.3rem 0.8rem;
+            padding: 0.85rem 1rem 0.85rem 1.2rem;
             cursor: pointer;
             user-select: none;
             position: relative;
             z-index: 5;
             transition: background 0.2s;
         }
-        .card-header:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
+        .card-header:hover { background: rgba(255, 255, 255, 0.25); }
 
         .card-header .company {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: #0b1120;
             transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            line-height: 1.3;
         }
 
         .card-header .role {
             font-weight: 500;
             color: var(--blue);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         .card-header .date {
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             color: #94a3b8;
             margin-left: auto;
             white-space: nowrap;
             transition: all 0.3s ease;
             font-weight: 600;
             background: #f1f5f9;
-            padding: 0.1rem 0.7rem;
+            padding: 0.1rem 0.6rem;
             border-radius: 999px;
         }
         .card-header .location {
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             color: #94a3b8;
         }
         .card-header .toggle-icon {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #94a3b8;
             transition: transform 0.3s ease;
-            margin-left: 0.25rem;
+            margin-left: 0.2rem;
         }
-        .journey-card.open .toggle-icon {
-            transform: rotate(180deg);
-        }
+        .journey-card.open .toggle-icon { transform: rotate(180deg); }
 
         .card-body {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-                padding 0.3s ease;
-            padding: 0 1.25rem 0 1.5rem;
+            transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), padding 0.3s ease;
+            padding: 0 1rem 0 1.2rem;
             border-top: 1px solid transparent;
             position: relative;
             z-index: 5;
         }
         .journey-card.open .card-body {
             max-height: 600px;
-            padding: 0.5rem 1.25rem 1.25rem 1.5rem;
+            padding: 0.4rem 1rem 1rem 1.2rem;
             border-top-color: rgba(0, 0, 0, 0.04);
         }
 
-        .card-body ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+        .card-body ul { list-style: none; padding: 0; margin: 0; }
         .card-body ul li {
             position: relative;
-            padding-left: 1.2rem;
-            margin-bottom: 0.3rem;
-            font-size: 0.9rem;
+            padding-left: 1rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.82rem;
             color: #334155;
+            line-height: 1.55;
         }
         .card-body ul li::before {
             content: "›";
@@ -701,194 +626,112 @@
         .card-body .tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-top: 0.6rem;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
         }
         .card-body .tech-tags span {
             background: #f1f5f9;
-            padding: 0.15rem 0.7rem;
+            padding: 0.12rem 0.55rem;
             border-radius: 999px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 500;
             color: #1e293b;
         }
         .card-body .independent-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
-            font-size: 0.65rem;
+            gap: 0.25rem;
+            font-size: 0.6rem;
             font-weight: 700;
             color: #15803d;
             background: var(--green-light);
-            padding: 0.15rem 0.7rem;
+            padding: 0.12rem 0.55rem;
             border-radius: 999px;
-            margin-top: 0.5rem;
+            margin-top: 0.4rem;
         }
 
         .click-hint {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #94a3b8;
-            margin-top: 0.4rem;
-            text-align: right;
+            margin-top: 0.5rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* 触摸波纹 */
+        .touch-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(79, 172, 254, 0.25);
+            transform: scale(0);
+            animation: rippleEffect 0.5s ease-out forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+        @keyframes rippleEffect {
+            0% { transform: scale(0); opacity: 0.6; }
+            100% { transform: scale(3); opacity: 0; }
         }
 
         /* ============================================================
-           响应式
+           🖥️ 桌面端媒体查询（≥769px）
            ============================================================ */
-        @media (max-width: 768px) {
-            body {
-                padding: 1.5rem 1rem;
+        @media (min-width: 769px) {
+            body { padding: 2rem 1.5rem 4rem; }
+            .header { margin-bottom: 2.5rem; }
+            .header h1 { font-size: 2.6rem; }
+            .header .title { font-size: 1.2rem; margin-top: 0.2rem; }
+            .header .bio { font-size: 0.95rem; margin-top: 0.6rem; }
+            .divider { border-top-width: 2px; margin: 1.5rem 0 2.5rem; }
+            .journey-wrapper { padding-left: 72px; }
+            .journey-list { gap: 0.75rem; }
+            .journey-list::before { left: -28px; width: 3px; }
+            .timeline-progress { left: -58px; width: 28px; }
+            .progress-track { width: 8px; }
+            .progress-thumb { width: 20px; height: 20px; border-width: 3px; box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1); }
+            .progress-thumb::after { inset: 3px; }
+            .progress-dot { width: 22px; height: 22px; border-width: 2.5px; box-shadow: 0 0 0 2px #e2e8f0, 0 2px 8px rgba(0, 0, 0, 0.06); }
+            .progress-dot::before { inset: -6px; }
+            .progress-dot.active { transform: translate(-50%, -50%) scale(1.2); box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2), 0 0 20px rgba(79, 172, 254, 0.15); }
+            @keyframes breathe {
+                0%, 100% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.15), 0 0 20px rgba(79, 172, 254, 0.08); }
+                50% { transform: translate(-50%, -50%) scale(1.45); box-shadow: 0 0 0 10px rgba(79, 172, 254, 0.08), 0 0 40px rgba(79, 172, 254, 0.18); }
             }
-            .header h1 {
-                font-size: 2.2rem;
-            }
-            .journey-wrapper {
-                padding-left: 48px;
-            }
-            .timeline-progress {
-                left: -36px;
-                width: 22px;
-            }
-            .progress-track {
-                width: 6px;
-            }
-            .progress-thumb {
-                width: 16px;
-                height: 16px;
-                border-width: 2px;
-            }
-            .journey-list::before {
-                left: -24px;
-                width: 2.5px;
-            }
-            .journey-card::after {
-                left: -32px;
-                width: 14px;
-                height: 14px;
-                border-width: 2.5px;
-            }
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.2rem;
-            }
-            .card-header .date {
-                margin-left: 0;
-            }
-            .progress-dot {
-                width: 18px;
-                height: 18px;
-                border-width: 2px;
-            }
-            .progress-dot.hover {
-                height: 28px;
-                min-width: 60px;
-                padding: 0 0 0 12px;
-                font-size: 0.6rem;
-                border-radius: 6px 0 0 6px;
-            }
-            .progress-dot.hover::after {
-                right: -12px;
-                border-top-width: 14px;
-                border-bottom-width: 14px;
-                border-left-width: 12px;
-            }
-            .progress-dot .dot-marker {
-                width: 6px;
-                height: 6px;
-                margin-right: 4px;
-            }
-            .progress-dot.hover .dot-marker {
-                width: 5px;
-                height: 5px;
-                margin-right: 6px;
-            }
-            .progress-dot .dot-time {
-                font-size: 0.6rem;
-            }
-            .card-arrow {
-                left: -10px;
-                border-top-width: 8px;
-                border-bottom-width: 8px;
-                border-right-width: 12px;
-            }
-            .journey-card.open {
-                transform: perspective(600px) rotateY(-1.5deg) translateZ(4px) translateY(-2px);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .journey-wrapper {
-                padding-left: 36px;
-            }
-            .timeline-progress {
-                left: -24px;
-                width: 18px;
-            }
-            .progress-track {
-                width: 5px;
-            }
-            .progress-thumb {
-                width: 14px;
-                height: 14px;
-                border-width: 2px;
-            }
-            .journey-list::before {
-                left: -18px;
-                width: 2px;
-            }
-            .journey-card::after {
-                left: -24px;
-                width: 12px;
-                height: 12px;
-                border-width: 2px;
-            }
-            .progress-dot {
-                width: 16px;
-                height: 16px;
-                border-width: 2px;
-            }
-            .progress-dot.hover {
-                height: 24px;
-                min-width: 48px;
-                padding: 0 0 0 10px;
-                font-size: 0.55rem;
-                border-radius: 5px 0 0 5px;
-            }
-            .progress-dot.hover::after {
-                right: -10px;
-                border-top-width: 12px;
-                border-bottom-width: 12px;
-                border-left-width: 10px;
-            }
-            .progress-dot .dot-marker {
-                width: 5px;
-                height: 5px;
-                margin-right: 3px;
-            }
-            .progress-dot.hover .dot-marker {
-                width: 4px;
-                height: 4px;
-                margin-right: 5px;
-            }
-            .progress-dot .dot-time {
-                font-size: 0.55rem;
-            }
-            .card-arrow {
-                left: -8px;
-                border-top-width: 6px;
-                border-bottom-width: 6px;
-                border-right-width: 10px;
-            }
-            .journey-card.open {
-                transform: perspective(400px) rotateY(-1deg) translateZ(2px) translateY(-1px);
-            }
+            .progress-dot.hover { width: 24px; height: 24px; box-shadow: 0 0 0 5px rgba(79, 172, 254, 0.25), 0 0 24px rgba(79, 172, 254, 0.2); transform: translate(-50%, -50%) scale(1.25); }
+            .progress-dot .tooltip-label { left: calc(100% + 14px); }
+            .tooltip-label-inner { padding: 7px 16px; border-radius: 12px; font-size: 0.78rem; backdrop-filter: blur(6px) saturate(1.6); -webkit-backdrop-filter: blur(6px) saturate(1.6); background: rgba(255, 255, 255, 0.2); border: 1.5px solid rgba(255, 255, 255, 0.45); box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+            .tooltip-label-inner::before { left: -7px; width: 7px; height: 14px; backdrop-filter: blur(6px) saturate(1.6); -webkit-backdrop-filter: blur(6px) saturate(1.6); background: rgba(255, 255, 255, 0.2); border-left: 1.5px solid rgba(255, 255, 255, 0.45); }
+            .tooltip-dot-marker { width: 7px; height: 7px; border-width: 2px; }
+            .journey-card { border-radius: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02); }
+            .ambient-bg { border-radius: 16px; opacity: 0.08; }
+            .journey-card:hover .ambient-bg { opacity: 0.18; }
+            .journey-card.open .ambient-bg { opacity: 0.30; }
+            .journey-card::before { width: 5px; border-radius: 16px 0 0 16px; }
+            .journey-card::after { left: -44px; width: 16px; height: 16px; border-width: 3px; }
+            .journey-card.open { transform: perspective(800px) rotateY(-2.5deg) translateZ(8px) translateY(-3px); box-shadow: 0 16px 48px rgba(0, 0, 0, 0.07), 0 6px 20px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.8) inset, 0 0 0 2px var(--card-color-light) inset; }
+            .journey-card.open::before { width: 6px; }
+            .journey-card.open::after { transform: translateY(-50%) scale(1.3); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 24px rgba(79, 172, 254, 0.25); }
+            .journey-card:not(.open):hover { transform: perspective(800px) rotateY(-1deg) translateZ(4px) translateY(-2px); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.03); }
+            .card-arrow { left: -14px; border-top-width: 12px; border-bottom-width: 12px; border-right-width: 16px; filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.06)); transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+            .card-header { gap: 0.5rem 1rem; padding: 1rem 1.25rem 1rem 1.5rem; }
+            .card-header .company { font-size: 1.05rem; }
+            .card-header .role { font-size: 0.9rem; }
+            .card-header .date { font-size: 0.8rem; padding: 0.1rem 0.7rem; }
+            .card-header .location { font-size: 0.8rem; }
+            .card-header .toggle-icon { font-size: 0.7rem; margin-left: 0.25rem; }
+            .card-body { padding: 0 1.25rem 0 1.5rem; }
+            .journey-card.open .card-body { padding: 0.5rem 1.25rem 1.25rem 1.5rem; }
+            .card-body ul li { padding-left: 1.2rem; margin-bottom: 0.3rem; font-size: 0.9rem; }
+            .card-body .tech-tags { gap: 0.4rem; margin-top: 0.6rem; }
+            .card-body .tech-tags span { padding: 0.15rem 0.7rem; font-size: 0.7rem; }
+            .card-body .independent-badge { font-size: 0.65rem; padding: 0.15rem 0.7rem; margin-top: 0.5rem; }
+            .click-hint { font-size: 0.75rem; margin-top: 0.4rem; text-align: right; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="container">
-
         <header class="header">
             <h1>Your <span class="highlight">Name</span></h1>
             <div class="title">视觉设计师 · 独立排版与品牌创意</div>
@@ -901,14 +744,10 @@
 
         <hr class="divider" />
 
-        <!-- ============================================================
-        专业历程 / 时间线
-        ============================================================ -->
         <section>
             <div class="journey-wrapper">
                 <div class="journey-list" id="journeyList">
 
-                    <!-- 进度条 -->
                     <div class="timeline-progress" id="timelineProgress">
                         <div class="progress-track">
                             <div class="progress-fill" id="progressFill"></div>
@@ -917,7 +756,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 1 -->
                     <div class="journey-card jc-coral open" data-index="0">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -942,7 +780,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 2 -->
                     <div class="journey-card jc-blue" data-index="1">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -966,7 +803,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 3 -->
                     <div class="journey-card jc-green" data-index="2">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -989,7 +825,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 4 -->
                     <div class="journey-card jc-amber" data-index="3">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -1012,7 +847,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 5 -->
                     <div class="journey-card jc-purple" data-index="4">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -1035,7 +869,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 6 -->
                     <div class="journey-card jc-teal" data-index="5">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -1058,7 +891,6 @@
                         </div>
                     </div>
 
-                    <!-- 卡片 7 -->
                     <div class="journey-card jc-rose" data-index="6">
                         <div class="ambient-bg"></div>
                         <div class="card-arrow"></div>
@@ -1085,32 +917,24 @@
                 </div>
             </div>
 
-            <div class="click-hint">▾ 悬浮时间点或卡片显示指示器 · 点击切换激活</div>
+            <div class="click-hint">▾ 点击卡片展开详情 · 点击时间点快速跳转</div>
         </section>
-
     </div>
 
-    <!-- ============================================================
-    JavaScript: 悬浮只显示指示器 · 点击切换卡片
-    ============================================================ -->
     <script>
         (function() {
-            // --- DOM ---
             const journeyList = document.getElementById('journeyList');
             const cards = journeyList.querySelectorAll('.journey-card');
             const progressFill = document.getElementById('progressFill');
             const progressThumb = document.getElementById('progressThumb');
             const progressDotsContainer = document.getElementById('progressDots');
-
             const total = cards.length;
-
-            // --- 状态 ---
-            let activeIndex = 0; // 当前激活的卡片（点击切换）
-            let hoverDotIndex = -1; // 当前悬浮的时间点（仅指示器）
-            let hoverCardIndex = -1; // 当前悬浮的卡片（同步指示器）
+            let activeIndex = 0;
+            let hoverDotIndex = -1;
+            let hoverCardIndex = -1;
             let leaveTimer = null;
+            const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
-            // --- 卡片数据 ---
             const cardData = [];
             cards.forEach((card) => {
                 const header = card.querySelector('.card-header');
@@ -1123,20 +947,19 @@
                 return cardData[index]?.date || '';
             }
 
-            // --- 计算卡片中心位置 ---
             function computeCardPositions() {
                 const listRect = journeyList.getBoundingClientRect();
                 const positions = [];
                 cards.forEach((card) => {
-                    const rect = card.getBoundingClientRect();
-                    const centerOffset = (rect.top + rect.height / 2) - listRect.top;
+                    const header = card.querySelector('.card-header');
+                    const headerRect = header.getBoundingClientRect();
+                    const centerOffset = (headerRect.top + headerRect.height / 2) - listRect.top;
                     const pct = (centerOffset / listRect.height) * 100;
                     positions.push(Math.max(0, Math.min(100, pct)));
                 });
                 return positions;
             }
 
-            // --- 更新时间点位置 ---
             function updateDotPositions(positions) {
                 const dots = progressDotsContainer.querySelectorAll('.progress-dot');
                 dots.forEach((dot, i) => {
@@ -1146,7 +969,6 @@
                 });
             }
 
-            // --- 更新进度条 ---
             function updateProgress(index, positions) {
                 const pos = positions || computeCardPositions();
                 if (!pos || pos.length === 0) return;
@@ -1155,35 +977,21 @@
                 progressThumb.style.top = pct + '%';
             }
 
-            // --- 更新点状态 ---
             function updateDotsState() {
                 const dots = progressDotsContainer.querySelectorAll('.progress-dot');
-                // 确定显示哪个索引作为激活：点击激活的始终显示 active
-                // 悬浮指示器独立于 active
                 dots.forEach((dot, i) => {
-                    // 清除所有状态
                     dot.classList.remove('active', 'done', 'hover');
-
-                    // active: 点击激活的索引
                     if (i === activeIndex) {
                         dot.classList.add('active');
                     } else if (i < activeIndex) {
                         dot.classList.add('done');
                     }
-
-                    // hover: 悬浮指示器 (优先于 active 显示，但 active 样式保留)
-                    // 如果当前索引是 hoverDotIndex 或 hoverCardIndex，添加 hover 样式
                     if (i === hoverDotIndex || i === hoverCardIndex) {
                         dot.classList.add('hover');
-                        const timeSpan = dot.querySelector('.dot-time');
-                        if (timeSpan) {
-                            timeSpan.textContent = getTimeText(i);
-                        }
                     }
                 });
             }
 
-            // --- 展开指定卡片 ---
             function expandCardOnly(index) {
                 cards.forEach((card, i) => {
                     if (i === index) {
@@ -1194,7 +1002,6 @@
                 });
             }
 
-            // --- 全量更新 ---
             function fullUpdate() {
                 const positions = computeCardPositions();
                 updateDotPositions(positions);
@@ -1203,7 +1010,6 @@
                 expandCardOnly(activeIndex);
             }
 
-            // --- 滚动定位 ---
             function scrollToCard(index) {
                 const card = cards[index];
                 if (!card) return;
@@ -1218,174 +1024,93 @@
                 }
             }
 
-            // ============================================================
-            // 时间点交互 (悬浮只显示指示器，点击切换)
-            // ============================================================
+            function createRipple(e, element) {
+                const ripple = document.createElement('span');
+                ripple.className = 'touch-ripple';
+                const rect = element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                element.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 500);
+            }
 
             function handleDotEnter(index, dotElement) {
-                // 清除离开定时器
-                if (leaveTimer) {
-                    clearTimeout(leaveTimer);
-                    leaveTimer = null;
-                }
-
-                // 更新悬浮索引
+                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                 hoverDotIndex = index;
-
-                // 更新时间文本
-                const timeSpan = dotElement.querySelector('.dot-time');
-                if (timeSpan) {
-                    timeSpan.textContent = getTimeText(index);
-                }
-
-                // 添加 hover 样式
-                dotElement.classList.add('hover');
-
-                // 更新视图（只更新指示器，不切换卡片）
                 updateDotsState();
             }
 
             function handleDotLeave(index, dotElement) {
-                if (leaveTimer) {
-                    clearTimeout(leaveTimer);
-                    leaveTimer = null;
-                }
-
+                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                 leaveTimer = setTimeout(() => {
                     leaveTimer = null;
-
-                    // 检查鼠标是否还在这个元素上
-                    if (dotElement.matches(':hover')) {
-                        return;
-                    }
-
-                    // 检查鼠标是否在对应的卡片上（卡片悬浮同步）
+                    if (dotElement.matches(':hover')) return;
                     const card = cards[index];
-                    if (card && card.matches(':hover')) {
-                        return;
-                    }
-
-                    // 如果 hoverDotIndex 还是这个索引，清除
+                    if (card && card.matches(':hover')) return;
                     if (hoverDotIndex === index) {
                         hoverDotIndex = -1;
-                        dotElement.classList.remove('hover');
                         updateDotsState();
                     }
                 }, 100);
             }
 
-            function handleDotClick(index) {
-                // 清除悬浮状态
+            function handleDotClick(index, e) {
+                if (isTouchDevice && e) { createRipple(e, progressDotsContainer); }
                 hoverDotIndex = -1;
                 hoverCardIndex = -1;
-                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
-
-                if (leaveTimer) {
-                    clearTimeout(leaveTimer);
-                    leaveTimer = null;
-                }
-
-                // 如果点击的是当前激活的卡片，切换到第一张
+                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                 if (index === activeIndex) {
                     activeIndex = 0;
                     fullUpdate();
                     scrollToCard(0);
                     return;
                 }
-
-                // 切换到点击的卡片
                 activeIndex = index;
                 fullUpdate();
                 scrollToCard(index);
             }
 
-            // ============================================================
-            // 卡片交互 (悬浮同步指示器，点击切换)
-            // ============================================================
-
             function handleCardEnter(index, cardElement) {
-                // 清除离开定时器
-                if (leaveTimer) {
-                    clearTimeout(leaveTimer);
-                    leaveTimer = null;
-                }
-
-                // 更新卡片悬浮索引
+                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                 hoverCardIndex = index;
-
-                // 更新对应时间点的指示器
                 const dot = progressDotsContainer.querySelector(`.progress-dot[data-index="${index}"]`);
-                if (dot) {
-                    const timeSpan = dot.querySelector('.dot-time');
-                    if (timeSpan) {
-                        timeSpan.textContent = getTimeText(index);
-                    }
-                    dot.classList.add('hover');
-                }
-
-                // 更新视图
+                if (dot) { dot.classList.add('hover'); }
                 updateDotsState();
             }
 
             function handleCardLeave(index, cardElement) {
-                if (leaveTimer) {
-                    clearTimeout(leaveTimer);
-                    leaveTimer = null;
-                }
-
+                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                 leaveTimer = setTimeout(() => {
                     leaveTimer = null;
-
-                    // 检查鼠标是否还在这个卡片上
-                    if (cardElement.matches(':hover')) {
-                        return;
-                    }
-
-                    // 检查鼠标是否在对应的时间点上
+                    if (cardElement.matches(':hover')) return;
                     const dot = progressDotsContainer.querySelector(`.progress-dot[data-index="${index}"]`);
-                    if (dot && dot.matches(':hover')) {
-                        return;
-                    }
-
-                    // 如果 hoverCardIndex 还是这个索引，清除
+                    if (dot && dot.matches(':hover')) return;
                     if (hoverCardIndex === index) {
                         hoverCardIndex = -1;
-                        if (dot) {
-                            dot.classList.remove('hover');
-                        }
+                        if (dot) { dot.classList.remove('hover'); }
                         updateDotsState();
                     }
                 }, 100);
             }
 
-            function handleCardClick(cardElement) {
+            function handleCardClick(cardElement, e) {
+                if (isTouchDevice && e) { createRipple(e, cardElement); }
                 const index = parseInt(cardElement.dataset.index);
-
-                // 清除悬浮状态
                 hoverDotIndex = -1;
                 hoverCardIndex = -1;
-                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
-
-                if (leaveTimer) {
-                    clearTimeout(leaveTimer);
-                    leaveTimer = null;
-                }
-
+                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                 if (index === activeIndex) {
                     activeIndex = 0;
                     fullUpdate();
                     scrollToCard(0);
                     return;
                 }
-
                 activeIndex = index;
                 fullUpdate();
                 scrollToCard(index);
             }
-
-            // ============================================================
-            // 初始化时间点
-            // ============================================================
 
             function initDots() {
                 progressDotsContainer.innerHTML = '';
@@ -1394,123 +1119,117 @@
                     dot.className = 'progress-dot';
                     dot.dataset.index = i;
 
+                    // 创建标签容器
+                    const label = document.createElement('div');
+                    label.className = 'tooltip-label';
+                    const labelInner = document.createElement('div');
+                    labelInner.className = 'tooltip-label-inner';
+
                     // 标记点
                     const marker = document.createElement('span');
-                    marker.className = 'dot-marker';
+                    marker.className = 'tooltip-dot-marker';
                     const card = cards[i];
                     const colorMap = {
-                        'jc-coral': 'var(--coral)',
-                        'jc-blue': 'var(--blue)',
-                        'jc-green': 'var(--green)',
-                        'jc-amber': 'var(--amber)',
-                        'jc-purple': 'var(--purple)',
-                        'jc-teal': 'var(--teal)',
+                        'jc-coral': 'var(--coral)', 'jc-blue': 'var(--blue)', 'jc-green': 'var(--green)',
+                        'jc-amber': 'var(--amber)', 'jc-purple': 'var(--purple)', 'jc-teal': 'var(--teal)',
                         'jc-rose': 'var(--rose)',
                     };
                     let dotColor = '#94a3b8';
                     for (const [cls, color] of Object.entries(colorMap)) {
-                        if (card.classList.contains(cls)) {
-                            dotColor = color;
-                            break;
-                        }
+                        if (card.classList.contains(cls)) { dotColor = color; break; }
                     }
                     marker.style.background = dotColor;
-                    dot.appendChild(marker);
+                    labelInner.appendChild(marker);
 
-                    // 时间标签
+                    // 时间文字
                     const timeSpan = document.createElement('span');
                     timeSpan.className = 'dot-time';
                     timeSpan.textContent = getTimeText(i);
-                    dot.appendChild(timeSpan);
+                    labelInner.appendChild(timeSpan);
+
+                    label.appendChild(labelInner);
+                    dot.appendChild(label);
 
                     // 事件绑定
-                    dot.addEventListener('mouseenter', function(e) {
-                        const idx = parseInt(this.dataset.index);
-                        if (idx !== hoverDotIndex) {
-                            handleDotEnter(idx, this);
-                        }
-                    });
-
-                    dot.addEventListener('mouseleave', function(e) {
-                        const idx = parseInt(this.dataset.index);
-                        handleDotLeave(idx, this);
-                    });
-
-                    dot.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const idx = parseInt(this.dataset.index);
-                        handleDotClick(idx);
-                    });
-
+                    if (isTouchDevice) {
+                        dot.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                            const idx = parseInt(this.dataset.index);
+                            if (idx !== hoverDotIndex) { handleDotEnter(idx, this); }
+                        }, { passive: false });
+                        dot.addEventListener('touchend', function(e) {
+                            e.preventDefault();
+                            const idx = parseInt(this.dataset.index);
+                            handleDotClick(idx, e);
+                        }, { passive: false });
+                    } else {
+                        dot.addEventListener('mouseenter', function(e) {
+                            const idx = parseInt(this.dataset.index);
+                            if (idx !== hoverDotIndex) { handleDotEnter(idx, this); }
+                        });
+                        dot.addEventListener('mouseleave', function(e) {
+                            const idx = parseInt(this.dataset.index);
+                            handleDotLeave(idx, this);
+                        });
+                        dot.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            const idx = parseInt(this.dataset.index);
+                            handleDotClick(idx, e);
+                        });
+                    }
                     progressDotsContainer.appendChild(dot);
                 }
             }
 
-            // --- 绑定卡片事件 ---
             function bindCardEvents() {
                 cards.forEach((card) => {
                     const header = card.querySelector('.card-header');
                     const index = parseInt(card.dataset.index);
 
-                    // 卡片悬浮
-                    card.addEventListener('mouseenter', function(e) {
-                        if (index !== hoverCardIndex) {
-                            handleCardEnter(index, this);
-                        }
-                    });
-
-                    card.addEventListener('mouseleave', function(e) {
-                        handleCardLeave(index, this);
-                    });
-
-                    // 卡片点击 (头部)
-                    header.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        handleCardClick(card);
-                    });
+                    if (isTouchDevice) {
+                        card.addEventListener('touchstart', function(e) {
+                            if (index !== hoverCardIndex) { handleCardEnter(index, this); }
+                        }, { passive: true });
+                        header.addEventListener('touchend', function(e) {
+                            e.preventDefault();
+                            handleCardClick(card, e);
+                        }, { passive: false });
+                    } else {
+                        card.addEventListener('mouseenter', function(e) {
+                            if (index !== hoverCardIndex) { handleCardEnter(index, this); }
+                        });
+                        card.addEventListener('mouseleave', function(e) {
+                            handleCardLeave(index, this);
+                        });
+                        header.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            handleCardClick(card, e);
+                        });
+                    }
                 });
             }
 
-            // --- resize 防抖 ---
             let resizeTimer = null;
-
             function handleResize() {
-                if (resizeTimer) {
-                    cancelAnimationFrame(resizeTimer);
-                    resizeTimer = null;
-                }
-                resizeTimer = requestAnimationFrame(() => {
-                    fullUpdate();
-                    resizeTimer = null;
-                });
+                if (resizeTimer) { cancelAnimationFrame(resizeTimer); resizeTimer = null; }
+                resizeTimer = requestAnimationFrame(() => { fullUpdate(); resizeTimer = null; });
             }
 
-            // --- 初始化 ---
             function init() {
                 initDots();
                 bindCardEvents();
-
-                // 默认状态：第一张激活
                 activeIndex = 0;
                 hoverDotIndex = -1;
                 hoverCardIndex = -1;
-
                 setTimeout(() => {
                     fullUpdate();
-                    setTimeout(() => {
-                        scrollToCard(0);
-                    }, 150);
+                    setTimeout(() => { scrollToCard(0); }, 150);
                 }, 80);
-
                 window.addEventListener('resize', handleResize);
 
-                // 点击外部清除悬浮
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.progress-dot') && !e.target.closest('.journey-card')) {
-                        if (leaveTimer) {
-                            clearTimeout(leaveTimer);
-                            leaveTimer = null;
-                        }
+                        if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
                         if (hoverDotIndex !== -1 || hoverCardIndex !== -1) {
                             hoverDotIndex = -1;
                             hoverCardIndex = -1;
@@ -1520,7 +1239,6 @@
                     }
                 });
 
-                // 监听卡片动画结束
                 cards.forEach((card) => {
                     card.addEventListener('transitionend', function(e) {
                         if (e.propertyName === 'max-height' || e.propertyName === 'padding') {
@@ -1530,18 +1248,12 @@
                 });
             }
 
-            // 滚动时重新计算
             let scrollTimer = null;
             window.addEventListener('scroll', function() {
-                if (scrollTimer) {
-                    cancelAnimationFrame(scrollTimer);
-                    scrollTimer = null;
-                }
+                if (scrollTimer) { cancelAnimationFrame(scrollTimer); scrollTimer = null; }
                 scrollTimer = requestAnimationFrame(() => {
                     const rect = journeyList.getBoundingClientRect();
-                    if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                        fullUpdate();
-                    }
+                    if (rect.bottom > 0 && rect.top < window.innerHeight) { fullUpdate(); }
                     scrollTimer = null;
                 });
             }, { passive: true });
@@ -1552,7 +1264,6 @@
                 init();
             }
 
-            // 暴露重置
             window.resetTimeline = function() {
                 activeIndex = 0;
                 hoverDotIndex = -1;
@@ -1561,9 +1272,7 @@
                 fullUpdate();
                 scrollToCard(0);
             };
-
         })();
     </script>
-
 </body>
 </html>
