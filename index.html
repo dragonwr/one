@@ -1,1404 +1,1577 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#0b1120" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>专业历程 · 视觉设计师</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: #f0f2f6;
-            color: #0b1120;
-            padding: 1.5rem 1rem 3rem;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 920px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        :root {
-            --coral: #f472b6;
-            --coral-light: #fce7f3;
-            --blue: #4facfe;
-            --blue-light: #e0f0ff;
-            --green: #43e97b;
-            --green-light: #e0f8e8;
-            --amber: #f59e0b;
-            --amber-light: #fef3c7;
-            --purple: #a78bfa;
-            --purple-light: #ede9fe;
-            --teal: #2dd4bf;
-            --teal-light: #d5f5f0;
-            --rose: #fb7185;
-            --rose-light: #ffe4e6;
-            --morandi-pink: #d4b8b8;
-            --morandi-blue: #b8c4d4;
-            --morandi-green: #b8d4c4;
-            --morandi-yellow: #d4c4b8;
-            --morandi-purple: #c4b8d4;
-        }
-
-        .header {
-            margin-bottom: 2rem;
-            text-align: center;
-            padding: 0 0.5rem;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: #0b1120;
-            line-height: 1.2;
-        }
-
-        .header h1 .highlight {
-            background: linear-gradient(135deg, var(--coral), var(--amber));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header .title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--blue);
-            margin-top: 0.4rem;
-        }
-
-        .header .bio {
-            font-size: 0.85rem;
-            color: #475569;
-            max-width: 560px;
-            margin: 0.5rem auto 0;
-            line-height: 1.7;
-        }
-
-        .header .bio strong {
-            color: #0b1120;
-            font-weight: 600;
-        }
-
-        .divider {
-            border: none;
-            border-top: 1.5px solid #e2e8f0;
-            margin: 1.2rem 0 1.8rem;
-        }
-
-        /* ============================================================
-           时间线布局 — 黄金比例分割
-           ============================================================ */
-        .journey-wrapper {
-            position: relative;
-            /* 时间轴在左侧，卡片在右侧，间距按黄金比例 */
-            padding-left: 52px;
-        }
-
-        .journey-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            position: relative;
-        }
-
-        /* 时间轴线 */
-        .journey-list::before {
-            content: '';
-            position: absolute;
-            left: -20px;
-            top: 6px;
-            bottom: 6px;
-            width: 2.5px;
-            background: #e2e8f0;
-            border-radius: 999px;
-            z-index: 1;
-        }
-
-        /* ===== 进度条轨道 ===== */
-        .timeline-progress {
-            position: absolute;
-            left: -42px;
-            top: 0;
-            bottom: 0;
-            width: 22px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .progress-track {
-            position: relative;
-            width: 5px;
-            height: 100%;
-            background: #eef2f6;
-            border-radius: 6px;
-            border: 1px solid #cbd5e1;
-            overflow: visible;
-            flex-shrink: 0;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
-        }
-
-        .progress-segments {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        /* 每个经历段：卡片位置的一条细色带，不延伸 */
-        .progress-zone {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            opacity: 0;
-            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .progress-zone.filled {
-            opacity: 1;
-        }
-
-        /* 每段区间：底部有色，向上渐隐为透明 */
-        .progress-zone.zn-coral { background: linear-gradient(to top, var(--coral) 0%, var(--coral) 25%, transparent 100%); }
-        .progress-zone.zn-blue { background: linear-gradient(to top, var(--blue) 0%, var(--blue) 25%, transparent 100%); }
-        .progress-zone.zn-green { background: linear-gradient(to top, var(--green) 0%, var(--green) 25%, transparent 100%); }
-        .progress-zone.zn-amber { background: linear-gradient(to top, var(--amber) 0%, var(--amber) 25%, transparent 100%); }
-        .progress-zone.zn-purple { background: linear-gradient(to top, var(--purple) 0%, var(--purple) 25%, transparent 100%); }
-        .progress-zone.zn-teal { background: linear-gradient(to top, var(--teal) 0%, var(--teal) 25%, transparent 100%); }
-        .progress-zone.zn-rose { background: linear-gradient(to top, var(--rose) 0%, var(--rose) 25%, transparent 100%); }
-
-        .progress-thumb {
-            position: absolute;
-            left: 50%;
-            top: 0%;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 2.5px solid var(--thumb-color, var(--blue));
-            box-shadow: 0 0 0 3px var(--thumb-color-light, rgba(79, 172, 254, 0.15)), 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translate(-50%, -50%);
-            transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s, box-shadow 0.3s;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .progress-thumb::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #fff, var(--blue));
-            opacity: 0.5;
-        }
-
-        /* ===== 时间点 ===== */
-        .progress-dots {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 0;
-            transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 9;
-        }
-
-        .progress-dot {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-            pointer-events: auto;
-            z-index: 12;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #d1d5db;
-            border: 2px solid #fff;
-            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 6px rgba(0, 0, 0, 0.06);
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0;
-            color: transparent;
-            overflow: visible;
-            white-space: nowrap;
-            will-change: transform, width, border-radius;
-        }
-
-        .progress-dot::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            background: radial-gradient(circle, currentColor 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .progress-dot {
-            --dot-color: var(--blue);
-            --dot-color-light: var(--blue-light);
-        }
-
-        .progress-dot.done {
-            background: var(--dot-color);
-            box-shadow: 0 0 0 2px var(--dot-color-light), 0 2px 10px rgba(0, 0, 0, 0.15);
-        }
-        .progress-dot.done::before {
-            opacity: 0.3;
-            color: var(--dot-color);
-        }
-
-        .progress-dot.active {
-            background: #ffffff;
-            border-color: var(--dot-color);
-            box-shadow: 0 0 0 3px var(--dot-color-light), 0 0 16px rgba(0, 0, 0, 0.1);
-            transform: translate(-50%, -50%) scale(1.15);
-            animation: breathe 2.2s ease-in-out infinite;
-        }
-        .progress-dot.active::before {
-            opacity: 0.5;
-            color: var(--dot-color);
-        }
-
-        @keyframes breathe {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1.1);
-                box-shadow: 0 0 0 3px var(--dot-color-light, rgba(79, 172, 254, 0.15)), 0 0 16px rgba(0, 0, 0, 0.06);
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.35);
-                box-shadow: 0 0 0 8px var(--dot-color-light, rgba(79, 172, 254, 0.08)), 0 0 32px rgba(0, 0, 0, 0.1);
-            }
-        }
-
-        /* ============================================================
-           🎯 悬浮指示器 — 黄金位置，右侧展开，透明毛玻璃
-           ============================================================ */
-        .progress-dot.hover {
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            background: #ffffff;
-            border-color: var(--dot-color);
-            box-shadow: 0 0 0 4px var(--dot-color-light), 0 0 20px rgba(0, 0, 0, 0.1);
-            transform: translate(-50%, -50%) scale(1.2);
-            animation: none;
-            z-index: 13;
-        }
-
-        .progress-dot.hover::before {
-            opacity: 0.5;
-            color: var(--blue);
-        }
-
-        /* 标签 — 位于圆点右侧，时间轴与卡片之间的黄金位置 */
-        .progress-dot .tooltip-label {
-            position: absolute;
-            left: calc(100% + 10px);
-            top: 50%;
-            transform: translateY(-50%) scale(0.85);
-            opacity: 0;
-            pointer-events: none;
-            white-space: nowrap;
-            z-index: 14;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex;
-            align-items: center;
-            gap: 0;
-        }
-
-        .progress-dot.hover .tooltip-label {
-            transform: translateY(-50%) scale(1);
-            opacity: 1;
-            animation: labelPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        @keyframes labelPop {
-            0% { transform: translateY(-50%) scale(0.7) translateX(-8px); opacity: 0; filter: blur(4px); }
-            100% { transform: translateY(-50%) scale(1) translateX(0); opacity: 1; filter: blur(0); }
-        }
-
-        /* 标签内容容器 */
-        .tooltip-label-inner {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(4px) saturate(1.4);
-            -webkit-backdrop-filter: blur(4px) saturate(1.4);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            font-size: 0.68rem;
-            font-weight: 600;
-            color: #0f172a;
-            letter-spacing: 0.01em;
-            line-height: 1;
-        }
-
-        /* 标签小三角 — 指向圆点 */
-        .tooltip-label-inner::before {
-            content: '';
-            position: absolute;
-            left: -5px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 5px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(4px) saturate(1.4);
-            -webkit-backdrop-filter: blur(4px) saturate(1.4);
-            clip-path: polygon(100% 0, 100% 100%, 0 50%);
-            border-left: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        /* 标记点 */
-        .tooltip-dot-marker {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            border: 1.5px solid rgba(15, 23, 42, 0.2);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .progress-dot .dot-time {
-            display: none;
-        }
-
-        .progress-dot.hover .dot-time {
-            display: inline;
-        }
-
-        /* ===== 卡片 ===== */
-        .journey-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            overflow: hidden;
-            transition: border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            position: relative;
-            z-index: 2;
-            transform: perspective(600px) rotateY(0deg) translateZ(0) translateY(0);
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02);
-            will-change: transform;
-        }
-
-        .ambient-bg {
-            position: absolute;
-            inset: 0;
-            border-radius: 14px;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.06;
-            background: linear-gradient(135deg,
-                    var(--morandi-pink),
-                    var(--morandi-blue),
-                    var(--morandi-green),
-                    var(--morandi-yellow),
-                    var(--morandi-purple),
-                    var(--morandi-pink));
-            background-size: 400% 400%;
-            animation: ambientMove 28s ease-in-out infinite alternate;
-            transition: opacity 0.6s ease;
-        }
-
-        .journey-card:hover .ambient-bg { opacity: 0.14; }
-        .journey-card.open .ambient-bg { opacity: 0.25; }
-
-        @keyframes ambientMove {
-            0% { background-position: 0% 0%; }
-            25% { background-position: 100% 0%; }
-            50% { background-position: 100% 100%; }
-            75% { background-position: 0% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-
-        .journey-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            border-radius: 14px 0 0 14px;
-            z-index: 3;
-            transition: width 0.3s ease;
-        }
-
-        .journey-card::after {
-            content: '';
-            position: absolute;
-            left: -30px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2.5px solid #fff;
-            background: #cbd5e1;
-            z-index: 4;
-            box-shadow: 0 0 0 2px #e2e8f0, 0 2px 6px rgba(0, 0, 0, 0.06);
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-        }
-
-        .journey-card.jc-coral { --card-color: var(--coral); --card-color-light: var(--coral-light); }
-        .journey-card.jc-blue { --card-color: var(--blue); --card-color-light: var(--blue-light); }
-        .journey-card.jc-green { --card-color: var(--green); --card-color-light: var(--green-light); }
-        .journey-card.jc-amber { --card-color: var(--amber); --card-color-light: var(--amber-light); }
-        .journey-card.jc-purple { --card-color: var(--purple); --card-color-light: var(--purple-light); }
-        .journey-card.jc-teal { --card-color: var(--teal); --card-color-light: var(--teal-light); }
-        .journey-card.jc-rose { --card-color: var(--rose); --card-color-light: var(--rose-light); }
-
-        .journey-card.jc-coral::after { background: var(--coral); border-color: var(--coral-light); box-shadow: 0 0 0 2px var(--coral-light), 0 2px 10px rgba(244, 114, 182, 0.2); }
-        .journey-card.jc-blue::after { background: var(--blue); border-color: var(--blue-light); box-shadow: 0 0 0 2px var(--blue-light), 0 2px 10px rgba(79, 172, 254, 0.2); }
-        .journey-card.jc-green::after { background: var(--green); border-color: var(--green-light); box-shadow: 0 0 0 2px var(--green-light), 0 2px 10px rgba(67, 233, 123, 0.2); }
-        .journey-card.jc-amber::after { background: var(--amber); border-color: var(--amber-light); box-shadow: 0 0 0 2px var(--amber-light), 0 2px 10px rgba(245, 158, 11, 0.2); }
-        .journey-card.jc-purple::after { background: var(--purple); border-color: var(--purple-light); box-shadow: 0 0 0 2px var(--purple-light), 0 2px 10px rgba(167, 139, 250, 0.2); }
-        .journey-card.jc-teal::after { background: var(--teal); border-color: var(--teal-light); box-shadow: 0 0 0 2px var(--teal-light), 0 2px 10px rgba(45, 212, 191, 0.2); }
-        .journey-card.jc-rose::after { background: var(--rose); border-color: var(--rose-light); box-shadow: 0 0 0 2px var(--rose-light), 0 2px 10px rgba(251, 113, 133, 0.2); }
-
-        .journey-card.jc-coral::before { background: var(--coral); }
-        .journey-card.jc-blue::before { background: var(--blue); }
-        .journey-card.jc-green::before { background: var(--green); }
-        .journey-card.jc-amber::before { background: var(--amber); }
-        .journey-card.jc-purple::before { background: var(--purple); }
-        .journey-card.jc-teal::before { background: var(--teal); }
-        .journey-card.jc-rose::before { background: var(--rose); }
-
-        .journey-card.open {
-            border-color: var(--card-color);
-            transform: perspective(600px) rotateY(-1.5deg) translateZ(6px) translateY(-2px);
-            box-shadow:
-                0 12px 36px rgba(0, 0, 0, 0.06),
-                0 4px 16px rgba(0, 0, 0, 0.03),
-                0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                0 0 0 2px var(--card-color-light) inset;
-            background: linear-gradient(145deg, #ffffff, #fafcff);
-        }
-
-        .journey-card.open::before { width: 5px; }
-
-        .journey-card.open::after {
-            transform: translateY(-50%) scale(1.25);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 0 20px rgba(79, 172, 254, 0.25);
-        }
-
-        .journey-card.open .card-header .company { color: var(--card-color); }
-        .journey-card.open .date { color: #0b1120; font-weight: 700; background: var(--card-color-light); }
-
-        .journey-card:not(.open):hover {
-            transform: perspective(600px) rotateY(-0.8deg) translateZ(3px) translateY(-1px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
-            border-color: #cbd5e1;
-        }
-
-        .journey-card:not(.open):hover .card-header .company { color: var(--card-color); transition: color 0.3s ease; }
-
-        .card-arrow {
-            position: absolute;
-            left: -10px;
-            top: 50%;
-            transform: translateY(-50%) scale(0.8);
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-right: 12px solid var(--card-color, var(--blue));
-            opacity: 0;
-            z-index: 6;
-            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.05));
-            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            pointer-events: none;
-        }
-
-        .journey-card.open .card-arrow {
-            opacity: 1;
-            transform: translateY(-50%) scale(1);
-        }
-
-        .card-header {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 0.3rem 0.8rem;
-            padding: 0.85rem 1rem 0.85rem 1.2rem;
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            z-index: 5;
-            transition: background 0.2s;
-        }
-        .card-header:hover { background: rgba(255, 255, 255, 0.25); }
-
-        .card-header .company {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #0b1120;
-            transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            line-height: 1.3;
-        }
-
-        .card-header .role {
-            font-weight: 500;
-            color: var(--blue);
-            font-size: 0.8rem;
-        }
-        .card-header .date {
-            font-size: 0.72rem;
-            color: #94a3b8;
-            margin-left: auto;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            background: #f1f5f9;
-            padding: 0.1rem 0.6rem;
-            border-radius: 999px;
-        }
-        .card-header .location {
-            font-size: 0.72rem;
-            color: #94a3b8;
-        }
-        .card-header .toggle-icon {
-            font-size: 0.65rem;
-            color: #94a3b8;
-            transition: transform 0.3s ease;
-            margin-left: 0.2rem;
-        }
-        .journey-card.open .toggle-icon { transform: rotate(180deg); }
-
-        .card-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), padding 0.3s ease;
-            padding: 0 1rem 0 1.2rem;
-            border-top: 1px solid transparent;
-            position: relative;
-            z-index: 5;
-        }
-        .journey-card.open .card-body {
-            max-height: 600px;
-            padding: 0.4rem 1rem 1rem 1.2rem;
-            border-top-color: rgba(0, 0, 0, 0.04);
-        }
-
-        .card-body ul { list-style: none; padding: 0; margin: 0; }
-        .card-body ul li {
-            position: relative;
-            padding-left: 1rem;
-            margin-bottom: 0.35rem;
-            font-size: 0.82rem;
-            color: #334155;
-            line-height: 1.55;
-        }
-        .card-body ul li::before {
-            content: "›";
-            position: absolute;
-            left: 0;
-            color: var(--card-color, var(--blue));
-            font-weight: 700;
-        }
-
-        .card-body .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.3rem;
-            margin-top: 0.5rem;
-        }
-        .card-body .tech-tags span {
-            background: #f1f5f9;
-            padding: 0.12rem 0.55rem;
-            border-radius: 999px;
-            font-size: 0.65rem;
-            font-weight: 500;
-            color: #1e293b;
-        }
-        .card-body .independent-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-size: 0.6rem;
-            font-weight: 700;
-            color: #15803d;
-            background: var(--green-light);
-            padding: 0.12rem 0.55rem;
-            border-radius: 999px;
-            margin-top: 0.4rem;
-        }
-
-        .click-hint {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            margin-top: 0.5rem;
-            text-align: center;
-            opacity: 0.7;
-        }
-
-        /* 触摸波纹 */
-        .touch-ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(79, 172, 254, 0.25);
-            transform: scale(0);
-            animation: rippleEffect 0.5s ease-out forwards;
-            pointer-events: none;
-            z-index: 10;
-        }
-        @keyframes rippleEffect {
-            0% { transform: scale(0); opacity: 0.6; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        /* ============================================================
-           🖥️ 桌面端媒体查询（≥769px）
-           ============================================================ */
-        @media (min-width: 769px) {
-            body { padding: 2rem 1.5rem 4rem; }
-            .header { margin-bottom: 2.5rem; }
-            .header h1 { font-size: 2.6rem; }
-            .header .title { font-size: 1.2rem; margin-top: 0.2rem; }
-            .header .bio { font-size: 0.95rem; margin-top: 0.6rem; }
-            .divider { border-top-width: 2px; margin: 1.5rem 0 2.5rem; }
-            .journey-wrapper { padding-left: 72px; }
-            .journey-list { gap: 0.75rem; }
-            .journey-list::before { left: -28px; width: 3px; }
-            .timeline-progress { left: -58px; width: 28px; }
-            .progress-track { width: 8px; }
-            .progress-zones { border-radius: 6px; }
-            .progress-zone { height: 4px; border-radius: 4px; }
-            .progress-zone.active-zone { height: 6px; }
-            .progress-thumb { width: 20px; height: 20px; border-width: 3px; box-shadow: 0 0 0 4px var(--thumb-color-light, rgba(79, 172, 254, 0.15)), 0 4px 16px rgba(0, 0, 0, 0.1); }
-            .progress-thumb::after { inset: 3px; }
-            .progress-dot { width: 22px; height: 22px; border-width: 2.5px; box-shadow: 0 0 0 2px #e2e8f0, 0 2px 8px rgba(0, 0, 0, 0.06); }
-            .progress-dot::before { inset: -6px; }
-            .progress-dot.active { transform: translate(-50%, -50%) scale(1.2); box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2), 0 0 20px rgba(79, 172, 254, 0.15); }
-            @keyframes breathe {
-                0%, 100% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 0 4px var(--dot-color-light, rgba(79, 172, 254, 0.15)), 0 0 20px rgba(0, 0, 0, 0.06); }
-                50% { transform: translate(-50%, -50%) scale(1.45); box-shadow: 0 0 0 10px var(--dot-color-light, rgba(79, 172, 254, 0.08)), 0 0 40px rgba(0, 0, 0, 0.1); }
-            }
-            .progress-dot.hover { width: 24px; height: 24px; box-shadow: 0 0 0 5px var(--dot-color-light), 0 0 24px rgba(0, 0, 0, 0.12); transform: translate(-50%, -50%) scale(1.25); }
-            .progress-dot .tooltip-label { left: calc(100% + 14px); }
-            .tooltip-label-inner { padding: 7px 16px; border-radius: 12px; font-size: 0.78rem; backdrop-filter: blur(6px) saturate(1.6); -webkit-backdrop-filter: blur(6px) saturate(1.6); background: rgba(255, 255, 255, 0.2); border: 1.5px solid rgba(255, 255, 255, 0.45); box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
-            .tooltip-label-inner::before { left: -7px; width: 7px; height: 14px; backdrop-filter: blur(6px) saturate(1.6); -webkit-backdrop-filter: blur(6px) saturate(1.6); background: rgba(255, 255, 255, 0.2); border-left: 1.5px solid rgba(255, 255, 255, 0.45); }
-            .tooltip-dot-marker { width: 7px; height: 7px; border-width: 2px; }
-            .journey-card { border-radius: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02); }
-            .ambient-bg { border-radius: 16px; opacity: 0.08; }
-            .journey-card:hover .ambient-bg { opacity: 0.18; }
-            .journey-card.open .ambient-bg { opacity: 0.30; }
-            .journey-card::before { width: 5px; border-radius: 16px 0 0 16px; }
-            .journey-card::after { left: -44px; width: 16px; height: 16px; border-width: 3px; }
-            .journey-card.open { transform: perspective(800px) rotateY(-2.5deg) translateZ(8px) translateY(-3px); box-shadow: 0 16px 48px rgba(0, 0, 0, 0.07), 0 6px 20px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.8) inset, 0 0 0 2px var(--card-color-light) inset; }
-            .journey-card.open::before { width: 6px; }
-            .journey-card.open::after { transform: translateY(-50%) scale(1.3); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 24px rgba(79, 172, 254, 0.25); }
-            .journey-card:not(.open):hover { transform: perspective(800px) rotateY(-1deg) translateZ(4px) translateY(-2px); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.03); }
-            .card-arrow { left: -14px; border-top-width: 12px; border-bottom-width: 12px; border-right-width: 16px; filter: drop-shadow(-2px 2px 6px rgba(0, 0, 0, 0.06)); transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
-            .card-header { gap: 0.5rem 1rem; padding: 1rem 1.25rem 1rem 1.5rem; }
-            .card-header .company { font-size: 1.05rem; }
-            .card-header .role { font-size: 0.9rem; }
-            .card-header .date { font-size: 0.8rem; padding: 0.1rem 0.7rem; }
-            .card-header .location { font-size: 0.8rem; }
-            .card-header .toggle-icon { font-size: 0.7rem; margin-left: 0.25rem; }
-            .card-body { padding: 0 1.25rem 0 1.5rem; }
-            .journey-card.open .card-body { padding: 0.5rem 1.25rem 1.25rem 1.5rem; }
-            .card-body ul li { padding-left: 1.2rem; margin-bottom: 0.3rem; font-size: 0.9rem; }
-            .card-body .tech-tags { gap: 0.4rem; margin-top: 0.6rem; }
-            .card-body .tech-tags span { padding: 0.15rem 0.7rem; font-size: 0.7rem; }
-            .card-body .independent-badge { font-size: 0.65rem; padding: 0.15rem 0.7rem; margin-top: 0.5rem; }
-            .click-hint { font-size: 0.75rem; margin-top: 0.4rem; text-align: right; }
-        }
-    </style>
-<base target="_blank">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>职业履历 · 移动优化版</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <style>
+    /*
+    ═══════════════════════════════════════════════════════════
+     FONT STACKS — 系统原生字体，零外部依赖
+     · 等宽数字: SF Mono → Cascadia → Consolas → monospace
+     · 中文正文: PingFang SC → Microsoft YaHei → sans-serif
+    ═══════════════════════════════════════════════════════════
+    */
+    /*
+    ═══════════════════════════════════════════════════════════
+     DESIGN LANGUAGE — 卡片书架 · 移动优先版
+    ═══════════════════════════════════════════════════════════
+
+    【色彩体系】
+    - 7 色卡片标识：每张卡片绑定一个主题色，通过 --card 变量驱动所有子元素
+      · Coral #ef7d69  · Blue #5b9cf6   · Green #48b987  · Amber #e6a53d
+      · Purple #9b7be8 · Teal #41bfae   · Rose #d86c82
+    - 页面底色：三层渐变叠加（左上粉光 + 右下蓝光 + 中灰白）
+    - 卡片底色：暖纸白 #fffdf9 + 半透明白渐变，配合 inset 高光模拟纸卡质感
+    - 中性色：墨水黑 #172033 / 灰蓝 #778197 / 线条 #e5e8ee
+
+    【字体系统】
+    - 等宽（SF Mono / Cascadia / Consolas）：序号、时长、年份 — 数据感
+    - 无衬线（PingFang SC / Microsoft YaHei）：标题、正文 — 中文阅读舒适
+    - 层级：标题 26px/800 → 角色 15px/600 → 正文 14px → 标签 11px
+    - 全负字距收紧，标题 letter-spacing: -.05em
+
+    【空间结构】
+    - 桌面端（>760px）：左 270px 时间轴 + 右弹性卡片舞台，perspective 1800px
+    - 移动端（≤760px）：上横向滚动时间轴 + 下单卡全宽
+    - 卡片：大圆角 18-20px、底部主题色厚边 4-6px、左侧装饰条
+
+    【光影】
+    - 卡片阴影：大半径低透明度环境投影 + 底部色条
+    - 卡片伪元素：::before 主题色径向渐变叠加 + ::after 左侧装饰条
+    - 时长数字：-webkit-text-stroke 透明描边空心大字，装饰性视觉锚点
+    - 时间轴圆点：active 态渐变填充 + 多层扩散光环
+
+    【动效】
+    - GSAP 驱动：卡片切换 power3.out 入场 / 圆点 sine.inOut 呼吸脉冲
+    - 点击荡漾：点击/触摸卡片任意位置，主题色水波从该点扩散消散
+    - 反向位移：桌面端卡片向鼠标移动反方向平移（max 10px），GSAP quickTo 驱动
+    - 移动端触摸滑动切换（阈值 44px）+ 卡片从右滑入效果
+    - 控制面板 localStorage 持久化所有调参
+
+    【移动端专项】
+    - 时间轴：横向滚动 pill 条，奇偶交错（偶数下方 / 奇数上方），::before 静态线
+    - 卡片：竖版分区 — header bar / 标题角色 / 分割线 / bullet 要点 / 分割线 / 标签
+    - 卡片层叠：纯垂直偏移（无水平），active=0 / 下方 pos=1~3 递增 Y offset + scale 缩小 + saturate 降低
+      露出的底部边缘显示 .card-date-strip（日期 + 时长），active 卡片隐藏 date strip
+    - 底部控制面板：圆角 sheet 弹出 + 半透明遮罩
+
+    【核心哲学卡片】— 个人叙事锚点
+    - 引用句 + 粗体关键词 + 9 枚 pill 能力标签
+    - 左侧 accent 色装饰条，暖白半透明背景，与 header 自然过渡
+    ═══════════════════════════════════════════════════════════
+    */
+    :root {
+      --ink: #172033;
+      --muted: #778197;
+      --paper: #fffdf9;
+      --line: #e5e8ee;
+      --accent: #ef7d69;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 7% 12%, #fce7f3 0, transparent 25%),
+        radial-gradient(circle at 94% 82%, #e0f0ff 0, transparent 28%),
+        linear-gradient(135deg, #f8fafc 0%, #f6f2f7 48%, #eef6f4 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", system-ui, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Desktop Layout (≥761px) ── */
+    .page {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 64px 0 76px;
+    }
+    header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font: 500 11px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 4vw, 52px);
+      letter-spacing: -.07em;
+      line-height: 1.05;
+    }
+    header p {
+      max-width: 330px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    /* ── Core Practice Showcase Card ── */
+    .core-philosophy {
+      position: relative;
+      max-width: 100%;
+      margin: 28px 10px 0 0;
+      padding: 26px 30px 25px;
+      border: 1px solid #cfd6e0;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 10px 10px 0 color-mix(in srgb, var(--accent) 28%, #e1e7ef);
+    }
+    .core-philosophy .showcase-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 13px;
+      color: var(--accent);
+      font: 600 10px/1.2 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .core-philosophy .showcase-kicker span:last-child {
+      color: var(--muted);
+      letter-spacing: .08em;
+    }
+    .core-philosophy .showcase-statement {
+      display: block;
+      max-width: 930px;
+      margin: 0 0 16px;
+      font-size: 18px;
+      font-weight: 650;
+      line-height: 1.62;
+      letter-spacing: -.025em;
+      color: var(--ink);
+    }
+    .core-philosophy .showcase-statement b {
+      color: var(--accent);
+      font-weight: 750;
+    }
+    .core-philosophy .traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 10px;
+      padding-top: 15px;
+      border-top: 1px solid #e4e8ee;
+    }
+    .core-philosophy .traits span {
+      display: inline-block;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 550;
+      letter-spacing: .02em;
+      color: #526075;
+      background: #f6f8fb;
+      border: 1px solid #dfe4eb;
+      border-radius: 999px;
+    }
+
+    /* Desktop two-column */
+    .experience {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 64px;
+      margin-top: 42px;
+      min-height: 620px;
+    }
+
+    /* ── Desktop Timeline (left column, vertical) ── */
+    .desktop-timeline {
+      position: relative;
+      padding: 10px 0;
+    }
+    .desktop-timeline::before {
+      content: "";
+      position: absolute;
+      width: 3px;
+      top: 20px;
+      bottom: 20px;
+      left: 8px;
+      border-radius: 99px;
+      background: #d9dee7;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.72), 0 3px 14px rgba(79,172,254,.08);
+    }
+    .tl-fill {
+      position: absolute;
+      left: 8px;
+      width: 3px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, var(--progress, #4facfe), color-mix(in srgb, var(--progress, #4facfe) 20%, #fff));
+      box-shadow: 0 0 10px color-mix(in srgb, var(--progress, #4facfe) 38%, transparent);
+      pointer-events: none;
+      transition: top .48s cubic-bezier(.2,.75,.15,1), background .25s;
+      top: 20px;
+      bottom: 20px;
+    }
+    .tl-indicator {
+      position: absolute;
+      left: 1px;
+      width: 17px;
+      height: 17px;
+      border: 2px solid var(--indicator, #ef7d69);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 3;
+      box-shadow:
+        0 0 0 5px color-mix(in srgb, var(--indicator, #ef7d69) 14%, transparent),
+        0 4px 12px color-mix(in srgb, var(--indicator, #ef7d69) 28%, transparent);
+      transition: top .55s cubic-bezier(.2,.75,.15,1), border-color .3s, box-shadow .3s;
+    }
+    .desktop-timeline button {
+      position: relative;
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      width: 100%;
+      padding: 0 0 18px;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .desktop-timeline button:last-child { padding-bottom: 0; }
+    .dot {
+      width: 19px;
+      height: 19px;
+      margin-top: 2px;
+      border: 5px solid #f5f6f8;
+      border-radius: 50%;
+      background: #c9ced8;
+      box-shadow: 0 0 0 1px #c9ced8;
+      transition: .35s cubic-bezier(.2,.8,.2,1);
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .time-copy {
+      padding-left: 16px;
+      transition: .3s;
+    }
+    .time {
+      display: block;
+      font: 500 11px/1.3 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+      letter-spacing: .05em;
+    }
+    .company-name {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .desktop-timeline button[aria-current="true"] { color: var(--ink); }
+    .desktop-timeline button[aria-current="true"] .dot {
+      background: linear-gradient(135deg, #fff 0 22%, var(--card) 23%);
+      box-shadow:
+        0 0 0 1px var(--card),
+        0 0 0 7px color-mix(in srgb, var(--card) 16%, transparent),
+        0 5px 14px color-mix(in srgb, var(--card) 28%, transparent);
+      transform: scale(1.18);
+    }
+    .desktop-timeline button[aria-current="true"] .company-name { color: var(--card); }
+    .desktop-timeline button.preview .time-copy { transform: translateX(3px); }
+    .desktop-timeline button.preview .time { color: var(--card); font-size: 12px; }
+    .desktop-timeline button.preview .company-name {
+      color: var(--ink);
+      font-size: 16px;
+      letter-spacing: -.02em;
+    }
+
+    /* ── Desktop Book Stage ── */
+    .bookstage {
+      position: relative;
+      height: 620px;
+      perspective: 1800px;
+    }
+    .bookstage.is-flipping { pointer-events: none; }
+    .bookstage::after {
+      content: "";
+      position: absolute;
+      width: 72%;
+      height: 18px;
+      bottom: -12px;
+      left: 14%;
+      background: rgba(30, 39, 55, .18);
+      filter: blur(18px);
+      border-radius: 50%;
+    }
+
+    /* ── Card ── */
+    .card {
+      --card: #ef7d69;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(28px, 5vw, 52px);
+      border: 1px solid rgba(255, 255, 255, .75);
+      border-bottom: 6px solid color-mix(in srgb, var(--card) 64%, #fff);
+      border-radius: 25px;
+      background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(250,252,255,.88));
+      overflow: visible;
+      box-shadow:
+        9px 9px 0 0 color-mix(in srgb, var(--card) 28%, #fff),
+        0 18px 50px rgba(27, 38, 55, .1),
+        inset 0 1px rgba(255, 255, 255, .9);
+      transform-origin: 50% 100%;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      transition: transform .62s cubic-bezier(.2,.75,.15,1), opacity .4s ease, filter .4s ease;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 100% 0, color-mix(in srgb, var(--card) 24%, transparent), transparent 35%),
+        radial-gradient(circle at 0% 100%, color-mix(in srgb, var(--card) 12%, transparent), transparent 30%),
+        linear-gradient(125deg, transparent 56%, color-mix(in srgb, var(--card) 9%, transparent));
+      pointer-events: none;
+    }
+    .card:not(.active) {
+      background: linear-gradient(145deg, rgba(255,255,255,.995), rgba(239,245,252,.985));
+      box-shadow:
+        9px 9px 0 0 color-mix(in srgb, var(--card) 32%, #fff),
+        0 18px 32px rgba(27, 38, 55, .18),
+        inset 0 1px rgba(255, 255, 255, .98);
+      cursor: pointer;
+    }
+    .card:not(.active)::before { opacity: .48; }
+    .card:not(.active) > * { filter: blur(8px); opacity: .08; }
+    .card:not(.active) .card-count { display: none; }
+    .card[data-pos="1"] { transform: translate(var(--offset-x), var(--offset-y)) scale(.978) rotateX(var(--offset-r)); filter: saturate(.86); }
+    .card[data-pos="2"] { transform: translate(var(--offset-x), var(--offset-y)) scale(.956) rotateX(var(--offset-r)); filter: saturate(.74); }
+    .card[data-pos="3"] { transform: translate(var(--offset-x), var(--offset-y)) scale(.934) rotateX(var(--offset-r)); filter: saturate(.64); }
+    .card[data-pos="4"] { transform: translate(var(--offset-x), var(--offset-y)) scale(.912) rotateX(var(--offset-r)); filter: saturate(.54); }
+    .card[data-pos="5"] { transform: translate(var(--offset-x), var(--offset-y)) scale(.89) rotateX(var(--offset-r)); filter: saturate(.45); }
+    .card[data-pos="6"] { transform: translate(var(--offset-x), var(--offset-y)) scale(.868) rotateX(var(--offset-r)); filter: saturate(.38); }
+    .card.active { opacity: 1; filter: none; transform: translateY(0) scale(1) rotateX(0); }
+    .card > * { position: relative; z-index: 1; }
+    .card-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .index {
+      color: var(--card);
+      font: 500 12px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+      letter-spacing: .12em;
+    }
+    .place {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .duration {
+      position: absolute;
+      top: var(--duration-y, 92px);
+      right: var(--duration-x, 38px);
+      color: transparent;
+      font: 800 clamp(88px, var(--duration-size, 154px), 210px)/.8 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+      letter-spacing: var(--duration-gap, .02em);
+      -webkit-text-stroke: var(--duration-stroke, 1px) color-mix(in srgb, var(--card) 43%, transparent);
+      opacity: .72;
+      user-select: none;
+      z-index: 0;
+    }
+    .card h2 {
+      max-width: 590px;
+      margin: 52px 0 11px;
+      font-size: clamp(25px, 3.2vw, 38px);
+      letter-spacing: -.065em;
+      line-height: 1.12;
+      z-index: 2;
+    }
+    .role {
+      margin: 0;
+      color: var(--card);
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .summary {
+      max-width: 590px;
+      margin: 27px 0 0;
+      color: #455064;
+      font-size: 14px;
+      line-height: 1.85;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 28px;
+    }
+    .tags span {
+      padding: 7px 11px;
+      border: 1px solid color-mix(in srgb, var(--card) 25%, #fff);
+      border-radius: 999px;
+      color: #526075;
+      background: rgba(255, 255, 255, .58);
+      font-size: 12px;
+    }
+    .card-count {
+      display: block;
+      margin: 20px auto 0;
+      color: #a9b1c0;
+      font: 500 12px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+      text-align: center;
+    }
+    .hint {
+      margin: 18px 0 0 334px;
+      color: #98a1b1;
+      font-size: 12px;
+    }
+
+    /* ── Controls ── */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 20;
+    }
+    .control-toggle {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4facfe, #a78bfa);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 7px 22px rgba(79, 172, 254, .35);
+      transition: transform .2s;
+    }
+    .control-toggle:active { transform: scale(.92); }
+    .control-panel {
+      position: absolute;
+      top: 55px;
+      right: 0;
+      width: 246px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, .85);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: 0 18px 50px rgba(27, 38, 55, .15);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      transform: translateY(-8px) scale(.96);
+      pointer-events: none;
+      transition: .25s ease;
+    }
+    .controls.open .control-panel {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .control-panel h3 {
+      margin: 0 0 14px;
+      font-size: 13px;
+    }
+    .control-row {
+      margin-top: 13px;
+    }
+    .control-row label {
+      display: flex;
+      justify-content: space-between;
+      color: #5f6b80;
+      font-size: 12px;
+    }
+    .control-row output {
+      color: var(--ink);
+      font-family: "SF Mono", "Cascadia Code", "Consolas", "Menlo", "Courier New", monospace;
+    }
+    .control-row input {
+      width: 100%;
+      margin: 7px 0 0;
+      accent-color: #4facfe;
+    }
+
+    /* ══════════════════════════════════════════ */
+    /* ── Mobile Layout (≤760px) ── */
+    /* ══════════════════════════════════════════ */
+    @media (max-width: 760px) {
+      .page {
+        width: 100%;
+        padding: 24px 16px 36px;
+      }
+      header {
+        display: block;
+        padding-bottom: 18px;
+        border-bottom-width: 1px;
+      }
+      .eyebrow {
+        margin-bottom: 6px;
+        font-size: 10px;
+        letter-spacing: .11em;
+      }
+      h1 {
+        font-size: 30px;
+        letter-spacing: -.06em;
+      }
+      header p {
+        display: none;
+      }
+
+      /* ── Mobile: Core Practice Showcase Card ── */
+      .core-philosophy {
+        margin: 20px 7px 0 0;
+        padding: 20px 18px 18px;
+        border-radius: 12px;
+        box-shadow: 7px 7px 0 color-mix(in srgb, var(--accent) 28%, #e1e7ef);
+      }
+      .core-philosophy .showcase-kicker {
+        margin-bottom: 11px;
+        font-size: 9px;
+      }
+      .core-philosophy .showcase-statement {
+        font-size: 15px;
+        line-height: 1.62;
+        margin-bottom: 13px;
+      }
+      .core-philosophy .traits {
+        gap: 6px 8px;
+        padding-top: 12px;
+      }
+      .core-philosophy .traits span {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+
+      /* ── Mobile: full-width, no side timeline ── */
+      .experience {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 0;
+        min-height: auto;
+      }
+
+      /* ── Mobile Timeline Strip (matching original resume.html logic) ── */
+      .desktop-timeline {
+        position: relative;
+        height: 130px;
+        overflow-x: auto;
+        overflow-y: visible;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        gap: 0;
+        padding: 0 16px;
+      }
+      .desktop-timeline::-webkit-scrollbar { display: none; }
+
+      /* Static line — spans visible area (matching original ::before) */
+      .desktop-timeline::before {
+        content: "";
+        position: absolute;
+        top: 55px;
+        left: 16px;
+        right: 16px;
+        height: 2px;
+        border-radius: 99px;
+        background: #dfe4ec;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Remove JS-driven line — ::before handles it */
+      .tl-line { display: none; }
+
+      /* Fill line — left edge anchored to ::before line start */
+      .tl-fill {
+        position: absolute;
+        top: 55px;
+        height: 2px;
+        left: 16px;
+        width: 0;
+        border-radius: 99px;
+        background: linear-gradient(90deg, var(--progress, #4facfe), color-mix(in srgb, var(--progress, #4facfe) 30%, #dfe4ec));
+        box-shadow: 0 0 8px color-mix(in srgb, var(--progress, #4facfe) 35%, transparent);
+        pointer-events: none;
+        z-index: 1;
+        transition: width .5s cubic-bezier(.2,.75,.15,1), background .3s;
+      }
+
+      /* Indicator dot — follows active button center */
+      .tl-indicator {
+        position: absolute;
+        top: 47px;
+        width: 18px;
+        height: 18px;
+        left: 0;
+        border: 2px solid var(--indicator, #ef7d69);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 3;
+        box-shadow:
+          0 0 0 6px color-mix(in srgb, var(--indicator, #ef7d69) 14%, transparent),
+          0 4px 14px color-mix(in srgb, var(--indicator, #ef7d69) 28%, transparent);
+        transition: left .55s cubic-bezier(.2,.75,.15,1), border-color .3s, box-shadow .3s;
+        transform: translateX(-50%);
+      }
+
+      /* Buttons — matching original's 74px width, clean flex column */
+      .desktop-timeline button {
+        flex: 0 0 74px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-family: inherit;
+        scroll-snap-align: center;
+        position: relative;
+        z-index: 2;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform .25s cubic-bezier(.2,.8,.2,1);
+        padding: 0;
+      }
+      .desktop-timeline button:active { transform: scale(.94); }
+
+      /* Dot — absolute within button, centered on line */
+      .desktop-timeline .dot {
+        position: absolute;
+        left: 50%;
+        top: 47px;
+        width: 18px;
+        height: 18px;
+        transform: translateX(-50%);
+        border: 4px solid #f5f6f8;
+        border-radius: 50%;
+        background: #c9ced8;
+        box-shadow: 0 0 0 1px #c9ced8;
+        flex-shrink: 0;
+        transition: .35s cubic-bezier(.2,.8,.2,1);
+      }
+
+      /* Even (0,2,4,6): text BELOW the line */
+      .desktop-timeline button.below {
+        justify-content: flex-start;
+        padding-top: 78px;
+      }
+      /* Odd (1,3,5): text ABOVE the line */
+      .desktop-timeline button.above {
+        justify-content: flex-end;
+        padding-bottom: 78px;
+      }
+
+      /* Text area */
+      .desktop-timeline .time-copy {
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        transition: .3s;
+      }
+      .desktop-timeline .time {
+        display: block;
+        font: 500 9px/1.3 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+        letter-spacing: .03em;
+        color: #98a1b1;
+        white-space: nowrap;
+        transition: color .3s;
+      }
+      .desktop-timeline .company-name {
+        display: block;
+        margin-top: 5px;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1.35;
+        color: #8a95a8;
+        transition: color .3s, font-weight .3s;
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Active state — matching original's gradients */
+      .desktop-timeline button[aria-current="true"] { color: var(--ink); }
+      .desktop-timeline button[aria-current="true"] .dot {
+        background: linear-gradient(135deg, #fff 0 22%, var(--card) 23%);
+        border-color: #fff;
+        box-shadow:
+          0 0 0 1px var(--card),
+          0 0 0 7px color-mix(in srgb, var(--card) 16%, transparent),
+          0 5px 14px color-mix(in srgb, var(--card) 28%, transparent);
+        transform: translateX(-50%) scale(1.18);
+      }
+      .desktop-timeline button[aria-current="true"] .time { color: var(--muted); }
+      .desktop-timeline button[aria-current="true"] .company-name {
+        color: var(--card);
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      /* Preview state — matching original's hover */
+      .desktop-timeline button.preview .dot {
+        background: color-mix(in srgb, var(--card) 40%, #c9ced8);
+        border-color: color-mix(in srgb, var(--card) 20%, #f5f6f8);
+        transform: translateX(-50%) scale(1.15);
+      }
+      .desktop-timeline button.preview .company-name {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ── Mobile Card Stage ── */
+      .bookstage {
+        position: relative;
+        height: auto;
+        min-height: auto;
+        perspective: none;
+        /* Reserve one 44px step per later card: 38px time rail + 6px separation. */
+        margin: 16px 0 calc(60px + var(--stack-tail, 0px));
+      }
+      .bookstage::after { display: none; }
+      .bookstage.is-flipping { pointer-events: none; }
+
+      /* Mobile card: vertical sectioned layout + stacking */
+      .card {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 24px 22px;
+        border: 1px solid rgba(255, 255, 255, .75);
+        border-bottom: 4px solid color-mix(in srgb, var(--card) 64%, #fff);
+        border-radius: 20px;
+        background: linear-gradient(155deg, rgba(255,255,255,.97), rgba(249,251,255,.92));
+        box-shadow:
+          7px 7px 0 0 color-mix(in srgb, var(--card) 32%, #fff),
+          0 2px 10px rgba(27, 38, 55, .05),
+          inset 0 1px rgba(255, 255, 255, .9);
+        transform: translateY(0) scale(1);
+        filter: none;
+        transition: transform .4s cubic-bezier(.2,.75,.15,1), opacity .3s ease, filter .3s ease;
+        touch-action: pan-y;
+      }
+      .card::before {
+        opacity: .4;
+        background:
+          radial-gradient(ellipse at 100% 0, color-mix(in srgb, var(--card) 10%, transparent), transparent 55%),
+          radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--card) 4%, transparent), transparent 40%);
+      }
+      /* ── Mobile stacking: fixed source-order slots with progressive depth ── */
+      /* The selected card moves to the main position and defines the stage height.
+         Every lower card keeps its original source-order slot; the selected card's
+         former slot stays empty, so no remaining card shifts or changes order. */
+      .card.active {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        margin-inline: 0;
+      }
+      .card[data-pos="0"] {
+        transform: translateY(0);
+        filter: none;
+        z-index: 8;
+        opacity: 1;
+      }
+      .card[data-pos="1"],
+      .card[data-pos="2"],
+      .card[data-pos="3"],
+      .card[data-pos="4"],
+      .card[data-pos="5"],
+      .card[data-pos="6"] {
+        left: calc(var(--card-pos) * 4px);
+        right: calc(var(--card-pos) * 4px);
+        width: auto;
+        transform: translateY(calc(var(--card-pos) * 44px));
+        filter: none;
+        opacity: 1;
+      }
+
+      /* Non-active stacked cards: hide content, only show date strip at bottom edge */
+      .card:not(.active) {
+        overflow: hidden;
+      }
+      .card:not(.active) > *:not(.card-date-strip):not(.card-ripple) {
+        display: none;
+      }
+      .card:not(.active) .card-date-strip {
+        opacity: 1;
+        filter: none;
+      }
+      .card:not(.active) .card-ripple {
+        display: none;
+      }
+
+      /* Date strip — visible at bottom edge of stacked cards */
+      .card-date-strip {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 0 18px 2px;
+        background: linear-gradient(to top,
+          color-mix(in srgb, var(--card) 18%, #fff) 0%,
+          color-mix(in srgb, var(--card) 8%, #fff) 72%,
+          rgba(255,255,255,.94) 100%);
+        border-top: 1px solid color-mix(in srgb, var(--card) 18%, #e8ebf1);
+        border-radius: 0 0 20px 20px;
+        font: 650 10px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+        letter-spacing: .07em;
+        color: color-mix(in srgb, var(--card) 76%, #445066);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .card-date-strip .date-time { white-space: nowrap; }
+      .card-date-strip .date-dot {
+        width: 3px; height: 3px; border-radius: 50%;
+        background: color-mix(in srgb, var(--card) 50%, #bcc3d0);
+      }
+      .card-date-strip .date-duration {
+        font-weight: 700;
+        color: color-mix(in srgb, var(--card) 80%, #3a4458);
+      }
+      /* Active card: date strip hidden (content is already visible) */
+      .card.active .card-date-strip { opacity: 0; }
+
+      /* Active card children: always visible */
+      .card.active > *:not(.card-ripple):not(.card-date-strip):not(.card-ribbon) { filter: none !important; opacity: 1 !important; position: relative; z-index: 1; }
+
+      /* ── Corner Ribbon (SVG, geometrically matched to the 20px card radius) ── */
+      .outline-duration { display: none; }
+      .card-ribbon,
+      .card.active > .card-ribbon {
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        width: 96px;
+        height: 96px;
+        z-index: 10;
+        pointer-events: none;
+        transform-origin: 100% 0;
+      }
+      .card-ribbon svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        overflow: visible;
+      }
+      .card-ribbon text {
+        fill: #fff;
+        font: 700 12px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+        letter-spacing: .06em;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,.18));
+      }
+
+      /* Header bar: index · location */
+      .card-header-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid rgba(0,0,0,.05);
+      }
+      .card-header-bar .index {
+        font: 500 11px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+        letter-spacing: .12em;
+        color: var(--card);
+      }
+
+      /* Company name */
+      .card h2 {
+        max-width: 58%;
+        margin: 0 0 10px;
+        font-size: 24px !important;
+        letter-spacing: -.05em;
+        line-height: 1.16;
+        color: var(--ink);
+        font-weight: 800;
+      }
+
+      /* Role */
+      .role {
+        font-size: 14px !important;
+        margin: 0 0 0;
+        color: var(--card);
+        font-weight: 600;
+        letter-spacing: -.01em;
+      }
+
+      /* Section divider — subtle, tinted */
+      .card-divider {
+        border: 0;
+        height: 1px;
+        margin: 18px 0 16px;
+        opacity: .5;
+      }
+
+      /* Bullet list — restored detail content */
+      .detail-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .detail-list li {
+        position: relative;
+        padding-left: 18px;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #3d4a5f;
+      }
+      .detail-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: var(--card);
+        opacity: .58;
+      }
+
+      /* Small spacer between content and tags */
+      .card-spacer {
+        height: 18px;
+        flex-shrink: 0;
+      }
+
+      /* Tags — compact at bottom */
+      .tags {
+        gap: 8px;
+        padding-top: 0;
+        margin-top: 0;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .tags span {
+        padding: 6px 12px;
+        font-size: 11px;
+        border-width: 1px;
+        border-color: color-mix(in srgb, var(--card) 16%, #e5e8ee);
+        background: rgba(255,255,255,.5);
+        border-radius: 999px;
+        color: #526075;
+      }
+
+      /* Card counter — footer, centered, clear of content */
+      .card-count {
+        display: block;
+        position: static;
+        margin: 20px auto 0;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0,0,0,.04);
+        font: 500 11px/1 "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+        letter-spacing: .08em;
+        color: #bcc3d0;
+        text-align: center;
+        width: 100%;
+      }
+
+      /* Remove desktop-specific + unused elements */
+      .card-top, .duration, .summary, .header-duration { display: none; }
+
+      /* ── Ripple: click-to-ripple water wave ── */
+      .card-ripple {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .ripple-wave {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        background: radial-gradient(circle, color-mix(in srgb, var(--card) 22%, transparent) 0%, color-mix(in srgb, var(--card) 8%, transparent) 50%, transparent 70%);
+        animation: rippleExpand .7s ease-out forwards;
+      }
+      @keyframes rippleExpand {
+        0%   { transform: translate(-50%,-50%) scale(0); opacity: .9; }
+        60%  { opacity: .5; }
+        100% { transform: translate(-50%,-50%) scale(4); opacity: 0; }
+      }
+
+      /* Desktop card: subtle translate, not rotate */
+      @media (min-width: 761px) {
+        .card.active {
+          will-change: transform;
+          transition: transform .3s cubic-bezier(.2,.75,.15,1), box-shadow .3s ease;
+        }
+      }
+
+      /* Remove swipe hint */
+      .swipe-hint { display: none; }
+
+      /* ── Mobile controls: bottom sheet ── */
+      .controls {
+        position: fixed;
+        top: auto;
+        bottom: 16px;
+        right: 16px;
+        z-index: 20;
+      }
+      .control-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        border-radius: 50%;
+        box-shadow: 0 6px 20px rgba(79, 172, 254, .4);
+      }
+      .control-panel {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 20px 16px 28px;
+        border-radius: 20px 20px 0 0;
+        border: 1px solid rgba(255, 255, 255, .9);
+        border-bottom: 0;
+        background: rgba(255, 255, 255, .94);
+        box-shadow: 0 -8px 40px rgba(27, 38, 55, .12);
+        backdrop-filter: blur(20px);
+        transform: translateY(100%);
+        opacity: 1;
+      }
+      .controls.open .control-panel {
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .control-panel h3 {
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+      .control-row {
+        margin-top: 14px;
+      }
+      .control-row label {
+        font-size: 12px;
+      }
+      .control-row input {
+        height: 28px;
+      }
+
+      /* Mobile backdrop for control panel */
+      .control-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .18);
+        z-index: 19;
+      }
+      .controls.open ~ .control-backdrop { display: block; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>排版/设计师 <span class="highlight">何皓</span></h1>
-            <div class="title">视觉设计师 · 独立排版与品牌创意</div>
-            <p class="bio">
-                <strong>十年独家设计方法论</strong>，从印刷厂到品牌创意，
-                独立掌控 <strong>InDesign 全栈排版引擎</strong> 与 <strong>品牌视觉全案</strong>。
-                以「独家版面加速系统」为核心竞争力，赋能高精度视觉交付。
-            </p>
-        </header>
 
-        <hr class="divider" />
+  <main class="page">
+    <header>
+      <div>
+        <p class="eyebrow">Selected experience · 2015 — Now</p>
+        <h1>职业履历</h1>
+      </div>
+      <p>七段经历 · 从印刷到设计 · 从单兵作战到构建可复制的工作流系统</p>
+    </header>
 
-        <section>
-            <div class="journey-wrapper">
-                <div class="journey-list" id="journeyList">
+    <section class="core-philosophy" aria-label="跨栏履历展示卡">
+      <div class="showcase-kicker"><span>跨栏履历</span><span>Practice / System</span></div>
+      <div class="showcase-statement">把<b>一个人的</b>排版经验，沉淀为一个<b>团队可以复制</b>的生产系统——这是「跨技能排版师」<b>最核心</b>的实践价值。</div>
+      <div class="traits">
+        <span>自动化精通</span><span>模板优化</span><span>效率提升</span><span>可复用工作流</span>
+        <span>AI工作流</span><span>持续学习</span><span>减少重复劳动</span><span>聚焦创造力</span><span>团队赋能</span>
+      </div>
+    </section>
 
-                    <div class="timeline-progress" id="timelineProgress">
-                        <div class="progress-track">
-                            <div class="progress-zones" id="progressZones"></div>
-                            <div class="progress-thumb" id="progressThumb"></div>
-                            <div class="progress-dots" id="progressDots"></div>
-                        </div>
-                    </div>
+    <section class="experience" aria-label="工作经历">
+      <nav class="desktop-timeline" id="timeline" aria-label="经历时间轴"></nav>
+      <div class="bookstage" id="bookstage"></div>
+    </section>
 
-                    <div class="journey-card jc-coral open" data-index="0">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">杭州乐堤港标书制作公司</span>
-                            <span class="role">排版设计师 · 独立负责人</span>
-                            <span class="date">2024.08 — 2026.02</span>
-                            <span class="location">杭州</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立搭建</strong>「InDesign 标书排版加速系统」，独家将 3 天标书排版压缩至 1.5 天。</li>
-                                <li><strong>独家负责</strong> 展板、人像修图、海报、画册、广告、书籍等全品类视觉内容输出。</li>
-                                <li><strong>独立主导</strong> 商务文档全流程版面设计，精准把控构图与细节质感。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>InDesign</span><span>标书排版</span><span>版面加速</span>
-                                <span>画册设计</span><span>海报设计</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立搭建 · 独家引擎</span>
-                        </div>
-                    </div>
+    <!-- Mobile: swipe dot indicator — removed -->
+  </main>
 
-                    <div class="journey-card jc-blue" data-index="1">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">恒晟图文（杭州）有限公司</span>
-                            <span class="role">平面设计师 · 独立全案</span>
-                            <span class="date">2023.02 — 2023.07</span>
-                            <span class="location">杭州</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立负责</strong> 品牌视觉全案落地，从画册、海报到人像修图，独家打造品牌视觉体系。</li>
-                                <li><strong>独家对接</strong> 客户需求，现场完成视觉方案落地，覆盖展板、广告、书籍等全品类。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>画册设计</span><span>海报设计</span><span>人像修图</span>
-                                <span>品牌视觉</span><span>广告设计</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立全案 · 独家视觉</span>
-                        </div>
-                    </div>
-
-                    <div class="journey-card jc-green" data-index="2">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">上海沪印图文</span>
-                            <span class="role">美工 · 独立顾问</span>
-                            <span class="date">2022.11 — 至今</span>
-                            <span class="location">上海</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立搭建</strong>「版式设计体系」，独家涵盖画册、修图、平面三大模块。</li>
-                                <li><strong>独家把控</strong> 画面构图与细节质感，持续深耕画册与修图方向。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>版式设计</span><span>画册设计</span><span>人像修图</span><span>平面设计</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立体系 · 独家顾问</span>
-                        </div>
-                    </div>
-
-                    <div class="journey-card jc-amber" data-index="3">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">浙江华泰印业有限公司</span>
-                            <span class="role">广告设计 · 独立全案</span>
-                            <span class="date">2021</span>
-                            <span class="location">浙江</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立完成</strong> 年度广告全案，从印刷广告到平面物料，独家把控全流程质量。</li>
-                                <li><strong>独家负责</strong> 印前到成品全流程质量把控，保障交付质量与效率。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>印刷广告</span><span>平面物料</span><span>印前处理</span><span>质量把控</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立全案 · 独家把控</span>
-                        </div>
-                    </div>
-
-                    <div class="journey-card jc-purple" data-index="4">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">民生大酒店</span>
-                            <span class="role">广告设计师 · 独立重塑</span>
-                            <span class="date">2018.07 — 2020.07</span>
-                            <span class="location">浙江</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立负责</strong> 品牌视觉重塑，从标识设计到活动物料，独家打造高端酒店视觉体系。</li>
-                                <li><strong>独家策划</strong> 线下活动视觉物料，兼任活动纪实摄影与后期。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>品牌设计</span><span>活动视觉</span><span>摄影后期</span><span>标版设计</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立重塑 · 独家视觉</span>
-                        </div>
-                    </div>
-
-                    <div class="journey-card jc-teal" data-index="5">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">重庆完美女鞋商贸</span>
-                            <span class="role">平面设计师 · 独立对接</span>
-                            <span class="date">2018.06 — 2018.07</span>
-                            <span class="location">重庆</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立负责</strong> 客户对接及美工全流程，独家覆盖画册、展板、书籍等多品类设计。</li>
-                                <li><strong>独家完成</strong> 客户需求对接与视觉方案落地。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>客户对接</span><span>画册设计</span><span>展板设计</span><span>书籍设计</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立对接 · 独家交付</span>
-                        </div>
-                    </div>
-
-                    <div class="journey-card jc-rose" data-index="6">
-                        <div class="ambient-bg"></div>
-                        <div class="card-arrow"></div>
-                        <div class="card-header">
-                            <span class="company">四川方正印刷厂</span>
-                            <span class="role">平面设计师 · 独立全案</span>
-                            <span class="date">2015.06 — 2018.06</span>
-                            <span class="location">四川</span>
-                            <span class="toggle-icon">▾</span>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li><strong>独立搭建</strong>「印刷品全案体系」，独家涵盖标书、画册、字体、影视平面等模块。</li>
-                                <li><strong>独家提供</strong> 全案广告平面创意支持，签约客户印刷品整体视觉设计。</li>
-                            </ul>
-                            <div class="tech-tags">
-                                <span>印刷品全案</span><span>标书排版</span><span>创意支持</span>
-                                <span>字体设计</span><span>海报设计</span>
-                            </div>
-                            <span class="independent-badge"><span class="icon">✦</span> 独立全案 · 独家体系</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="click-hint">▾ 点击卡片展开详情 · 点击时间点快速跳转</div>
-        </section>
+  <aside class="controls" id="controls" aria-label="显示调节器">
+    <button class="control-toggle" id="controlToggle" type="button" aria-expanded="false" aria-label="打开调节器">⚙</button>
+    <div class="control-panel">
+      <h3>叠卡距离</h3>
+      <div class="control-row"><label for="stackX">横向错位 <output id="stackXValue">22px</output></label><input id="stackX" type="range" min="8" max="42" value="22"></div>
+      <div class="control-row"><label for="stackY">纵向错位 <output id="stackYValue">16px</output></label><input id="stackY" type="range" min="8" max="30" value="16"></div>
+      <div class="control-row"><label for="stackDepth">书页立体感 <output id="stackDepthValue">1.2°</output></label><input id="stackDepth" type="range" min="0" max="28" value="12"></div>
+      <div class="control-row"><label for="outlineSize">时长数字大小 <output id="outlineSizeValue">154px</output></label><input id="outlineSize" type="range" min="90" max="210" value="154"></div>
+      <div class="control-row"><label for="outlineStroke">数字描边 <output id="outlineStrokeValue">1.0px</output></label><input id="outlineStroke" type="range" min="5" max="25" value="10"></div>
+      <div class="control-row"><label for="outlineGap">数字字距 <output id="outlineGapValue">0.02em</output></label><input id="outlineGap" type="range" min="-10" max="30" value="2"></div>
+      <div class="control-row"><label for="outlineX">数字横向位置 <output id="outlineXValue">38px</output></label><input id="outlineX" type="range" min="0" max="140" value="38"></div>
+      <div class="control-row"><label for="outlineY">数字纵向位置 <output id="outlineYValue">92px</output></label><input id="outlineY" type="range" min="30" max="220" value="92"></div>
+      <div class="control-row"><label for="typeScale">内容字号 <output id="typeScaleValue">90%</output></label><input id="typeScale" type="range" min="76" max="112" value="90"></div>
+      <div class="control-row"><label for="pulseCycle">呼吸周期 <output id="pulseCycleValue">2.4s</output></label><input id="pulseCycle" type="range" min="12" max="40" value="24"></div>
+      <div class="control-row"><label for="enterDuration">新卡入场 <output id="enterDurationValue">0.6s</output></label><input id="enterDuration" type="range" min="20" max="120" value="55"></div>
     </div>
+  </aside>
+  <div class="control-backdrop" id="controlBackdrop" aria-hidden="true"></div>
 
-    <script>
-        (function() {
-            const journeyList = document.getElementById('journeyList');
-            const cards = journeyList.querySelectorAll('.journey-card');
-            const progressZones = document.getElementById('progressZones');
-            const progressThumb = document.getElementById('progressThumb');
-            const progressDotsContainer = document.getElementById('progressDots');
-            const total = cards.length;
-            let activeIndex = 0;
-            let hoverDotIndex = -1;
-            let hoverCardIndex = -1;
-            let leaveTimer = null;
-            const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+  <script>
+    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
 
-            const cardData = [];
-            cards.forEach((card) => {
-                const header = card.querySelector('.card-header');
-                const dateEl = header.querySelector('.date');
-                const date = dateEl ? dateEl.textContent.trim() : '';
-                cardData.push({ date });
-            });
+    const entries = [
+      { time:'2024.08 — 2026.02', duration:'18M', company:'杭州乐堤港标书制作公司', shortName:'乐堤港标书', place:'杭州', role:'排版设计师 · 独立负责人', color:'#ef7d69',
+        text:'「把一个人的排版经验，变成团队可复制的生产系统」——独立搭建 InDesign 自动化排版体系，将三天流程压缩至一天半，建立可扩展的模板与脚本工作流。',
+        details:['独立搭建 InDesign 自动化排版系统，集成脚本引擎与可复用模板库','建立「一个人 → 团队可复制」的生产工作流，标书周期从 3 天压缩至 1.5 天','持续探索 AI 辅助排版与流程优化，聚焦创造力而非重复劳动'],
+        tags:['InDesign','自动化排版','模板系统','AI工作流'] },
+      { time:'2023.02 — 2023.07', duration:'5M',  company:'恒晟图文（杭州）有限公司', shortName:'恒晟图文', place:'杭州', role:'平面设计师 · 独立全案', color:'#5b9cf6',
+        text:'从画册、海报到人像修图，独立完成品牌视觉全案；直接对接客户需求并现场推进方案落地。',
+        details:['独立完成画册、海报、品牌视觉全案设计与输出','人像精修与产品修图，建立标准化修图流程','直接对接客户需求，现场推进方案落地与调整'],
+        tags:['品牌视觉','海报设计','人像修图','客户沟通'] },
+      { time:'2022.11 — 至今',    duration:'44M', company:'上海沪印图文',            shortName:'沪印图文', place:'上海', role:'美工 · 独立顾问', color:'#48b987',
+        text:'持续完善版式设计体系，覆盖画册、修图与平面设计三大模块，以构图和细节质感作为长期的工作基准。',
+        details:['持续完善版式设计体系，覆盖画册、修图与平面设计三大模块','长期顾问角色，建立稳定合作与品质交付标准','保持持续学习意识，追踪前沿工具与 AI 辅助设计趋势'],
+        tags:['版式设计','画册设计','AI辅助','持续学习'] },
+      { time:'2021',              duration:'12M', company:'浙江华泰印业有限公司',    shortName:'华泰印业', place:'浙江', role:'广告设计 · 独立全案', color:'#e6a53d',
+        text:'完成年度广告视觉全案，并负责从印前处理到成品交付的质量控制，让创意和生产环节保持同一标准。',
+        details:['完成年度广告视觉全案，覆盖印刷广告与平面物料','负责印前处理到成品交付的全链路质量控制','确保创意设计与生产环节保持统一执行标准'],
+        tags:['印刷广告','印前处理','平面物料','质量把控'] },
+      { time:'2018.07 — 2020.07', duration:'24M', company:'民生大酒店',              shortName:'民生大酒店', place:'浙江', role:'广告设计师 · 独立重塑', color:'#9b7be8',
+        text:'参与酒店品牌视觉重塑，涵盖标识、活动物料与影像后期，建立更具识别度的线下视觉体验。',
+        details:['参与酒店品牌视觉重塑，涵盖标识、活动物料设计','负责摄影后期与影像处理，提升视觉统一性','建立更具识别度的线下视觉体验体系'],
+        tags:['品牌设计','活动视觉','摄影后期','标识设计'] },
+      { time:'2018.06 — 2018.07', duration:'1M',  company:'重庆完美女鞋商贸',        shortName:'完美女鞋', place:'重庆', role:'平面设计师 · 独立对接', color:'#41bfae',
+        text:'负责客户沟通与美工全流程，覆盖画册、展板与书籍设计，把需求准确转换为可交付的视觉方案。',
+        details:['负责客户沟通与美工全流程，准确理解并拆解需求','完成画册、展板与书籍设计，保证视觉交付品质','将业务需求高效转换为可交付的完整视觉方案'],
+        tags:['客户对接','展板设计','画册设计','书籍设计'] },
+      { time:'2015.06 — 2018.06', duration:'36M', company:'四川方正印刷厂',          shortName:'方正印刷', place:'四川', role:'平面设计师 · 独立全案', color:'#d86c82',
+        text:'建立印刷品全案工作体系，支持标书、画册、字体与广告平面等多类项目，夯实从设计到印刷的完整能力。',
+        details:['建立印刷品全案工作体系，支持多类型项目并行','负责标书、画册、字体与广告平面的设计与落地','善于发现问题并建立可扩展工作流，减少重复性劳动'],
+        tags:['全案体系','可扩展工作流','字体设计','高效执行'] }
+    ];
 
-            function getTimeText(index) {
-                return cardData[index]?.date || '';
-            }
+    const timeline = document.querySelector('#timeline');
+    const stage = document.querySelector('#bookstage');
+    let activeIndex = 0;
+    let isFlipping = false;
 
-            function computeCardPositions() {
-                const listRect = journeyList.getBoundingClientRect();
-                const positions = [];
-                cards.forEach((card) => {
-                    const header = card.querySelector('.card-header');
-                    const headerRect = header.getBoundingClientRect();
-                    const centerOffset = (headerRect.top + headerRect.height / 2) - listRect.top;
-                    const pct = (centerOffset / listRect.height) * 100;
-                    positions.push(Math.max(0, Math.min(100, pct)));
-                });
-                return positions;
-            }
+    /* ── Controls ── */
+    const controls = document.querySelector('#controls');
+    const controlToggle = document.querySelector('#controlToggle');
+    const controlBackdrop = document.querySelector('#controlBackdrop');
+    const stackInputs = {
+      x: document.querySelector('#stackX'), y: document.querySelector('#stackY'),
+      depth: document.querySelector('#stackDepth'), outlineSize: document.querySelector('#outlineSize'),
+      outlineStroke: document.querySelector('#outlineStroke'), outlineGap: document.querySelector('#outlineGap'),
+      outlineX: document.querySelector('#outlineX'), outlineY: document.querySelector('#outlineY'),
+      typeScale: document.querySelector('#typeScale'), pulseCycle: document.querySelector('#pulseCycle'),
+      enterDuration: document.querySelector('#enterDuration')
+    };
 
-            function updateDotPositions(positions) {
-                const dots = progressDotsContainer.querySelectorAll('.progress-dot');
-                dots.forEach((dot, i) => {
-                    if (positions[i] !== undefined) {
-                        dot.style.top = positions[i] + '%';
-                    }
-                });
-            }
+    const STORAGE_KEY = 'resume-mobile-controls';
+    const savedControls = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    Object.entries(stackInputs).forEach(([key, input]) => {
+      if (savedControls[key] != null) input.value = savedControls[key];
+    });
 
-            function updateProgress(index, positions) {
-                const pos = positions || computeCardPositions();
-                if (!pos || pos.length === 0) return;
+    function saveControls() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(
+        Object.fromEntries(Object.entries(stackInputs).map(([key, input]) => [key, input.value]))
+      ));
+    }
 
-                // Update thumb position
-                const pct = pos[index] !== undefined ? pos[index] : 0;
-                progressThumb.style.top = pct + '%';
+    function applyLayerLayout() {
+      const x = Number(stackInputs.x.value);
+      const y = Number(stackInputs.y.value);
+      const depth = Number(stackInputs.depth.value) / 10;
+      const outlineSize = Number(stackInputs.outlineSize.value);
+      const outlineStroke = Number(stackInputs.outlineStroke.value) / 10;
+      const outlineGap = Number(stackInputs.outlineGap.value) / 100;
+      const outlineX = Number(stackInputs.outlineX.value);
+      const outlineY = Number(stackInputs.outlineY.value);
+      const typeScale = Number(stackInputs.typeScale.value) / 100;
 
-                // Update zones - each zone fills the space between cards
-                // Zone i: from previous card (or top edge) to current card
-                // Zones fill from bottom (oldest) upward
-                const zones = document.querySelectorAll('.progress-zone');
-                zones.forEach((zone, i) => {
-                    // Calculate zone boundaries
-                    // Zone i starts at pos[i-1] (or 0 for first zone) and ends at pos[i]
-                    const zoneTop = i > 0 ? pos[i - 1] : 0;
-                    const zoneBottom = pos[i] !== undefined ? pos[i] : 100;
+      stage.querySelectorAll('.card').forEach(card => {
+        const pos = Number(card.dataset.pos);
+        card.style.setProperty('--offset-x', `${pos * x}px`);
+        card.style.setProperty('--offset-y', `${pos * y}px`);
+        card.style.setProperty('--offset-r', `${pos * depth}deg`);
+        card.style.setProperty('--duration-size', `${outlineSize}px`);
+        card.style.setProperty('--duration-stroke', `${outlineStroke}px`);
+        card.style.setProperty('--duration-gap', `${outlineGap}em`);
+        card.style.setProperty('--duration-x', `${outlineX}px`);
+        card.style.setProperty('--duration-y', `${outlineY}px`);
+        card.querySelector('h2').style.fontSize = isMobile()
+          ? null
+          : `clamp(${(25 * typeScale).toFixed(1)}px, ${(3.2 * typeScale).toFixed(2)}vw, ${(38 * typeScale).toFixed(1)}px)`;
+        if (!isMobile()) {
+          card.querySelector('.role').style.fontSize = `${(15 * typeScale).toFixed(1)}px`;
+          card.querySelector('.summary').style.fontSize = `${(14 * typeScale).toFixed(1)}px`;
+        }
+      });
 
-                    zone.style.top = zoneTop + '%';
-                    zone.style.height = (zoneBottom - zoneTop) + '%';
+      document.querySelector('#stackXValue').textContent = `${x}px`;
+      document.querySelector('#stackYValue').textContent = `${y}px`;
+      document.querySelector('#stackDepthValue').textContent = `${depth.toFixed(1)}°`;
+      document.querySelector('#outlineSizeValue').textContent = `${outlineSize}px`;
+      document.querySelector('#outlineStrokeValue').textContent = `${outlineStroke.toFixed(1)}px`;
+      document.querySelector('#outlineGapValue').textContent = `${outlineGap.toFixed(2)}em`;
+      document.querySelector('#outlineXValue').textContent = `${outlineX}px`;
+      document.querySelector('#outlineYValue').textContent = `${outlineY}px`;
+      document.querySelector('#typeScaleValue').textContent = `${Math.round(typeScale * 100)}%`;
+      document.querySelector('#pulseCycleValue').textContent = `${(Number(stackInputs.pulseCycle.value) / 10).toFixed(1)}s`;
+      document.querySelector('#enterDurationValue').textContent = `${(Number(stackInputs.enterDuration.value) / 100).toFixed(1)}s`;
+    }
 
-                    // Fill from bottom: only zones strictly BELOW active index are filled
-                    // The zone at the active index and above should not be filled
-                    if (i > index) {
-                        zone.classList.add('filled');
-                    } else {
-                        zone.classList.remove('filled');
-                    }
-                });
-            }
+    /* ── Control panel toggle ── */
+    controlToggle.addEventListener('click', () => {
+      const open = controls.classList.toggle('open');
+      controlToggle.setAttribute('aria-expanded', String(open));
+      controlToggle.textContent = open ? '×' : '⚙';
+    });
+    controlBackdrop.addEventListener('click', () => {
+      controls.classList.remove('open');
+      controlToggle.setAttribute('aria-expanded', 'false');
+      controlToggle.textContent = '⚙';
+    });
 
-            function updateDotsState() {
-                const dots = progressDotsContainer.querySelectorAll('.progress-dot');
-                dots.forEach((dot, i) => {
-                    dot.classList.remove('active', 'done', 'hover');
-                    if (i === activeIndex) {
-                        dot.classList.add('active');
-                    } else if (i < activeIndex) {
-                        dot.classList.add('done');
-                    }
-                    if (i === hoverDotIndex || i === hoverCardIndex) {
-                        dot.classList.add('hover');
-                    }
-                });
-            }
+    Object.values(stackInputs).forEach(input => {
+      input.addEventListener('input', () => {
+        applyLayerLayout();
+        saveControls();
+        if (input === stackInputs.pulseCycle) {
+          startPulse(timeline.querySelector('[aria-current="true"] .dot'));
+        }
+      });
+    });
 
-            function expandCardOnly(index) {
-                cards.forEach((card, i) => {
-                    if (i === index) {
-                        card.classList.add('open');
-                    } else {
-                        card.classList.remove('open');
-                    }
-                });
-            }
+    /* ── Activate card ── */
+    function activate(index) {
+      if (index === activeIndex || index < 0 || index >= entries.length) return;
+      /* State-driven render only. Avoid inline GSAP opacity/transform values so every
+         selected card always returns to its complete, readable content state. */
+      activeIndex = index;
+      render(activeIndex);
+      scrollTimelineToActive();
+    }
 
-            function fullUpdate() {
-                const positions = computeCardPositions();
-                updateDotPositions(positions);
-                updateDotsState();
-                updateProgress(activeIndex, positions);
-                expandCardOnly(activeIndex);
+    /* ── Scroll timeline to active ── */
+    function scrollTimelineToActive() {
+      if (!isMobile()) return;
+      const activeBtn = timeline.querySelector('[aria-current="true"]');
+      if (!activeBtn) return;
+      activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
 
-                // Update thumb color to match active card
-                const activeCard = cards[activeIndex];
-                if (activeCard) {
-                    const cardColor = getCardColor(activeCard);
-                    const cardLightMap = {
-                        'var(--coral)': 'rgba(244, 114, 182, 0.2)',
-                        'var(--blue)': 'rgba(79, 172, 254, 0.2)',
-                        'var(--green)': 'rgba(67, 233, 123, 0.2)',
-                        'var(--amber)': 'rgba(245, 158, 11, 0.2)',
-                        'var(--purple)': 'rgba(167, 139, 250, 0.2)',
-                        'var(--teal)': 'rgba(45, 212, 191, 0.2)',
-                        'var(--rose)': 'rgba(251, 113, 133, 0.2)',
-                    };
-                    progressThumb.style.setProperty('--thumb-color', cardColor);
-                    progressThumb.style.setProperty('--thumb-color-light', cardLightMap[cardColor] || 'rgba(79, 172, 254, 0.2)');
-                }
-            }
+    /* ── Mobile timeline indicator (matching original: fill from ::before line edge to active btn) ── */
+    function updateMobileIndicator(active) {
+      if (!isMobile()) return;
+      const activeBtn = timeline.querySelector('[aria-current="true"]');
+      if (!activeBtn) return;
+      const indicator = timeline.querySelector('.tl-indicator');
+      const fill = timeline.querySelector('.tl-fill');
+      const timelineRect = timeline.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      const btnCenter = btnRect.left + btnRect.width / 2 - timelineRect.left;
 
-            function scrollToCard(index) {
-                const card = cards[index];
-                if (!card) return;
-                const rect = card.getBoundingClientRect();
-                const viewportHeight = window.innerHeight;
-                const cardHeight = rect.height;
-                const offsetTop = rect.top + window.pageYOffset;
-                const centerOffset = Math.max(0, offsetTop - (viewportHeight / 2) + (cardHeight / 2));
-                const currentScroll = window.pageYOffset;
-                if (Math.abs(centerOffset - currentScroll) > 80) {
-                    window.scrollTo({ top: centerOffset, behavior: 'smooth' });
-                }
-            }
+      indicator.style.setProperty('--indicator', entries[active].color);
+      indicator.style.left = `${btnCenter}px`;
 
-            function createRipple(e, element) {
-                const ripple = document.createElement('span');
-                ripple.className = 'touch-ripple';
-                const rect = element.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-                element.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 500);
-            }
+      fill.style.setProperty('--progress', entries[active].color);
+      fill.style.left = '16px';
+      fill.style.width = `${Math.max(0, btnCenter - 16)}px`;
+    }
 
-            function handleDotEnter(index, dotElement) {
-                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                hoverDotIndex = index;
-                updateDotsState();
-            }
+    function updateDesktopIndicator(active) {
+      if (isMobile()) return;
+      const button = timeline.querySelector(`[data-index="${active}"]`);
+      const indicator = timeline.querySelector('.tl-indicator');
+      if (!button || !indicator) return;
+      indicator.style.setProperty('--indicator', entries[active].color);
+      indicator.style.top = `${button.offsetTop + 3}px`;
+      const fill = timeline.querySelector('.tl-fill');
+      fill.style.setProperty('--progress', entries[active].color);
+      fill.style.top = `${button.offsetTop + 12}px`;
+    }
 
-            function handleDotLeave(index, dotElement) {
-                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                leaveTimer = setTimeout(() => {
-                    leaveTimer = null;
-                    if (dotElement.matches(':hover')) return;
-                    const card = cards[index];
-                    if (card && card.matches(':hover')) return;
-                    if (hoverDotIndex === index) {
-                        hoverDotIndex = -1;
-                        updateDotsState();
-                    }
-                }, 100);
-            }
+    function updateIndicator(active) {
+      if (isMobile()) {
+        updateMobileIndicator(active);
+      } else {
+        updateDesktopIndicator(active);
+      }
+    }
 
-            function handleDotClick(index, e) {
-                if (isTouchDevice && e) { createRipple(e, progressDotsContainer); }
-                hoverDotIndex = -1;
-                hoverCardIndex = -1;
-                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                if (index === activeIndex) {
-                    activeIndex = 0;
-                    fullUpdate();
-                    scrollToCard(0);
-                    return;
-                }
-                activeIndex = index;
-                fullUpdate();
-                scrollToCard(index);
-            }
+    function previewProgress(index) {
+      if (isMobile()) {
+        const button = timeline.querySelector(`[data-index="${index}"]`);
+        if (!button) return;
+        const fill = timeline.querySelector('.tl-fill');
+        const timelineRect = timeline.getBoundingClientRect();
+        const btnRect = button.getBoundingClientRect();
+        const btnCenter = btnRect.left + btnRect.width / 2 - timelineRect.left;
+        fill.style.setProperty('--progress', entries[index].color);
+        fill.style.left = '16px';
+        fill.style.width = `${Math.max(0, btnCenter - 16)}px`;
+      } else {
+        const button = timeline.querySelector(`[data-index="${index}"]`);
+        const fill = timeline.querySelector('.tl-fill');
+        if (!button || !fill) return;
+        fill.style.setProperty('--progress', entries[index].color);
+        fill.style.top = `${button.offsetTop + 12}px`;
+      }
+    }
 
-            function handleCardEnter(index, cardElement) {
-                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                hoverCardIndex = index;
-                const dot = progressDotsContainer.querySelector(`.progress-dot[data-index="${index}"]`);
-                if (dot) { dot.classList.add('hover'); }
-                updateDotsState();
-            }
+    function previewTimeline(index) {
+      timeline.querySelectorAll('button').forEach(button =>
+        button.classList.toggle('preview', Number(button.dataset.index) === index)
+      );
+      previewProgress(index);
+    }
 
-            function handleCardLeave(index, cardElement) {
-                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                leaveTimer = setTimeout(() => {
-                    leaveTimer = null;
-                    if (cardElement.matches(':hover')) return;
-                    const dot = progressDotsContainer.querySelector(`.progress-dot[data-index="${index}"]`);
-                    if (dot && dot.matches(':hover')) return;
-                    if (hoverCardIndex === index) {
-                        hoverCardIndex = -1;
-                        if (dot) { dot.classList.remove('hover'); }
-                        updateDotsState();
-                    }
-                }, 100);
-            }
+    function startPulse(dot) {
+      if (!window.gsap || !dot) return;
+      gsap.killTweensOf(dot);
+      gsap.to(dot, {
+        scale: 1.34,
+        duration: Number(stackInputs.pulseCycle.value) / 10,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+    }
 
-            function handleCardClick(cardElement, e) {
-                if (isTouchDevice && e) { createRipple(e, cardElement); }
-                const index = parseInt(cardElement.dataset.index);
-                hoverDotIndex = -1;
-                hoverCardIndex = -1;
-                if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                if (index === activeIndex) {
-                    activeIndex = 0;
-                    fullUpdate();
-                    scrollToCard(0);
-                    return;
-                }
-                activeIndex = index;
-                fullUpdate();
-                scrollToCard(index);
-            }
+    function animateState() {
+      if (!window.gsap) return;
+      const activeDot = timeline.querySelector('[aria-current="true"] .dot');
+      const activeCard = stage.querySelector('.card.active');
+      if (!activeDot || !activeCard) return;
 
-            function getCardColor(card) {
-                const colorMap = {
-                    'jc-coral': 'var(--coral)',
-                    'jc-blue': 'var(--blue)',
-                    'jc-green': 'var(--green)',
-                    'jc-amber': 'var(--amber)',
-                    'jc-purple': 'var(--purple)',
-                    'jc-teal': 'var(--teal)',
-                    'jc-rose': 'var(--rose)',
-                };
-                for (const [cls, color] of Object.entries(colorMap)) {
-                    if (card.classList.contains(cls)) return color;
-                }
-                return 'var(--blue)';
-            }
+      gsap.fromTo(activeDot, { scale: .72, opacity: .3 }, { scale: 1.18, opacity: 1, duration: .55, ease: 'back.out(2)' });
+      gsap.to(activeDot, {
+        scale: 1.34,
+        duration: Number(stackInputs.pulseCycle.value) / 10,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: .55
+      });
 
-            function initDots() {
-                progressDotsContainer.innerHTML = '';
-                for (let i = 0; i < total; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'progress-dot';
-                    dot.dataset.index = i;
-                    const cardColor = getCardColor(cards[i]);
-                    const cardLightMap = {
-                        'var(--coral)': 'var(--coral-light)',
-                        'var(--blue)': 'var(--blue-light)',
-                        'var(--green)': 'var(--green-light)',
-                        'var(--amber)': 'var(--amber-light)',
-                        'var(--purple)': 'var(--purple-light)',
-                        'var(--teal)': 'var(--teal-light)',
-                        'var(--rose)': 'var(--rose-light)',
-                    };
-                    dot.style.setProperty('--dot-color', cardColor);
-                    dot.style.setProperty('--dot-color-light', cardLightMap[cardColor] || 'var(--blue-light)');
+      if (isMobile()) {
+        gsap.fromTo(activeCard, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: 'power3.out' });
+      } else {
+        gsap.fromTo(activeCard, { y: 28, opacity: .25 }, { y: 0, opacity: 1, duration: .68, ease: 'power3.out' });
+      }
 
-                    // 创建标签容器
-                    const label = document.createElement('div');
-                    label.className = 'tooltip-label';
-                    const labelInner = document.createElement('div');
-                    labelInner.className = 'tooltip-label-inner';
+      gsap.fromTo(
+        activeCard.querySelectorAll('.card-ribbon svg,.card-header-bar,h2,.role,.card-divider,.detail-list li,.card-spacer,.tags,.card-count'),
+        { y: 15, opacity: 0 },
+        { y: 0, opacity: 1, duration: .48, stagger: .06, delay: .16, ease: 'power2.out' }
+      );
+    }
 
-                    // 标记点
-                    const marker = document.createElement('span');
-                    marker.className = 'tooltip-dot-marker';
-                    const card = cards[i];
-                    const colorMap = {
-                        'jc-coral': 'var(--coral)', 'jc-blue': 'var(--blue)', 'jc-green': 'var(--green)',
-                        'jc-amber': 'var(--amber)', 'jc-purple': 'var(--purple)', 'jc-teal': 'var(--teal)',
-                        'jc-rose': 'var(--rose)',
-                    };
-                    let dotColor = '#94a3b8';
-                    for (const [cls, color] of Object.entries(colorMap)) {
-                        if (card.classList.contains(cls)) { dotColor = color; break; }
-                    }
-                    marker.style.background = cardColor;
-                    labelInner.appendChild(marker);
+    /* Cards do not follow, tilt, glow, or ripple with the mouse.
+       Interaction is intentionally limited to click/tap selection and touch swipe. */
 
-                    // 时间文字
-                    const timeSpan = document.createElement('span');
-                    timeSpan.className = 'dot-time';
-                    timeSpan.textContent = getTimeText(i);
-                    labelInner.appendChild(timeSpan);
+    /* ── Swipe detection ── */
+    let touchStartX = 0, touchStartY = 0;
+    stage.addEventListener('touchstart', e => {
+      if (!isMobile()) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
 
-                    label.appendChild(labelInner);
-                    dot.appendChild(label);
+    stage.addEventListener('touchend', e => {
+      if (!isMobile() || isFlipping) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      // Only horizontal swipes (|dx| > 2*|dy|) with enough distance
+      if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy) * 2) return;
+      if (dx < 0 && activeIndex < entries.length - 1) {
+        activate(activeIndex + 1);
+      } else if (dx > 0 && activeIndex > 0) {
+        activate(activeIndex - 1);
+      }
+    });
 
-                    // 事件绑定
-                    if (isTouchDevice) {
-                        dot.addEventListener('touchstart', function(e) {
-                            e.preventDefault();
-                            const idx = parseInt(this.dataset.index);
-                            if (idx !== hoverDotIndex) { handleDotEnter(idx, this); }
-                        }, { passive: false });
-                        dot.addEventListener('touchend', function(e) {
-                            e.preventDefault();
-                            const idx = parseInt(this.dataset.index);
-                            handleDotClick(idx, e);
-                        }, { passive: false });
-                    } else {
-                        dot.addEventListener('mouseenter', function(e) {
-                            const idx = parseInt(this.dataset.index);
-                            if (idx !== hoverDotIndex) { handleDotEnter(idx, this); }
-                        });
-                        dot.addEventListener('mouseleave', function(e) {
-                            const idx = parseInt(this.dataset.index);
-                            handleDotLeave(idx, this);
-                        });
-                        dot.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            const idx = parseInt(this.dataset.index);
-                            handleDotClick(idx, e);
-                        });
-                    }
-                    progressDotsContainer.appendChild(dot);
-                }
-            }
+    /* ── Render ── */
+    function render(active = 0) {
+      const mobile = isMobile();
 
-            function bindCardEvents() {
-                cards.forEach((card) => {
-                    const header = card.querySelector('.card-header');
-                    const index = parseInt(card.dataset.index);
+      // Timeline
+      if (mobile) {
+        timeline.innerHTML =
+          '<span class="tl-fill" aria-hidden="true"></span>' +
+          '<span class="tl-indicator" aria-hidden="true"></span>' +
+          entries.map((e, i) => `
+            <button type="button" data-index="${i}" style="--card:${e.color}" aria-current="${i === active}" class="${i % 2 === 0 ? 'below' : 'above'}">
+              <i class="dot"></i>
+              <span class="time-copy">
+                <span class="time">${e.time}</span>
+                <span class="company-name">${e.shortName}</span>
+              </span>
+            </button>
+          `).join('');
+      } else {
+        timeline.innerHTML =
+          '<span class="tl-fill" aria-hidden="true"></span>' +
+          '<span class="tl-indicator" aria-hidden="true"></span>' +
+          entries.map((e, i) => `
+            <button type="button" data-index="${i}" style="--card:${e.color}" aria-current="${i === active}">
+              <i class="dot"></i>
+              <span class="time-copy">
+                <span class="time">${e.time}</span>
+                <span class="company-name">${e.company}</span>
+              </span>
+            </button>
+          `).join('');
+      }
 
-                    if (isTouchDevice) {
-                        card.addEventListener('touchstart', function(e) {
-                            if (index !== hoverCardIndex) { handleCardEnter(index, this); }
-                        }, { passive: true });
-                        header.addEventListener('touchend', function(e) {
-                            e.preventDefault();
-                            handleCardClick(card, e);
-                        }, { passive: false });
-                    } else {
-                        card.addEventListener('mouseenter', function(e) {
-                            if (index !== hoverCardIndex) { handleCardEnter(index, this); }
-                        });
-                        card.addEventListener('mouseleave', function(e) {
-                            handleCardLeave(index, this);
-                        });
-                        header.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            handleCardClick(card, e);
-                        });
-                    }
-                });
-            }
+      // Cards
+      if (mobile) {
+        /* Fixed slots: source index 1-6 always maps to stack position 1-6.
+           The selected card alone moves to position 0; its old position is not filled. */
+        stage.style.setProperty('--stack-tail', `${(entries.length - 1) * 44}px`);
+        stage.innerHTML = entries.map((e, i) => {
+          const isActive = i === active;
+          const stackPos = isActive ? 0 : i;
+          return `
+            <article class="card mobile-card ${isActive ? 'active' : ''}" data-index="${i}" data-pos="${stackPos}" style="--card:${e.color};--card-pos:${stackPos};z-index:${isActive ? entries.length + 1 : entries.length - stackPos}">
+              <div class="card-ripple" aria-hidden="true"></div>
+              <div class="card-ribbon" aria-hidden="true">
+                <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+                  <!-- The 20px radius meets the top/right edges 20px from the corner.
+                       A 20px circular arc reproduces that corner; the 45° diagonal ends
+                       at the fold hinge so the ribbon remains geometrically consistent. -->
+                  <path d="M0 0 H76 A20 20 0 0 1 96 20 V68 L82 82 Z" fill="var(--card)" />
+                  <path d="M96 68 L96 96 L82 82 Z" fill="color-mix(in srgb, var(--card) 72%, #263244)" />
+                  <path d="M82 82 L96 96 H82 Z" fill="color-mix(in srgb, #fff 88%, var(--card))" />
+                  <!-- Centroid of the 96px right isosceles ribbon triangle: (64, 32). -->
+                  <g transform="translate(64 32) rotate(45)">
+                    <text x="0" y="0">${e.duration}</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="card-header-bar">
+                <span class="index">${String(i + 1).padStart(2, '0')}</span>
+              </div>
+              <h2>${e.company}</h2>
+              <p class="role">${e.role}</p>
+              <hr class="card-divider" style="border-color:color-mix(in srgb, ${e.color} 18%, transparent)">
+              <ul class="detail-list">
+                ${e.details.map(d => `<li>${d}</li>`).join('')}
+              </ul>
+              <hr class="card-divider" style="border-color:color-mix(in srgb, ${e.color} 18%, transparent)">
+              <div class="card-spacer"></div>
+              <div class="tags">${e.tags.map(t => `<span>${t}</span>`).join('')}</div>
+              <span class="card-count">${String(i + 1).padStart(2, '0')} / ${String(entries.length).padStart(2, '0')}</span>
+              <div class="card-date-strip" aria-hidden="true">
+                <span class="date-time">${e.time}</span>
+                <span class="date-dot"></span>
+                <span class="date-duration">${e.duration}</span>
+              </div>
+            </article>
+          `;
+        }).join('');
+      } else {
+        stage.style.removeProperty('--stack-tail');
+        stage.innerHTML = entries.map((e, i) => {
+          const pos = i;
+          const layer = i === active ? entries.length + 1 : entries.length - pos;
+          return `
+            <article class="card ${i === active ? 'active' : ''}" data-index="${i}" data-pos="${pos}" style="--card:${e.color};z-index:${layer}">
+              <div class="card-ripple" aria-hidden="true"></div>
+              <div class="card-top">
+                <span class="index">${String(i + 1).padStart(2, '0')}</span>
+                <span class="place">${e.place}</span>
+              </div>
+              <span class="duration" aria-label="工作时长 ${e.duration}">${e.duration}</span>
+              <h2>${e.company}</h2>
+              <p class="role">${e.role}</p>
+              <p class="summary">${e.text}</p>
+              <div class="tags">${e.tags.map(t => `<span>${t}</span>`).join('')}</div>
+              <span class="card-count">${String(i + 1).padStart(2, '0')} / ${String(entries.length).padStart(2, '0')}</span>
+            </article>
+          `;
+        }).join('');
+      }
 
-            let resizeTimer = null;
-            function handleResize() {
-                if (resizeTimer) { cancelAnimationFrame(resizeTimer); resizeTimer = null; }
-                resizeTimer = requestAnimationFrame(() => { fullUpdate(); resizeTimer = null; });
-            }
+      // Bind timeline buttons — click/tap only, no pointer-hover preview.
+      timeline.querySelectorAll('button').forEach(b => {
+        const index = Number(b.dataset.index);
+        b.addEventListener('click', () => activate(index));
+      });
 
-            function initZones() {
-                progressZones.innerHTML = '';
-                const colorMap = {
-                    'jc-coral': 'zn-coral',
-                    'jc-blue': 'zn-blue',
-                    'jc-green': 'zn-green',
-                    'jc-amber': 'zn-amber',
-                    'jc-purple': 'zn-purple',
-                    'jc-teal': 'zn-teal',
-                    'jc-rose': 'zn-rose',
-                };
-                // Create zones between cards (and edges)
-                // Zone 0: from card 0 to top edge (newest)
-                // Zone i: from card i to card i-1 (for i > 0)
-                // Each zone uses the color of the lower card (older)
-                for (let i = 0; i < total; i++) {
-                    const zone = document.createElement('div');
-                    zone.className = 'progress-zone';
-                    // Zone color = the card at the bottom of this zone
-                    // Zone i spans from card i up to card i-1 (or top edge)
-                    // The "owner" of this zone is card i
-                    const card = cards[i];
-                    let zoneColor = 'zn-blue';
-                    for (const [cls, color] of Object.entries(colorMap)) {
-                        if (card.classList.contains(cls)) { zoneColor = color; break; }
-                    }
-                    zone.classList.add(zoneColor);
-                    zone.dataset.index = i;
-                    progressZones.appendChild(zone);
-                }
-            }
+      // Bind card clicks
+      stage.querySelectorAll('.card').forEach(card => {
+        const index = Number(card.dataset.index);
+        card.addEventListener('click', () => activate(index));
+      });
 
-            function init() {
-                initZones();
-                initDots();
-                bindCardEvents();
-                activeIndex = 0;
-                hoverDotIndex = -1;
-                hoverCardIndex = -1;
-                setTimeout(() => {
-                    fullUpdate();
-                    setTimeout(() => { scrollToCard(0); }, 150);
-                }, 80);
-                window.addEventListener('resize', handleResize);
+      applyLayerLayout();
+      updateIndicator(active);
 
-                document.addEventListener('click', function(e) {
-                    if (!e.target.closest('.progress-dot') && !e.target.closest('.journey-card')) {
-                        if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
-                        if (hoverDotIndex !== -1 || hoverCardIndex !== -1) {
-                            hoverDotIndex = -1;
-                            hoverCardIndex = -1;
-                            document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
-                            updateDotsState();
-                        }
-                    }
-                });
+      if (mobile) {
+        // Delay to let DOM settle, then scroll
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => scrollTimelineToActive());
+        });
+      }
 
-                cards.forEach((card) => {
-                    card.addEventListener('transitionend', function(e) {
-                        if (e.propertyName === 'max-height' || e.propertyName === 'padding') {
-                            fullUpdate();
-                        }
-                    });
-                });
-            }
+      requestAnimationFrame(animateState);
+    }
 
-            let scrollTimer = null;
-            window.addEventListener('scroll', function() {
-                if (scrollTimer) { cancelAnimationFrame(scrollTimer); scrollTimer = null; }
-                scrollTimer = requestAnimationFrame(() => {
-                    const rect = journeyList.getBoundingClientRect();
-                    if (rect.bottom > 0 && rect.top < window.innerHeight) { fullUpdate(); }
-                    scrollTimer = null;
-                });
-            }, { passive: true });
+    /* ── Resize handler: re-render when crossing breakpoint ── */
+    let wasMobile = isMobile();
+    window.addEventListener('resize', () => {
+      const nowMobile = isMobile();
+      if (nowMobile !== wasMobile) {
+        wasMobile = nowMobile;
+        render(activeIndex);
+        if (nowMobile) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => scrollTimelineToActive());
+          });
+        }
+      } else if (nowMobile) {
+        updateMobileIndicator(activeIndex);
+      }
+    });
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
+    /* Keep mobile timeline fill + indicator aligned during scroll */
+    timeline.addEventListener('scroll', () => {
+      if (isMobile()) updateMobileIndicator(activeIndex);
+    }, { passive: true });
 
-            window.resetTimeline = function() {
-                activeIndex = 0;
-                hoverDotIndex = -1;
-                hoverCardIndex = -1;
-                document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('hover'));
-                fullUpdate();
-                scrollToCard(0);
-            };
-        })();
-    </script>
+    /* ── Init ── */
+    render(activeIndex);
+    window.addEventListener('load', () => {
+      animateState();
+      if (isMobile()) scrollTimelineToActive();
+    }, { once: true });
+  </script>
 </body>
 </html>
